@@ -624,6 +624,10 @@ input, textarea, select {
   vertical-align: middle;
 }
 
+.ds-btn-split.is-open {
+  z-index: var(--z-dropdown);
+}
+
 .ds-btn-split > .ds-btn {
   border-radius: 0;
 }
