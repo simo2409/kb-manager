@@ -14,6 +14,9 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: var(--space-5);
+      width: 100%;
+      box-sizing: border-box;
+      overflow-x: hidden;
     }
     .ds-sidebar {
       position: sticky;
@@ -59,6 +62,7 @@
     }
     .ds-comp {
       margin-bottom: var(--space-10);
+      min-width: 0;
     }
     .ds-comp__header {
       display: flex;
@@ -97,6 +101,9 @@
       padding: var(--space-6);
       backdrop-filter: blur(16px);
       margin-bottom: var(--space-4);
+      min-width: 0;
+      max-width: 100%;
+      box-sizing: border-box;
     }
     .ds-codeblock {
       background: rgba(0,0,0,0.25);
@@ -616,7 +623,7 @@
           Sticky top bar with glass blur. Links highlight on hover with a subtle
           background shift. The active state is explicit but quiet.
         </p>
-        <div class="ds-preview" style="padding:0;overflow:hidden">
+        <div class="ds-preview" style="padding:0;overflow-x:auto">
           <nav class="ds-navbar" style="position:static;border-bottom:none" aria-label="Demo navbar">
             <span class="ds-navbar__brand">Acme</span>
             <ul class="ds-navbar__nav">

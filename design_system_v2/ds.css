@@ -716,6 +716,7 @@ input, textarea, select {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   transition: all var(--transition-base);
+  min-width: 0;
 }
 
 .ds-card--hover:hover {
@@ -1172,6 +1173,7 @@ input, textarea, select {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
+  flex-wrap: wrap;
 }
 
 .ds-list-item__meta {
@@ -1188,6 +1190,8 @@ input, textarea, select {
   -webkit-overflow-scrolling: touch;
   border-radius: var(--radius-lg);
   border: 1px solid var(--glass-border);
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .ds-table {
@@ -1536,6 +1540,8 @@ input, textarea, select {
   list-style: none;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .ds-tabs__item {
