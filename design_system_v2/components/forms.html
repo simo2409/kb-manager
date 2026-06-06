@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forms — Design System v2</title>
+  <link rel="stylesheet" href="../fonts/Biennale/Biennale.css">
+  <link rel="stylesheet" href="../ds.css">
+  <style>
+    .demo-section { margin-bottom: var(--space-8); }
+    .demo-title { font-size: var(--text-xl); font-weight: var(--weight-regular); color: var(--text-heading); margin-bottom: var(--space-2); }
+    .demo-desc { font-size: var(--text-md); color: var(--text-secondary); margin-bottom: var(--space-5); }
+    .demo-row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--space-4); margin-top: var(--space-4); }
+  </style>
+</head>
+<body>
+<a href="#main-content" class="ds-skip-link">Skip to main content</a>
+  <nav class="ds-navbar" aria-label="Main navigation">
+    <a href="../index.html" class="ds-navbar__brand">DS v2</a>
+    <ul class="ds-navbar__nav ds-hide-mobile">
+      <li><a href="../index.html" class="ds-navbar__link">Overview</a></li>
+      <li><a href="foundation.html" class="ds-navbar__link">Foundation</a></li>
+      <li><a href="buttons.html" class="ds-navbar__link">Buttons</a></li>
+      <li><a href="forms.html" class="ds-navbar__link ds-navbar__link--active">Forms</a></li>
+      <li><a href="cards.html" class="ds-navbar__link">Cards</a></li>
+      <li><a href="navigation.html" class="ds-navbar__link">Navigation</a></li>
+      <li><a href="feedback.html" class="ds-navbar__link">Feedback</a></li>
+      <li><a href="layout.html" class="ds-navbar__link">Layout</a></li>
+      <li><a href="icons.html" class="ds-navbar__link">Icons</a></li>
+    </ul>
+    <label class="ds-switch" style="margin-left:auto">
+      <input type="checkbox" id="ds-theme-toggle" role="switch" aria-checked="false">
+      <span class="ds-switch__track"><span class="ds-switch__thumb"></span></span>
+      <span class="ds-small">Light</span>
+    </label>
+    <button class="ds-navbar__hamburger" id="ds-hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="ds-mobile-nav">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </nav>
+  <nav id="ds-mobile-nav" class="ds-navbar__mobile" hidden aria-label="Mobile navigation">
+    <button class="ds-btn ds-btn--ghost ds-btn--icon ds-navbar__mobile__close" id="ds-mobile-close" aria-label="Close navigation">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <ul class="ds-navbar__mobile__nav">
+      <li><a href="../index.html" class="ds-navbar__mobile__link">Overview</a></li>
+      <li><a href="foundation.html" class="ds-navbar__mobile__link">Foundation</a></li>
+      <li><a href="buttons.html" class="ds-navbar__mobile__link">Buttons</a></li>
+      <li><a href="forms.html" class="ds-navbar__mobile__link ds-navbar__mobile__link--active">Forms</a></li>
+      <li><a href="cards.html" class="ds-navbar__mobile__link">Cards</a></li>
+      <li><a href="navigation.html" class="ds-navbar__mobile__link">Navigation</a></li>
+      <li><a href="feedback.html" class="ds-navbar__mobile__link">Feedback</a></li>
+      <li><a href="layout.html" class="ds-navbar__mobile__link">Layout</a></li>
+      <li><a href="icons.html" class="ds-navbar__mobile__link">Icons</a></li>
+    </ul>
+  </nav>
+  
+  <main class="ds-container" id="main-content">
+    <section class="demo-section">
+      <h1 class="ds-h1 ds-mb-2">Forms</h1>
+      <p class="ds-lead">Input fields, selections, toggles and validation states.</p>
+      <span class="ds-line"></span>
+    </section>
+    
+    <!-- INPUTS -->
+    <section class="demo-section">
+      <h2 class="ds-h2">Inputs</h2>
+      <p class="demo-desc">Text inputs with placeholder, focus, disabled and error states.</p>
+      <div class="ds-card">
+        <div class="ds-form-group">
+          <label class="ds-label" for="input-default">Default input</label>
+          <input type="text" id="input-default" class="ds-input" placeholder="Enter your name">
+        </div>
+        <div class="ds-form-group">
+          <label class="ds-label" for="input-focus">Focused input</label>
+          <input type="text" id="input-focus" class="ds-input" value="Focused state" style="border-color: var(--link); outline: 2px solid var(--link); outline-offset: 2px;">
+        </div>
+        <div class="ds-form-group">
+          <label class="ds-label" for="input-disabled">Disabled input</label>
+          <input type="text" id="input-disabled" class="ds-input" value="Disabled value" disabled>
+        </div>
+        <div class="ds-form-group">
+          <label class="ds-label" for="input-error">Error input</label>
+          <input type="text" id="input-error" class="ds-input ds-input--error" value="Invalid value" aria-invalid="true" aria-describedby="input-error-msg">
+          <p class="ds-error-text" id="input-error-msg">This field is required.</p>
+        </div>
+        <div class="ds-form-group" style="margin-bottom: 0;">
+          <label class="ds-label" for="input-hint">With hint</label>
+          <input type="email" id="input-hint" class="ds-input" placeholder="your@email.com" autocomplete="email">
+          <p class="ds-hint">We'll never share your email with anyone else.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEXTAREA & SELECT -->
+    <section class="demo-section">
+      <h2 class="ds-h2">Textarea & Select</h2>
+      <div class="ds-grid ds-grid--2">
+        <div class="ds-card">
+          <label class="ds-label" for="textarea">Textarea</label>
+          <textarea id="textarea" class="ds-textarea" placeholder="Write your message..."></textarea>
+        </div>
+        <div class="ds-card">
+          <label class="ds-label" for="select">Select</label>
+          <select id="select" class="ds-select">
+            <option>Choose an option</option>
+            <option>Business</option>
+            <option>Technology</option>
+            <option>Strategy</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHECKBOX & RADIO -->
+    <section class="demo-section">
+      <h2 class="ds-h2">Checkbox & Radio</h2>
+      <div class="ds-grid ds-grid--2">
+        <div class="ds-card">
+          <fieldset class="ds-fieldset">
+            <legend class="ds-legend">Notification preferences</legend>
+            <label class="ds-check ds-mb-3">
+              <input type="checkbox" checked>
+              <span>Subscribe to newsletter</span>
+            </label>
+            <label class="ds-check ds-mb-3">
+              <input type="checkbox">
+              <span>Enable notifications</span>
+            </label>
+            <label class="ds-check">
+              <input type="checkbox" disabled>
+              <span>Disabled option</span>
+            </label>
+          </fieldset>
+        </div>
+        <div class="ds-card">
+          <fieldset class="ds-fieldset">
+            <legend class="ds-legend">Choose a plan</legend>
+            <label class="ds-check ds-mb-3">
+              <input type="radio" name="radio-demo" checked>
+              <span>Startup</span>
+            </label>
+            <label class="ds-check ds-mb-3">
+              <input type="radio" name="radio-demo">
+              <span>Enterprise</span>
+            </label>
+            <label class="ds-check">
+              <input type="radio" name="radio-demo" disabled>
+              <span>Disabled</span>
+            </label>
+          </fieldset>
+        </div>
+      </div>
+    </section>
+
+    <!-- SWITCH -->
+    <section class="demo-section">
+      <h2 class="ds-h2">Switch</h2>
+      <p class="demo-desc">Toggle switches for binary settings.</p>
+      <div class="ds-card" style="display: flex; flex-direction: column; gap: var(--space-4); align-items: flex-start;">
+        <label class="ds-switch">
+          <input type="checkbox" role="switch" aria-checked="true" checked>
+          <span class="ds-switch__track"><span class="ds-switch__thumb"></span></span>
+          <span class="ds-small">Airplane mode</span>
+        </label>
+        <label class="ds-switch">
+          <input type="checkbox" role="switch" aria-checked="false">
+          <span class="ds-switch__track"><span class="ds-switch__thumb"></span></span>
+          <span class="ds-small">Dark theme (always on)</span>
+        </label>
+        <label class="ds-switch">
+          <input type="checkbox" role="switch" aria-checked="false" disabled>
+          <span class="ds-switch__track"><span class="ds-switch__thumb"></span></span>
+          <span class="ds-small">Disabled switch</span>
+        </label>
+      </div>
+    </section>
+  </main>
+<script src="../theme.js"></script>
+</body>
+</html>

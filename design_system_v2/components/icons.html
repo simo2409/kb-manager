@@ -1,0 +1,1838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Icons — Design System v2</title>
+  <link rel="stylesheet" href="../fonts/Biennale/Biennale.css">
+  <link rel="stylesheet" href="../ds.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    .demo-section { margin-bottom: var(--space-10); }
+    .demo-title { font-size: var(--text-xl); font-weight: var(--weight-regular); color: var(--text-heading); margin-bottom: var(--space-2); }
+    .demo-desc { font-size: var(--text-md); color: var(--text-secondary); margin-bottom: var(--space-5); line-height: 1.5; }
+    .demo-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin-top: var(--space-4); }
+
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+      gap: var(--space-3);
+    }
+    .icon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-4) var(--space-3);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      transition: all var(--transition-fast);
+      cursor: pointer;
+    }
+    .icon-item:hover {
+      border-color: var(--glass-hover-border);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-soft);
+    }
+    .icon-item i {
+      font-size: 28px;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+    .icon-item span {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      text-align: center;
+      word-break: break-all;
+    }
+    .icon-item.hidden { display: none; }
+
+    .weight-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-6);
+      padding: var(--space-5);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+    }
+    .weight-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .weight-item i { font-size: 32px; color: var(--text-primary); }
+    .weight-item span { font-size: var(--text-xs); color: var(--text-muted); font-family: var(--font-mono); }
+
+    .ds-codeblock {
+      background: rgba(0,0,0,0.25);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+      overflow-x: auto;
+    }
+    .ds-codeblock code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    .search-bar {
+      position: sticky;
+      top: 70px;
+      z-index: 50;
+      background: var(--bg-primary);
+      padding: var(--space-3) 0;
+      margin-bottom: var(--space-4);
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .search-input {
+      width: 100%;
+      padding: 10px 14px 10px 40px;
+      font-size: var(--text-md);
+      font-weight: var(--weight-light);
+      color: var(--text-primary);
+      background: color-mix(in srgb, var(--text-primary) 6%, transparent);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      outline: none;
+      transition: all var(--transition-fast);
+    }
+    .search-input::placeholder { color: var(--text-muted); font-weight: var(--weight-light); }
+    .search-input:focus {
+      border-color: var(--link);
+      background: color-mix(in srgb, var(--text-primary) 7%, transparent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--link) 25%, transparent);
+      outline: 2px solid var(--link);
+      outline-offset: 2px;
+    }
+    .search-wrap { position: relative; }
+    .search-wrap i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+    .search-meta {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      margin-top: var(--space-2);
+    }
+  </style>
+</head>
+<body>
+<a href="#main-content" class="ds-skip-link">Skip to main content</a>
+
+<nav class="ds-navbar" aria-label="Main navigation">
+  <a href="../index.html" class="ds-navbar__brand">DS v2</a>
+  <ul class="ds-navbar__nav ds-hide-mobile">
+      <li><a href="../index.html" class="ds-navbar__link">Overview</a></li>
+    <li><a href="foundation.html" class="ds-navbar__link">Foundation</a></li>
+    <li><a href="buttons.html" class="ds-navbar__link">Buttons</a></li>
+    <li><a href="forms.html" class="ds-navbar__link">Forms</a></li>
+    <li><a href="cards.html" class="ds-navbar__link">Cards</a></li>
+    <li><a href="navigation.html" class="ds-navbar__link">Navigation</a></li>
+    <li><a href="feedback.html" class="ds-navbar__link">Feedback</a></li>
+    <li><a href="layout.html" class="ds-navbar__link">Layout</a></li>
+    <li><a href="icons.html" class="ds-navbar__link ds-navbar__link--active">Icons</a></li>
+  </ul>
+  <label class="ds-switch" style="margin-left:auto">
+    <input type="checkbox" id="ds-theme-toggle" role="switch" aria-checked="false">
+    <span class="ds-switch__track"><span class="ds-switch__thumb"></span></span>
+    <span class="ds-small">Light</span>
+  </label>
+  <button class="ds-navbar__hamburger" id="ds-hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="ds-mobile-nav">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+</nav>
+<nav id="ds-mobile-nav" class="ds-navbar__mobile" hidden aria-label="Mobile navigation">
+  <button class="ds-btn ds-btn--ghost ds-btn--icon ds-navbar__mobile__close" id="ds-mobile-close" aria-label="Close navigation">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <ul class="ds-navbar__mobile__nav">
+    <li><a href="../index.html" class="ds-navbar__mobile__link">Overview</a></li>
+    <li><a href="foundation.html" class="ds-navbar__mobile__link">Foundation</a></li>
+    <li><a href="buttons.html" class="ds-navbar__mobile__link">Buttons</a></li>
+    <li><a href="forms.html" class="ds-navbar__mobile__link">Forms</a></li>
+    <li><a href="cards.html" class="ds-navbar__mobile__link">Cards</a></li>
+    <li><a href="navigation.html" class="ds-navbar__mobile__link">Navigation</a></li>
+    <li><a href="feedback.html" class="ds-navbar__mobile__link">Feedback</a></li>
+    <li><a href="layout.html" class="ds-navbar__mobile__link">Layout</a></li>
+    <li><a href="icons.html" class="ds-navbar__mobile__link ds-navbar__mobile__link--active">Icons</a></li>
+  </ul>
+</nav>
+
+<main class="ds-container" id="main-content">
+  <section class="demo-section">
+    <h1 class="ds-h1 ds-mb-2">Icons</h1>
+    <p class="ds-lead">Phosphor Icons — a flexible icon family for interfaces, diagrams and presentations.</p>
+    <span class="ds-line"></span>
+  </section>
+
+  <!-- SETUP -->
+  <section class="demo-section" id="setup">
+    <h2 class="ds-h2">Setup</h2>
+    <p class="demo-desc">Include the Phosphor web font via CDN. Icons are then rendered with an <code class="ds-code">&lt;i&gt;</code> tag and two classes: the style prefix and the icon name.</p>
+    <div class="ds-codeblock ds-mb-4">
+      <code>&lt;script src="https://unpkg.com/@phosphor-icons/web"&gt;&lt;/script&gt;</code>
+    </div>
+    <div class="ds-codeblock">
+      <code>&lt;i class="ph ph-house"&gt;&lt;/i&gt;<br>&lt;i class="ph-fill ph-heart" style="color: var(--accent-negative)"&gt;&lt;/i&gt;<br>&lt;i class="ph-bold ph-gear"&gt;&lt;/i&gt;</code>
+    </div>
+  </section>
+
+  <!-- WEIGHTS -->
+  <section class="demo-section" id="weights">
+    <h2 class="ds-h2">Weights</h2>
+    <p class="demo-desc">Six weights from delicate to solid: Thin, Light, Regular, Bold, Fill and Duotone.</p>
+    <div class="weight-row">
+      <div class="weight-item"><i class="ph-thin ph-star"></i><span>thin</span></div>
+      <div class="weight-item"><i class="ph-light ph-star"></i><span>light</span></div>
+      <div class="weight-item"><i class="ph ph-star"></i><span>regular</span></div>
+      <div class="weight-item"><i class="ph-bold ph-star"></i><span>bold</span></div>
+      <div class="weight-item"><i class="ph-fill ph-star"></i><span>fill</span></div>
+      <div class="weight-item"><i class="ph-duotone ph-star"></i><span>duotone</span></div>
+    </div>
+  </section>
+
+  <!-- ICON LIBRARY -->
+  <section class="demo-section" id="library">
+    <h2 class="ds-h2">Icon Library</h2>
+    <p class="demo-desc">All 1530 icons in the Phosphor set. Use the search field to filter by name.</p>
+
+    <div class="search-bar">
+      <div class="search-wrap">
+        <i class="ph ph-magnifying-glass"></i>
+        <input type="text" id="icon-search" class="search-input" placeholder="Search icons..." autocomplete="off">
+      </div>
+      <div class="search-meta" id="search-meta">Showing 1530 icons</div>
+    </div>
+
+    <div class="icon-grid" id="icon-grid">
+      <div class="icon-item" data-name="acorn"><i class="ph ph-acorn"></i><span>acorn</span></div>
+      <div class="icon-item" data-name="activity"><i class="ph ph-activity"></i><span>activity</span></div>
+      <div class="icon-item" data-name="address-book"><i class="ph ph-address-book"></i><span>address-book</span></div>
+      <div class="icon-item" data-name="address-book-tabs"><i class="ph ph-address-book-tabs"></i><span>address-book-tabs</span></div>
+      <div class="icon-item" data-name="air-traffic-control"><i class="ph ph-air-traffic-control"></i><span>air-traffic-control</span></div>
+      <div class="icon-item" data-name="airplane"><i class="ph ph-airplane"></i><span>airplane</span></div>
+      <div class="icon-item" data-name="airplane-in-flight"><i class="ph ph-airplane-in-flight"></i><span>airplane-in-flight</span></div>
+      <div class="icon-item" data-name="airplane-landing"><i class="ph ph-airplane-landing"></i><span>airplane-landing</span></div>
+      <div class="icon-item" data-name="airplane-takeoff"><i class="ph ph-airplane-takeoff"></i><span>airplane-takeoff</span></div>
+      <div class="icon-item" data-name="airplane-taxiing"><i class="ph ph-airplane-taxiing"></i><span>airplane-taxiing</span></div>
+      <div class="icon-item" data-name="airplane-tilt"><i class="ph ph-airplane-tilt"></i><span>airplane-tilt</span></div>
+      <div class="icon-item" data-name="airplay"><i class="ph ph-airplay"></i><span>airplay</span></div>
+      <div class="icon-item" data-name="alarm"><i class="ph ph-alarm"></i><span>alarm</span></div>
+      <div class="icon-item" data-name="alien"><i class="ph ph-alien"></i><span>alien</span></div>
+      <div class="icon-item" data-name="align-bottom"><i class="ph ph-align-bottom"></i><span>align-bottom</span></div>
+      <div class="icon-item" data-name="align-bottom-simple"><i class="ph ph-align-bottom-simple"></i><span>align-bottom-simple</span></div>
+      <div class="icon-item" data-name="align-center-horizontal"><i class="ph ph-align-center-horizontal"></i><span>align-center-horizontal</span></div>
+      <div class="icon-item" data-name="align-center-horizontal-simple"><i class="ph ph-align-center-horizontal-simple"></i><span>align-center-horizontal-simple</span></div>
+      <div class="icon-item" data-name="align-center-vertical"><i class="ph ph-align-center-vertical"></i><span>align-center-vertical</span></div>
+      <div class="icon-item" data-name="align-center-vertical-simple"><i class="ph ph-align-center-vertical-simple"></i><span>align-center-vertical-simple</span></div>
+      <div class="icon-item" data-name="align-left"><i class="ph ph-align-left"></i><span>align-left</span></div>
+      <div class="icon-item" data-name="align-left-simple"><i class="ph ph-align-left-simple"></i><span>align-left-simple</span></div>
+      <div class="icon-item" data-name="align-right"><i class="ph ph-align-right"></i><span>align-right</span></div>
+      <div class="icon-item" data-name="align-right-simple"><i class="ph ph-align-right-simple"></i><span>align-right-simple</span></div>
+      <div class="icon-item" data-name="align-top"><i class="ph ph-align-top"></i><span>align-top</span></div>
+      <div class="icon-item" data-name="align-top-simple"><i class="ph ph-align-top-simple"></i><span>align-top-simple</span></div>
+      <div class="icon-item" data-name="amazon-logo"><i class="ph ph-amazon-logo"></i><span>amazon-logo</span></div>
+      <div class="icon-item" data-name="ambulance"><i class="ph ph-ambulance"></i><span>ambulance</span></div>
+      <div class="icon-item" data-name="anchor"><i class="ph ph-anchor"></i><span>anchor</span></div>
+      <div class="icon-item" data-name="anchor-simple"><i class="ph ph-anchor-simple"></i><span>anchor-simple</span></div>
+      <div class="icon-item" data-name="android-logo"><i class="ph ph-android-logo"></i><span>android-logo</span></div>
+      <div class="icon-item" data-name="angle"><i class="ph ph-angle"></i><span>angle</span></div>
+      <div class="icon-item" data-name="angular-logo"><i class="ph ph-angular-logo"></i><span>angular-logo</span></div>
+      <div class="icon-item" data-name="aperture"><i class="ph ph-aperture"></i><span>aperture</span></div>
+      <div class="icon-item" data-name="app-store-logo"><i class="ph ph-app-store-logo"></i><span>app-store-logo</span></div>
+      <div class="icon-item" data-name="app-window"><i class="ph ph-app-window"></i><span>app-window</span></div>
+      <div class="icon-item" data-name="apple-logo"><i class="ph ph-apple-logo"></i><span>apple-logo</span></div>
+      <div class="icon-item" data-name="apple-podcasts-logo"><i class="ph ph-apple-podcasts-logo"></i><span>apple-podcasts-logo</span></div>
+      <div class="icon-item" data-name="approximate-equals"><i class="ph ph-approximate-equals"></i><span>approximate-equals</span></div>
+      <div class="icon-item" data-name="archive"><i class="ph ph-archive"></i><span>archive</span></div>
+      <div class="icon-item" data-name="archive-box"><i class="ph ph-archive-box"></i><span>archive-box</span></div>
+      <div class="icon-item" data-name="archive-tray"><i class="ph ph-archive-tray"></i><span>archive-tray</span></div>
+      <div class="icon-item" data-name="armchair"><i class="ph ph-armchair"></i><span>armchair</span></div>
+      <div class="icon-item" data-name="arrow-arc-left"><i class="ph ph-arrow-arc-left"></i><span>arrow-arc-left</span></div>
+      <div class="icon-item" data-name="arrow-arc-right"><i class="ph ph-arrow-arc-right"></i><span>arrow-arc-right</span></div>
+      <div class="icon-item" data-name="arrow-bend-double-up-left"><i class="ph ph-arrow-bend-double-up-left"></i><span>arrow-bend-double-up-left</span></div>
+      <div class="icon-item" data-name="arrow-bend-double-up-right"><i class="ph ph-arrow-bend-double-up-right"></i><span>arrow-bend-double-up-right</span></div>
+      <div class="icon-item" data-name="arrow-bend-down-left"><i class="ph ph-arrow-bend-down-left"></i><span>arrow-bend-down-left</span></div>
+      <div class="icon-item" data-name="arrow-bend-down-right"><i class="ph ph-arrow-bend-down-right"></i><span>arrow-bend-down-right</span></div>
+      <div class="icon-item" data-name="arrow-bend-left-down"><i class="ph ph-arrow-bend-left-down"></i><span>arrow-bend-left-down</span></div>
+      <div class="icon-item" data-name="arrow-bend-left-up"><i class="ph ph-arrow-bend-left-up"></i><span>arrow-bend-left-up</span></div>
+      <div class="icon-item" data-name="arrow-bend-right-down"><i class="ph ph-arrow-bend-right-down"></i><span>arrow-bend-right-down</span></div>
+      <div class="icon-item" data-name="arrow-bend-right-up"><i class="ph ph-arrow-bend-right-up"></i><span>arrow-bend-right-up</span></div>
+      <div class="icon-item" data-name="arrow-bend-up-left"><i class="ph ph-arrow-bend-up-left"></i><span>arrow-bend-up-left</span></div>
+      <div class="icon-item" data-name="arrow-bend-up-right"><i class="ph ph-arrow-bend-up-right"></i><span>arrow-bend-up-right</span></div>
+      <div class="icon-item" data-name="arrow-circle-down"><i class="ph ph-arrow-circle-down"></i><span>arrow-circle-down</span></div>
+      <div class="icon-item" data-name="arrow-circle-down-left"><i class="ph ph-arrow-circle-down-left"></i><span>arrow-circle-down-left</span></div>
+      <div class="icon-item" data-name="arrow-circle-down-right"><i class="ph ph-arrow-circle-down-right"></i><span>arrow-circle-down-right</span></div>
+      <div class="icon-item" data-name="arrow-circle-left"><i class="ph ph-arrow-circle-left"></i><span>arrow-circle-left</span></div>
+      <div class="icon-item" data-name="arrow-circle-right"><i class="ph ph-arrow-circle-right"></i><span>arrow-circle-right</span></div>
+      <div class="icon-item" data-name="arrow-circle-up"><i class="ph ph-arrow-circle-up"></i><span>arrow-circle-up</span></div>
+      <div class="icon-item" data-name="arrow-circle-up-left"><i class="ph ph-arrow-circle-up-left"></i><span>arrow-circle-up-left</span></div>
+      <div class="icon-item" data-name="arrow-circle-up-right"><i class="ph ph-arrow-circle-up-right"></i><span>arrow-circle-up-right</span></div>
+      <div class="icon-item" data-name="arrow-clockwise"><i class="ph ph-arrow-clockwise"></i><span>arrow-clockwise</span></div>
+      <div class="icon-item" data-name="arrow-counter-clockwise"><i class="ph ph-arrow-counter-clockwise"></i><span>arrow-counter-clockwise</span></div>
+      <div class="icon-item" data-name="arrow-down"><i class="ph ph-arrow-down"></i><span>arrow-down</span></div>
+      <div class="icon-item" data-name="arrow-down-left"><i class="ph ph-arrow-down-left"></i><span>arrow-down-left</span></div>
+      <div class="icon-item" data-name="arrow-down-right"><i class="ph ph-arrow-down-right"></i><span>arrow-down-right</span></div>
+      <div class="icon-item" data-name="arrow-elbow-down-left"><i class="ph ph-arrow-elbow-down-left"></i><span>arrow-elbow-down-left</span></div>
+      <div class="icon-item" data-name="arrow-elbow-down-right"><i class="ph ph-arrow-elbow-down-right"></i><span>arrow-elbow-down-right</span></div>
+      <div class="icon-item" data-name="arrow-elbow-left"><i class="ph ph-arrow-elbow-left"></i><span>arrow-elbow-left</span></div>
+      <div class="icon-item" data-name="arrow-elbow-left-down"><i class="ph ph-arrow-elbow-left-down"></i><span>arrow-elbow-left-down</span></div>
+      <div class="icon-item" data-name="arrow-elbow-left-up"><i class="ph ph-arrow-elbow-left-up"></i><span>arrow-elbow-left-up</span></div>
+      <div class="icon-item" data-name="arrow-elbow-right"><i class="ph ph-arrow-elbow-right"></i><span>arrow-elbow-right</span></div>
+      <div class="icon-item" data-name="arrow-elbow-right-down"><i class="ph ph-arrow-elbow-right-down"></i><span>arrow-elbow-right-down</span></div>
+      <div class="icon-item" data-name="arrow-elbow-right-up"><i class="ph ph-arrow-elbow-right-up"></i><span>arrow-elbow-right-up</span></div>
+      <div class="icon-item" data-name="arrow-elbow-up-left"><i class="ph ph-arrow-elbow-up-left"></i><span>arrow-elbow-up-left</span></div>
+      <div class="icon-item" data-name="arrow-elbow-up-right"><i class="ph ph-arrow-elbow-up-right"></i><span>arrow-elbow-up-right</span></div>
+      <div class="icon-item" data-name="arrow-fat-down"><i class="ph ph-arrow-fat-down"></i><span>arrow-fat-down</span></div>
+      <div class="icon-item" data-name="arrow-fat-left"><i class="ph ph-arrow-fat-left"></i><span>arrow-fat-left</span></div>
+      <div class="icon-item" data-name="arrow-fat-line-down"><i class="ph ph-arrow-fat-line-down"></i><span>arrow-fat-line-down</span></div>
+      <div class="icon-item" data-name="arrow-fat-line-left"><i class="ph ph-arrow-fat-line-left"></i><span>arrow-fat-line-left</span></div>
+      <div class="icon-item" data-name="arrow-fat-line-right"><i class="ph ph-arrow-fat-line-right"></i><span>arrow-fat-line-right</span></div>
+      <div class="icon-item" data-name="arrow-fat-line-up"><i class="ph ph-arrow-fat-line-up"></i><span>arrow-fat-line-up</span></div>
+      <div class="icon-item" data-name="arrow-fat-lines-down"><i class="ph ph-arrow-fat-lines-down"></i><span>arrow-fat-lines-down</span></div>
+      <div class="icon-item" data-name="arrow-fat-lines-left"><i class="ph ph-arrow-fat-lines-left"></i><span>arrow-fat-lines-left</span></div>
+      <div class="icon-item" data-name="arrow-fat-lines-right"><i class="ph ph-arrow-fat-lines-right"></i><span>arrow-fat-lines-right</span></div>
+      <div class="icon-item" data-name="arrow-fat-lines-up"><i class="ph ph-arrow-fat-lines-up"></i><span>arrow-fat-lines-up</span></div>
+      <div class="icon-item" data-name="arrow-fat-right"><i class="ph ph-arrow-fat-right"></i><span>arrow-fat-right</span></div>
+      <div class="icon-item" data-name="arrow-fat-up"><i class="ph ph-arrow-fat-up"></i><span>arrow-fat-up</span></div>
+      <div class="icon-item" data-name="arrow-left"><i class="ph ph-arrow-left"></i><span>arrow-left</span></div>
+      <div class="icon-item" data-name="arrow-line-down"><i class="ph ph-arrow-line-down"></i><span>arrow-line-down</span></div>
+      <div class="icon-item" data-name="arrow-line-down-left"><i class="ph ph-arrow-line-down-left"></i><span>arrow-line-down-left</span></div>
+      <div class="icon-item" data-name="arrow-line-down-right"><i class="ph ph-arrow-line-down-right"></i><span>arrow-line-down-right</span></div>
+      <div class="icon-item" data-name="arrow-line-left"><i class="ph ph-arrow-line-left"></i><span>arrow-line-left</span></div>
+      <div class="icon-item" data-name="arrow-line-right"><i class="ph ph-arrow-line-right"></i><span>arrow-line-right</span></div>
+      <div class="icon-item" data-name="arrow-line-up"><i class="ph ph-arrow-line-up"></i><span>arrow-line-up</span></div>
+      <div class="icon-item" data-name="arrow-line-up-left"><i class="ph ph-arrow-line-up-left"></i><span>arrow-line-up-left</span></div>
+      <div class="icon-item" data-name="arrow-line-up-right"><i class="ph ph-arrow-line-up-right"></i><span>arrow-line-up-right</span></div>
+      <div class="icon-item" data-name="arrow-right"><i class="ph ph-arrow-right"></i><span>arrow-right</span></div>
+      <div class="icon-item" data-name="arrow-square-down"><i class="ph ph-arrow-square-down"></i><span>arrow-square-down</span></div>
+      <div class="icon-item" data-name="arrow-square-down-left"><i class="ph ph-arrow-square-down-left"></i><span>arrow-square-down-left</span></div>
+      <div class="icon-item" data-name="arrow-square-down-right"><i class="ph ph-arrow-square-down-right"></i><span>arrow-square-down-right</span></div>
+      <div class="icon-item" data-name="arrow-square-in"><i class="ph ph-arrow-square-in"></i><span>arrow-square-in</span></div>
+      <div class="icon-item" data-name="arrow-square-left"><i class="ph ph-arrow-square-left"></i><span>arrow-square-left</span></div>
+      <div class="icon-item" data-name="arrow-square-out"><i class="ph ph-arrow-square-out"></i><span>arrow-square-out</span></div>
+      <div class="icon-item" data-name="arrow-square-right"><i class="ph ph-arrow-square-right"></i><span>arrow-square-right</span></div>
+      <div class="icon-item" data-name="arrow-square-up"><i class="ph ph-arrow-square-up"></i><span>arrow-square-up</span></div>
+      <div class="icon-item" data-name="arrow-square-up-left"><i class="ph ph-arrow-square-up-left"></i><span>arrow-square-up-left</span></div>
+      <div class="icon-item" data-name="arrow-square-up-right"><i class="ph ph-arrow-square-up-right"></i><span>arrow-square-up-right</span></div>
+      <div class="icon-item" data-name="arrow-u-down-left"><i class="ph ph-arrow-u-down-left"></i><span>arrow-u-down-left</span></div>
+      <div class="icon-item" data-name="arrow-u-down-right"><i class="ph ph-arrow-u-down-right"></i><span>arrow-u-down-right</span></div>
+      <div class="icon-item" data-name="arrow-u-left-down"><i class="ph ph-arrow-u-left-down"></i><span>arrow-u-left-down</span></div>
+      <div class="icon-item" data-name="arrow-u-left-up"><i class="ph ph-arrow-u-left-up"></i><span>arrow-u-left-up</span></div>
+      <div class="icon-item" data-name="arrow-u-right-down"><i class="ph ph-arrow-u-right-down"></i><span>arrow-u-right-down</span></div>
+      <div class="icon-item" data-name="arrow-u-right-up"><i class="ph ph-arrow-u-right-up"></i><span>arrow-u-right-up</span></div>
+      <div class="icon-item" data-name="arrow-u-up-left"><i class="ph ph-arrow-u-up-left"></i><span>arrow-u-up-left</span></div>
+      <div class="icon-item" data-name="arrow-u-up-right"><i class="ph ph-arrow-u-up-right"></i><span>arrow-u-up-right</span></div>
+      <div class="icon-item" data-name="arrow-up"><i class="ph ph-arrow-up"></i><span>arrow-up</span></div>
+      <div class="icon-item" data-name="arrow-up-left"><i class="ph ph-arrow-up-left"></i><span>arrow-up-left</span></div>
+      <div class="icon-item" data-name="arrow-up-right"><i class="ph ph-arrow-up-right"></i><span>arrow-up-right</span></div>
+      <div class="icon-item" data-name="arrows-clockwise"><i class="ph ph-arrows-clockwise"></i><span>arrows-clockwise</span></div>
+      <div class="icon-item" data-name="arrows-counter-clockwise"><i class="ph ph-arrows-counter-clockwise"></i><span>arrows-counter-clockwise</span></div>
+      <div class="icon-item" data-name="arrows-down-up"><i class="ph ph-arrows-down-up"></i><span>arrows-down-up</span></div>
+      <div class="icon-item" data-name="arrows-horizontal"><i class="ph ph-arrows-horizontal"></i><span>arrows-horizontal</span></div>
+      <div class="icon-item" data-name="arrows-in"><i class="ph ph-arrows-in"></i><span>arrows-in</span></div>
+      <div class="icon-item" data-name="arrows-in-cardinal"><i class="ph ph-arrows-in-cardinal"></i><span>arrows-in-cardinal</span></div>
+      <div class="icon-item" data-name="arrows-in-line-horizontal"><i class="ph ph-arrows-in-line-horizontal"></i><span>arrows-in-line-horizontal</span></div>
+      <div class="icon-item" data-name="arrows-in-line-vertical"><i class="ph ph-arrows-in-line-vertical"></i><span>arrows-in-line-vertical</span></div>
+      <div class="icon-item" data-name="arrows-in-simple"><i class="ph ph-arrows-in-simple"></i><span>arrows-in-simple</span></div>
+      <div class="icon-item" data-name="arrows-left-right"><i class="ph ph-arrows-left-right"></i><span>arrows-left-right</span></div>
+      <div class="icon-item" data-name="arrows-merge"><i class="ph ph-arrows-merge"></i><span>arrows-merge</span></div>
+      <div class="icon-item" data-name="arrows-out"><i class="ph ph-arrows-out"></i><span>arrows-out</span></div>
+      <div class="icon-item" data-name="arrows-out-cardinal"><i class="ph ph-arrows-out-cardinal"></i><span>arrows-out-cardinal</span></div>
+      <div class="icon-item" data-name="arrows-out-line-horizontal"><i class="ph ph-arrows-out-line-horizontal"></i><span>arrows-out-line-horizontal</span></div>
+      <div class="icon-item" data-name="arrows-out-line-vertical"><i class="ph ph-arrows-out-line-vertical"></i><span>arrows-out-line-vertical</span></div>
+      <div class="icon-item" data-name="arrows-out-simple"><i class="ph ph-arrows-out-simple"></i><span>arrows-out-simple</span></div>
+      <div class="icon-item" data-name="arrows-split"><i class="ph ph-arrows-split"></i><span>arrows-split</span></div>
+      <div class="icon-item" data-name="arrows-vertical"><i class="ph ph-arrows-vertical"></i><span>arrows-vertical</span></div>
+      <div class="icon-item" data-name="article"><i class="ph ph-article"></i><span>article</span></div>
+      <div class="icon-item" data-name="article-medium"><i class="ph ph-article-medium"></i><span>article-medium</span></div>
+      <div class="icon-item" data-name="article-ny-times"><i class="ph ph-article-ny-times"></i><span>article-ny-times</span></div>
+      <div class="icon-item" data-name="asclepius"><i class="ph ph-asclepius"></i><span>asclepius</span></div>
+      <div class="icon-item" data-name="asterisk"><i class="ph ph-asterisk"></i><span>asterisk</span></div>
+      <div class="icon-item" data-name="asterisk-simple"><i class="ph ph-asterisk-simple"></i><span>asterisk-simple</span></div>
+      <div class="icon-item" data-name="at"><i class="ph ph-at"></i><span>at</span></div>
+      <div class="icon-item" data-name="atom"><i class="ph ph-atom"></i><span>atom</span></div>
+      <div class="icon-item" data-name="avocado"><i class="ph ph-avocado"></i><span>avocado</span></div>
+      <div class="icon-item" data-name="axe"><i class="ph ph-axe"></i><span>axe</span></div>
+      <div class="icon-item" data-name="baby"><i class="ph ph-baby"></i><span>baby</span></div>
+      <div class="icon-item" data-name="baby-carriage"><i class="ph ph-baby-carriage"></i><span>baby-carriage</span></div>
+      <div class="icon-item" data-name="backpack"><i class="ph ph-backpack"></i><span>backpack</span></div>
+      <div class="icon-item" data-name="backspace"><i class="ph ph-backspace"></i><span>backspace</span></div>
+      <div class="icon-item" data-name="bag"><i class="ph ph-bag"></i><span>bag</span></div>
+      <div class="icon-item" data-name="bag-simple"><i class="ph ph-bag-simple"></i><span>bag-simple</span></div>
+      <div class="icon-item" data-name="balloon"><i class="ph ph-balloon"></i><span>balloon</span></div>
+      <div class="icon-item" data-name="bandaids"><i class="ph ph-bandaids"></i><span>bandaids</span></div>
+      <div class="icon-item" data-name="bank"><i class="ph ph-bank"></i><span>bank</span></div>
+      <div class="icon-item" data-name="barbell"><i class="ph ph-barbell"></i><span>barbell</span></div>
+      <div class="icon-item" data-name="barcode"><i class="ph ph-barcode"></i><span>barcode</span></div>
+      <div class="icon-item" data-name="barn"><i class="ph ph-barn"></i><span>barn</span></div>
+      <div class="icon-item" data-name="barricade"><i class="ph ph-barricade"></i><span>barricade</span></div>
+      <div class="icon-item" data-name="baseball"><i class="ph ph-baseball"></i><span>baseball</span></div>
+      <div class="icon-item" data-name="baseball-cap"><i class="ph ph-baseball-cap"></i><span>baseball-cap</span></div>
+      <div class="icon-item" data-name="baseball-helmet"><i class="ph ph-baseball-helmet"></i><span>baseball-helmet</span></div>
+      <div class="icon-item" data-name="basket"><i class="ph ph-basket"></i><span>basket</span></div>
+      <div class="icon-item" data-name="basketball"><i class="ph ph-basketball"></i><span>basketball</span></div>
+      <div class="icon-item" data-name="bathtub"><i class="ph ph-bathtub"></i><span>bathtub</span></div>
+      <div class="icon-item" data-name="battery-charging"><i class="ph ph-battery-charging"></i><span>battery-charging</span></div>
+      <div class="icon-item" data-name="battery-charging-vertical"><i class="ph ph-battery-charging-vertical"></i><span>battery-charging-vertical</span></div>
+      <div class="icon-item" data-name="battery-empty"><i class="ph ph-battery-empty"></i><span>battery-empty</span></div>
+      <div class="icon-item" data-name="battery-full"><i class="ph ph-battery-full"></i><span>battery-full</span></div>
+      <div class="icon-item" data-name="battery-high"><i class="ph ph-battery-high"></i><span>battery-high</span></div>
+      <div class="icon-item" data-name="battery-low"><i class="ph ph-battery-low"></i><span>battery-low</span></div>
+      <div class="icon-item" data-name="battery-medium"><i class="ph ph-battery-medium"></i><span>battery-medium</span></div>
+      <div class="icon-item" data-name="battery-plus"><i class="ph ph-battery-plus"></i><span>battery-plus</span></div>
+      <div class="icon-item" data-name="battery-plus-vertical"><i class="ph ph-battery-plus-vertical"></i><span>battery-plus-vertical</span></div>
+      <div class="icon-item" data-name="battery-vertical-empty"><i class="ph ph-battery-vertical-empty"></i><span>battery-vertical-empty</span></div>
+      <div class="icon-item" data-name="battery-vertical-full"><i class="ph ph-battery-vertical-full"></i><span>battery-vertical-full</span></div>
+      <div class="icon-item" data-name="battery-vertical-high"><i class="ph ph-battery-vertical-high"></i><span>battery-vertical-high</span></div>
+      <div class="icon-item" data-name="battery-vertical-low"><i class="ph ph-battery-vertical-low"></i><span>battery-vertical-low</span></div>
+      <div class="icon-item" data-name="battery-vertical-medium"><i class="ph ph-battery-vertical-medium"></i><span>battery-vertical-medium</span></div>
+      <div class="icon-item" data-name="battery-warning"><i class="ph ph-battery-warning"></i><span>battery-warning</span></div>
+      <div class="icon-item" data-name="battery-warning-vertical"><i class="ph ph-battery-warning-vertical"></i><span>battery-warning-vertical</span></div>
+      <div class="icon-item" data-name="beach-ball"><i class="ph ph-beach-ball"></i><span>beach-ball</span></div>
+      <div class="icon-item" data-name="beanie"><i class="ph ph-beanie"></i><span>beanie</span></div>
+      <div class="icon-item" data-name="bed"><i class="ph ph-bed"></i><span>bed</span></div>
+      <div class="icon-item" data-name="beer-bottle"><i class="ph ph-beer-bottle"></i><span>beer-bottle</span></div>
+      <div class="icon-item" data-name="beer-stein"><i class="ph ph-beer-stein"></i><span>beer-stein</span></div>
+      <div class="icon-item" data-name="behance-logo"><i class="ph ph-behance-logo"></i><span>behance-logo</span></div>
+      <div class="icon-item" data-name="bell"><i class="ph ph-bell"></i><span>bell</span></div>
+      <div class="icon-item" data-name="bell-ringing"><i class="ph ph-bell-ringing"></i><span>bell-ringing</span></div>
+      <div class="icon-item" data-name="bell-simple"><i class="ph ph-bell-simple"></i><span>bell-simple</span></div>
+      <div class="icon-item" data-name="bell-simple-ringing"><i class="ph ph-bell-simple-ringing"></i><span>bell-simple-ringing</span></div>
+      <div class="icon-item" data-name="bell-simple-slash"><i class="ph ph-bell-simple-slash"></i><span>bell-simple-slash</span></div>
+      <div class="icon-item" data-name="bell-simple-z"><i class="ph ph-bell-simple-z"></i><span>bell-simple-z</span></div>
+      <div class="icon-item" data-name="bell-slash"><i class="ph ph-bell-slash"></i><span>bell-slash</span></div>
+      <div class="icon-item" data-name="bell-z"><i class="ph ph-bell-z"></i><span>bell-z</span></div>
+      <div class="icon-item" data-name="belt"><i class="ph ph-belt"></i><span>belt</span></div>
+      <div class="icon-item" data-name="bezier-curve"><i class="ph ph-bezier-curve"></i><span>bezier-curve</span></div>
+      <div class="icon-item" data-name="bicycle"><i class="ph ph-bicycle"></i><span>bicycle</span></div>
+      <div class="icon-item" data-name="binary"><i class="ph ph-binary"></i><span>binary</span></div>
+      <div class="icon-item" data-name="binoculars"><i class="ph ph-binoculars"></i><span>binoculars</span></div>
+      <div class="icon-item" data-name="biohazard"><i class="ph ph-biohazard"></i><span>biohazard</span></div>
+      <div class="icon-item" data-name="bird"><i class="ph ph-bird"></i><span>bird</span></div>
+      <div class="icon-item" data-name="blueprint"><i class="ph ph-blueprint"></i><span>blueprint</span></div>
+      <div class="icon-item" data-name="bluetooth"><i class="ph ph-bluetooth"></i><span>bluetooth</span></div>
+      <div class="icon-item" data-name="bluetooth-connected"><i class="ph ph-bluetooth-connected"></i><span>bluetooth-connected</span></div>
+      <div class="icon-item" data-name="bluetooth-slash"><i class="ph ph-bluetooth-slash"></i><span>bluetooth-slash</span></div>
+      <div class="icon-item" data-name="bluetooth-x"><i class="ph ph-bluetooth-x"></i><span>bluetooth-x</span></div>
+      <div class="icon-item" data-name="boat"><i class="ph ph-boat"></i><span>boat</span></div>
+      <div class="icon-item" data-name="bomb"><i class="ph ph-bomb"></i><span>bomb</span></div>
+      <div class="icon-item" data-name="bone"><i class="ph ph-bone"></i><span>bone</span></div>
+      <div class="icon-item" data-name="book"><i class="ph ph-book"></i><span>book</span></div>
+      <div class="icon-item" data-name="book-bookmark"><i class="ph ph-book-bookmark"></i><span>book-bookmark</span></div>
+      <div class="icon-item" data-name="book-open"><i class="ph ph-book-open"></i><span>book-open</span></div>
+      <div class="icon-item" data-name="book-open-text"><i class="ph ph-book-open-text"></i><span>book-open-text</span></div>
+      <div class="icon-item" data-name="book-open-user"><i class="ph ph-book-open-user"></i><span>book-open-user</span></div>
+      <div class="icon-item" data-name="bookmark"><i class="ph ph-bookmark"></i><span>bookmark</span></div>
+      <div class="icon-item" data-name="bookmark-simple"><i class="ph ph-bookmark-simple"></i><span>bookmark-simple</span></div>
+      <div class="icon-item" data-name="bookmarks"><i class="ph ph-bookmarks"></i><span>bookmarks</span></div>
+      <div class="icon-item" data-name="bookmarks-simple"><i class="ph ph-bookmarks-simple"></i><span>bookmarks-simple</span></div>
+      <div class="icon-item" data-name="books"><i class="ph ph-books"></i><span>books</span></div>
+      <div class="icon-item" data-name="boot"><i class="ph ph-boot"></i><span>boot</span></div>
+      <div class="icon-item" data-name="boules"><i class="ph ph-boules"></i><span>boules</span></div>
+      <div class="icon-item" data-name="bounding-box"><i class="ph ph-bounding-box"></i><span>bounding-box</span></div>
+      <div class="icon-item" data-name="bowl-food"><i class="ph ph-bowl-food"></i><span>bowl-food</span></div>
+      <div class="icon-item" data-name="bowl-steam"><i class="ph ph-bowl-steam"></i><span>bowl-steam</span></div>
+      <div class="icon-item" data-name="bowling-ball"><i class="ph ph-bowling-ball"></i><span>bowling-ball</span></div>
+      <div class="icon-item" data-name="box-arrow-down"><i class="ph ph-box-arrow-down"></i><span>box-arrow-down</span></div>
+      <div class="icon-item" data-name="box-arrow-up"><i class="ph ph-box-arrow-up"></i><span>box-arrow-up</span></div>
+      <div class="icon-item" data-name="boxing-glove"><i class="ph ph-boxing-glove"></i><span>boxing-glove</span></div>
+      <div class="icon-item" data-name="brackets-angle"><i class="ph ph-brackets-angle"></i><span>brackets-angle</span></div>
+      <div class="icon-item" data-name="brackets-curly"><i class="ph ph-brackets-curly"></i><span>brackets-curly</span></div>
+      <div class="icon-item" data-name="brackets-round"><i class="ph ph-brackets-round"></i><span>brackets-round</span></div>
+      <div class="icon-item" data-name="brackets-square"><i class="ph ph-brackets-square"></i><span>brackets-square</span></div>
+      <div class="icon-item" data-name="brain"><i class="ph ph-brain"></i><span>brain</span></div>
+      <div class="icon-item" data-name="brandy"><i class="ph ph-brandy"></i><span>brandy</span></div>
+      <div class="icon-item" data-name="bread"><i class="ph ph-bread"></i><span>bread</span></div>
+      <div class="icon-item" data-name="bridge"><i class="ph ph-bridge"></i><span>bridge</span></div>
+      <div class="icon-item" data-name="briefcase"><i class="ph ph-briefcase"></i><span>briefcase</span></div>
+      <div class="icon-item" data-name="briefcase-metal"><i class="ph ph-briefcase-metal"></i><span>briefcase-metal</span></div>
+      <div class="icon-item" data-name="broadcast"><i class="ph ph-broadcast"></i><span>broadcast</span></div>
+      <div class="icon-item" data-name="broom"><i class="ph ph-broom"></i><span>broom</span></div>
+      <div class="icon-item" data-name="browser"><i class="ph ph-browser"></i><span>browser</span></div>
+      <div class="icon-item" data-name="browsers"><i class="ph ph-browsers"></i><span>browsers</span></div>
+      <div class="icon-item" data-name="bug"><i class="ph ph-bug"></i><span>bug</span></div>
+      <div class="icon-item" data-name="bug-beetle"><i class="ph ph-bug-beetle"></i><span>bug-beetle</span></div>
+      <div class="icon-item" data-name="bug-droid"><i class="ph ph-bug-droid"></i><span>bug-droid</span></div>
+      <div class="icon-item" data-name="building"><i class="ph ph-building"></i><span>building</span></div>
+      <div class="icon-item" data-name="building-apartment"><i class="ph ph-building-apartment"></i><span>building-apartment</span></div>
+      <div class="icon-item" data-name="building-office"><i class="ph ph-building-office"></i><span>building-office</span></div>
+      <div class="icon-item" data-name="buildings"><i class="ph ph-buildings"></i><span>buildings</span></div>
+      <div class="icon-item" data-name="bulldozer"><i class="ph ph-bulldozer"></i><span>bulldozer</span></div>
+      <div class="icon-item" data-name="bus"><i class="ph ph-bus"></i><span>bus</span></div>
+      <div class="icon-item" data-name="butterfly"><i class="ph ph-butterfly"></i><span>butterfly</span></div>
+      <div class="icon-item" data-name="cable-car"><i class="ph ph-cable-car"></i><span>cable-car</span></div>
+      <div class="icon-item" data-name="cactus"><i class="ph ph-cactus"></i><span>cactus</span></div>
+      <div class="icon-item" data-name="caduceus"><i class="ph ph-caduceus"></i><span>caduceus</span></div>
+      <div class="icon-item" data-name="cake"><i class="ph ph-cake"></i><span>cake</span></div>
+      <div class="icon-item" data-name="calculator"><i class="ph ph-calculator"></i><span>calculator</span></div>
+      <div class="icon-item" data-name="calendar"><i class="ph ph-calendar"></i><span>calendar</span></div>
+      <div class="icon-item" data-name="calendar-blank"><i class="ph ph-calendar-blank"></i><span>calendar-blank</span></div>
+      <div class="icon-item" data-name="calendar-check"><i class="ph ph-calendar-check"></i><span>calendar-check</span></div>
+      <div class="icon-item" data-name="calendar-dot"><i class="ph ph-calendar-dot"></i><span>calendar-dot</span></div>
+      <div class="icon-item" data-name="calendar-dots"><i class="ph ph-calendar-dots"></i><span>calendar-dots</span></div>
+      <div class="icon-item" data-name="calendar-heart"><i class="ph ph-calendar-heart"></i><span>calendar-heart</span></div>
+      <div class="icon-item" data-name="calendar-minus"><i class="ph ph-calendar-minus"></i><span>calendar-minus</span></div>
+      <div class="icon-item" data-name="calendar-plus"><i class="ph ph-calendar-plus"></i><span>calendar-plus</span></div>
+      <div class="icon-item" data-name="calendar-slash"><i class="ph ph-calendar-slash"></i><span>calendar-slash</span></div>
+      <div class="icon-item" data-name="calendar-star"><i class="ph ph-calendar-star"></i><span>calendar-star</span></div>
+      <div class="icon-item" data-name="calendar-x"><i class="ph ph-calendar-x"></i><span>calendar-x</span></div>
+      <div class="icon-item" data-name="call-bell"><i class="ph ph-call-bell"></i><span>call-bell</span></div>
+      <div class="icon-item" data-name="camera"><i class="ph ph-camera"></i><span>camera</span></div>
+      <div class="icon-item" data-name="camera-plus"><i class="ph ph-camera-plus"></i><span>camera-plus</span></div>
+      <div class="icon-item" data-name="camera-rotate"><i class="ph ph-camera-rotate"></i><span>camera-rotate</span></div>
+      <div class="icon-item" data-name="camera-slash"><i class="ph ph-camera-slash"></i><span>camera-slash</span></div>
+      <div class="icon-item" data-name="campfire"><i class="ph ph-campfire"></i><span>campfire</span></div>
+      <div class="icon-item" data-name="car"><i class="ph ph-car"></i><span>car</span></div>
+      <div class="icon-item" data-name="car-battery"><i class="ph ph-car-battery"></i><span>car-battery</span></div>
+      <div class="icon-item" data-name="car-profile"><i class="ph ph-car-profile"></i><span>car-profile</span></div>
+      <div class="icon-item" data-name="car-simple"><i class="ph ph-car-simple"></i><span>car-simple</span></div>
+      <div class="icon-item" data-name="cardholder"><i class="ph ph-cardholder"></i><span>cardholder</span></div>
+      <div class="icon-item" data-name="cards"><i class="ph ph-cards"></i><span>cards</span></div>
+      <div class="icon-item" data-name="cards-three"><i class="ph ph-cards-three"></i><span>cards-three</span></div>
+      <div class="icon-item" data-name="caret-circle-double-down"><i class="ph ph-caret-circle-double-down"></i><span>caret-circle-double-down</span></div>
+      <div class="icon-item" data-name="caret-circle-double-left"><i class="ph ph-caret-circle-double-left"></i><span>caret-circle-double-left</span></div>
+      <div class="icon-item" data-name="caret-circle-double-right"><i class="ph ph-caret-circle-double-right"></i><span>caret-circle-double-right</span></div>
+      <div class="icon-item" data-name="caret-circle-double-up"><i class="ph ph-caret-circle-double-up"></i><span>caret-circle-double-up</span></div>
+      <div class="icon-item" data-name="caret-circle-down"><i class="ph ph-caret-circle-down"></i><span>caret-circle-down</span></div>
+      <div class="icon-item" data-name="caret-circle-left"><i class="ph ph-caret-circle-left"></i><span>caret-circle-left</span></div>
+      <div class="icon-item" data-name="caret-circle-right"><i class="ph ph-caret-circle-right"></i><span>caret-circle-right</span></div>
+      <div class="icon-item" data-name="caret-circle-up"><i class="ph ph-caret-circle-up"></i><span>caret-circle-up</span></div>
+      <div class="icon-item" data-name="caret-circle-up-down"><i class="ph ph-caret-circle-up-down"></i><span>caret-circle-up-down</span></div>
+      <div class="icon-item" data-name="caret-double-down"><i class="ph ph-caret-double-down"></i><span>caret-double-down</span></div>
+      <div class="icon-item" data-name="caret-double-left"><i class="ph ph-caret-double-left"></i><span>caret-double-left</span></div>
+      <div class="icon-item" data-name="caret-double-right"><i class="ph ph-caret-double-right"></i><span>caret-double-right</span></div>
+      <div class="icon-item" data-name="caret-double-up"><i class="ph ph-caret-double-up"></i><span>caret-double-up</span></div>
+      <div class="icon-item" data-name="caret-down"><i class="ph ph-caret-down"></i><span>caret-down</span></div>
+      <div class="icon-item" data-name="caret-left"><i class="ph ph-caret-left"></i><span>caret-left</span></div>
+      <div class="icon-item" data-name="caret-line-down"><i class="ph ph-caret-line-down"></i><span>caret-line-down</span></div>
+      <div class="icon-item" data-name="caret-line-left"><i class="ph ph-caret-line-left"></i><span>caret-line-left</span></div>
+      <div class="icon-item" data-name="caret-line-right"><i class="ph ph-caret-line-right"></i><span>caret-line-right</span></div>
+      <div class="icon-item" data-name="caret-line-up"><i class="ph ph-caret-line-up"></i><span>caret-line-up</span></div>
+      <div class="icon-item" data-name="caret-right"><i class="ph ph-caret-right"></i><span>caret-right</span></div>
+      <div class="icon-item" data-name="caret-up"><i class="ph ph-caret-up"></i><span>caret-up</span></div>
+      <div class="icon-item" data-name="caret-up-down"><i class="ph ph-caret-up-down"></i><span>caret-up-down</span></div>
+      <div class="icon-item" data-name="carrot"><i class="ph ph-carrot"></i><span>carrot</span></div>
+      <div class="icon-item" data-name="cash-register"><i class="ph ph-cash-register"></i><span>cash-register</span></div>
+      <div class="icon-item" data-name="cassette-tape"><i class="ph ph-cassette-tape"></i><span>cassette-tape</span></div>
+      <div class="icon-item" data-name="castle-turret"><i class="ph ph-castle-turret"></i><span>castle-turret</span></div>
+      <div class="icon-item" data-name="cat"><i class="ph ph-cat"></i><span>cat</span></div>
+      <div class="icon-item" data-name="cell-signal-full"><i class="ph ph-cell-signal-full"></i><span>cell-signal-full</span></div>
+      <div class="icon-item" data-name="cell-signal-high"><i class="ph ph-cell-signal-high"></i><span>cell-signal-high</span></div>
+      <div class="icon-item" data-name="cell-signal-low"><i class="ph ph-cell-signal-low"></i><span>cell-signal-low</span></div>
+      <div class="icon-item" data-name="cell-signal-medium"><i class="ph ph-cell-signal-medium"></i><span>cell-signal-medium</span></div>
+      <div class="icon-item" data-name="cell-signal-none"><i class="ph ph-cell-signal-none"></i><span>cell-signal-none</span></div>
+      <div class="icon-item" data-name="cell-signal-slash"><i class="ph ph-cell-signal-slash"></i><span>cell-signal-slash</span></div>
+      <div class="icon-item" data-name="cell-signal-x"><i class="ph ph-cell-signal-x"></i><span>cell-signal-x</span></div>
+      <div class="icon-item" data-name="cell-tower"><i class="ph ph-cell-tower"></i><span>cell-tower</span></div>
+      <div class="icon-item" data-name="certificate"><i class="ph ph-certificate"></i><span>certificate</span></div>
+      <div class="icon-item" data-name="chair"><i class="ph ph-chair"></i><span>chair</span></div>
+      <div class="icon-item" data-name="chalkboard"><i class="ph ph-chalkboard"></i><span>chalkboard</span></div>
+      <div class="icon-item" data-name="chalkboard-simple"><i class="ph ph-chalkboard-simple"></i><span>chalkboard-simple</span></div>
+      <div class="icon-item" data-name="chalkboard-teacher"><i class="ph ph-chalkboard-teacher"></i><span>chalkboard-teacher</span></div>
+      <div class="icon-item" data-name="champagne"><i class="ph ph-champagne"></i><span>champagne</span></div>
+      <div class="icon-item" data-name="charging-station"><i class="ph ph-charging-station"></i><span>charging-station</span></div>
+      <div class="icon-item" data-name="chart-bar"><i class="ph ph-chart-bar"></i><span>chart-bar</span></div>
+      <div class="icon-item" data-name="chart-bar-horizontal"><i class="ph ph-chart-bar-horizontal"></i><span>chart-bar-horizontal</span></div>
+      <div class="icon-item" data-name="chart-donut"><i class="ph ph-chart-donut"></i><span>chart-donut</span></div>
+      <div class="icon-item" data-name="chart-line"><i class="ph ph-chart-line"></i><span>chart-line</span></div>
+      <div class="icon-item" data-name="chart-line-down"><i class="ph ph-chart-line-down"></i><span>chart-line-down</span></div>
+      <div class="icon-item" data-name="chart-line-up"><i class="ph ph-chart-line-up"></i><span>chart-line-up</span></div>
+      <div class="icon-item" data-name="chart-pie"><i class="ph ph-chart-pie"></i><span>chart-pie</span></div>
+      <div class="icon-item" data-name="chart-pie-slice"><i class="ph ph-chart-pie-slice"></i><span>chart-pie-slice</span></div>
+      <div class="icon-item" data-name="chart-polar"><i class="ph ph-chart-polar"></i><span>chart-polar</span></div>
+      <div class="icon-item" data-name="chart-scatter"><i class="ph ph-chart-scatter"></i><span>chart-scatter</span></div>
+      <div class="icon-item" data-name="chat"><i class="ph ph-chat"></i><span>chat</span></div>
+      <div class="icon-item" data-name="chat-centered"><i class="ph ph-chat-centered"></i><span>chat-centered</span></div>
+      <div class="icon-item" data-name="chat-centered-dots"><i class="ph ph-chat-centered-dots"></i><span>chat-centered-dots</span></div>
+      <div class="icon-item" data-name="chat-centered-slash"><i class="ph ph-chat-centered-slash"></i><span>chat-centered-slash</span></div>
+      <div class="icon-item" data-name="chat-centered-text"><i class="ph ph-chat-centered-text"></i><span>chat-centered-text</span></div>
+      <div class="icon-item" data-name="chat-circle"><i class="ph ph-chat-circle"></i><span>chat-circle</span></div>
+      <div class="icon-item" data-name="chat-circle-dots"><i class="ph ph-chat-circle-dots"></i><span>chat-circle-dots</span></div>
+      <div class="icon-item" data-name="chat-circle-slash"><i class="ph ph-chat-circle-slash"></i><span>chat-circle-slash</span></div>
+      <div class="icon-item" data-name="chat-circle-text"><i class="ph ph-chat-circle-text"></i><span>chat-circle-text</span></div>
+      <div class="icon-item" data-name="chat-dots"><i class="ph ph-chat-dots"></i><span>chat-dots</span></div>
+      <div class="icon-item" data-name="chat-slash"><i class="ph ph-chat-slash"></i><span>chat-slash</span></div>
+      <div class="icon-item" data-name="chat-teardrop"><i class="ph ph-chat-teardrop"></i><span>chat-teardrop</span></div>
+      <div class="icon-item" data-name="chat-teardrop-dots"><i class="ph ph-chat-teardrop-dots"></i><span>chat-teardrop-dots</span></div>
+      <div class="icon-item" data-name="chat-teardrop-slash"><i class="ph ph-chat-teardrop-slash"></i><span>chat-teardrop-slash</span></div>
+      <div class="icon-item" data-name="chat-teardrop-text"><i class="ph ph-chat-teardrop-text"></i><span>chat-teardrop-text</span></div>
+      <div class="icon-item" data-name="chat-text"><i class="ph ph-chat-text"></i><span>chat-text</span></div>
+      <div class="icon-item" data-name="chats"><i class="ph ph-chats"></i><span>chats</span></div>
+      <div class="icon-item" data-name="chats-circle"><i class="ph ph-chats-circle"></i><span>chats-circle</span></div>
+      <div class="icon-item" data-name="chats-teardrop"><i class="ph ph-chats-teardrop"></i><span>chats-teardrop</span></div>
+      <div class="icon-item" data-name="check"><i class="ph ph-check"></i><span>check</span></div>
+      <div class="icon-item" data-name="check-circle"><i class="ph ph-check-circle"></i><span>check-circle</span></div>
+      <div class="icon-item" data-name="check-fat"><i class="ph ph-check-fat"></i><span>check-fat</span></div>
+      <div class="icon-item" data-name="check-square"><i class="ph ph-check-square"></i><span>check-square</span></div>
+      <div class="icon-item" data-name="check-square-offset"><i class="ph ph-check-square-offset"></i><span>check-square-offset</span></div>
+      <div class="icon-item" data-name="checkerboard"><i class="ph ph-checkerboard"></i><span>checkerboard</span></div>
+      <div class="icon-item" data-name="checks"><i class="ph ph-checks"></i><span>checks</span></div>
+      <div class="icon-item" data-name="cheers"><i class="ph ph-cheers"></i><span>cheers</span></div>
+      <div class="icon-item" data-name="cheese"><i class="ph ph-cheese"></i><span>cheese</span></div>
+      <div class="icon-item" data-name="chef-hat"><i class="ph ph-chef-hat"></i><span>chef-hat</span></div>
+      <div class="icon-item" data-name="cherries"><i class="ph ph-cherries"></i><span>cherries</span></div>
+      <div class="icon-item" data-name="church"><i class="ph ph-church"></i><span>church</span></div>
+      <div class="icon-item" data-name="cigarette"><i class="ph ph-cigarette"></i><span>cigarette</span></div>
+      <div class="icon-item" data-name="cigarette-slash"><i class="ph ph-cigarette-slash"></i><span>cigarette-slash</span></div>
+      <div class="icon-item" data-name="circle"><i class="ph ph-circle"></i><span>circle</span></div>
+      <div class="icon-item" data-name="circle-dashed"><i class="ph ph-circle-dashed"></i><span>circle-dashed</span></div>
+      <div class="icon-item" data-name="circle-half"><i class="ph ph-circle-half"></i><span>circle-half</span></div>
+      <div class="icon-item" data-name="circle-half-tilt"><i class="ph ph-circle-half-tilt"></i><span>circle-half-tilt</span></div>
+      <div class="icon-item" data-name="circle-notch"><i class="ph ph-circle-notch"></i><span>circle-notch</span></div>
+      <div class="icon-item" data-name="circle-wavy"><i class="ph ph-circle-wavy"></i><span>circle-wavy</span></div>
+      <div class="icon-item" data-name="circle-wavy-check"><i class="ph ph-circle-wavy-check"></i><span>circle-wavy-check</span></div>
+      <div class="icon-item" data-name="circle-wavy-question"><i class="ph ph-circle-wavy-question"></i><span>circle-wavy-question</span></div>
+      <div class="icon-item" data-name="circle-wavy-warning"><i class="ph ph-circle-wavy-warning"></i><span>circle-wavy-warning</span></div>
+      <div class="icon-item" data-name="circles-four"><i class="ph ph-circles-four"></i><span>circles-four</span></div>
+      <div class="icon-item" data-name="circles-three"><i class="ph ph-circles-three"></i><span>circles-three</span></div>
+      <div class="icon-item" data-name="circles-three-plus"><i class="ph ph-circles-three-plus"></i><span>circles-three-plus</span></div>
+      <div class="icon-item" data-name="circuitry"><i class="ph ph-circuitry"></i><span>circuitry</span></div>
+      <div class="icon-item" data-name="city"><i class="ph ph-city"></i><span>city</span></div>
+      <div class="icon-item" data-name="clipboard"><i class="ph ph-clipboard"></i><span>clipboard</span></div>
+      <div class="icon-item" data-name="clipboard-text"><i class="ph ph-clipboard-text"></i><span>clipboard-text</span></div>
+      <div class="icon-item" data-name="clock"><i class="ph ph-clock"></i><span>clock</span></div>
+      <div class="icon-item" data-name="clock-afternoon"><i class="ph ph-clock-afternoon"></i><span>clock-afternoon</span></div>
+      <div class="icon-item" data-name="clock-clockwise"><i class="ph ph-clock-clockwise"></i><span>clock-clockwise</span></div>
+      <div class="icon-item" data-name="clock-countdown"><i class="ph ph-clock-countdown"></i><span>clock-countdown</span></div>
+      <div class="icon-item" data-name="clock-counter-clockwise"><i class="ph ph-clock-counter-clockwise"></i><span>clock-counter-clockwise</span></div>
+      <div class="icon-item" data-name="clock-user"><i class="ph ph-clock-user"></i><span>clock-user</span></div>
+      <div class="icon-item" data-name="closed-captioning"><i class="ph ph-closed-captioning"></i><span>closed-captioning</span></div>
+      <div class="icon-item" data-name="cloud"><i class="ph ph-cloud"></i><span>cloud</span></div>
+      <div class="icon-item" data-name="cloud-arrow-down"><i class="ph ph-cloud-arrow-down"></i><span>cloud-arrow-down</span></div>
+      <div class="icon-item" data-name="cloud-arrow-up"><i class="ph ph-cloud-arrow-up"></i><span>cloud-arrow-up</span></div>
+      <div class="icon-item" data-name="cloud-check"><i class="ph ph-cloud-check"></i><span>cloud-check</span></div>
+      <div class="icon-item" data-name="cloud-fog"><i class="ph ph-cloud-fog"></i><span>cloud-fog</span></div>
+      <div class="icon-item" data-name="cloud-lightning"><i class="ph ph-cloud-lightning"></i><span>cloud-lightning</span></div>
+      <div class="icon-item" data-name="cloud-moon"><i class="ph ph-cloud-moon"></i><span>cloud-moon</span></div>
+      <div class="icon-item" data-name="cloud-rain"><i class="ph ph-cloud-rain"></i><span>cloud-rain</span></div>
+      <div class="icon-item" data-name="cloud-slash"><i class="ph ph-cloud-slash"></i><span>cloud-slash</span></div>
+      <div class="icon-item" data-name="cloud-snow"><i class="ph ph-cloud-snow"></i><span>cloud-snow</span></div>
+      <div class="icon-item" data-name="cloud-sun"><i class="ph ph-cloud-sun"></i><span>cloud-sun</span></div>
+      <div class="icon-item" data-name="cloud-warning"><i class="ph ph-cloud-warning"></i><span>cloud-warning</span></div>
+      <div class="icon-item" data-name="cloud-x"><i class="ph ph-cloud-x"></i><span>cloud-x</span></div>
+      <div class="icon-item" data-name="clover"><i class="ph ph-clover"></i><span>clover</span></div>
+      <div class="icon-item" data-name="club"><i class="ph ph-club"></i><span>club</span></div>
+      <div class="icon-item" data-name="coat-hanger"><i class="ph ph-coat-hanger"></i><span>coat-hanger</span></div>
+      <div class="icon-item" data-name="coda-logo"><i class="ph ph-coda-logo"></i><span>coda-logo</span></div>
+      <div class="icon-item" data-name="code"><i class="ph ph-code"></i><span>code</span></div>
+      <div class="icon-item" data-name="code-block"><i class="ph ph-code-block"></i><span>code-block</span></div>
+      <div class="icon-item" data-name="code-simple"><i class="ph ph-code-simple"></i><span>code-simple</span></div>
+      <div class="icon-item" data-name="codepen-logo"><i class="ph ph-codepen-logo"></i><span>codepen-logo</span></div>
+      <div class="icon-item" data-name="codesandbox-logo"><i class="ph ph-codesandbox-logo"></i><span>codesandbox-logo</span></div>
+      <div class="icon-item" data-name="coffee"><i class="ph ph-coffee"></i><span>coffee</span></div>
+      <div class="icon-item" data-name="coffee-bean"><i class="ph ph-coffee-bean"></i><span>coffee-bean</span></div>
+      <div class="icon-item" data-name="coin"><i class="ph ph-coin"></i><span>coin</span></div>
+      <div class="icon-item" data-name="coin-vertical"><i class="ph ph-coin-vertical"></i><span>coin-vertical</span></div>
+      <div class="icon-item" data-name="coins"><i class="ph ph-coins"></i><span>coins</span></div>
+      <div class="icon-item" data-name="columns"><i class="ph ph-columns"></i><span>columns</span></div>
+      <div class="icon-item" data-name="columns-plus-left"><i class="ph ph-columns-plus-left"></i><span>columns-plus-left</span></div>
+      <div class="icon-item" data-name="columns-plus-right"><i class="ph ph-columns-plus-right"></i><span>columns-plus-right</span></div>
+      <div class="icon-item" data-name="command"><i class="ph ph-command"></i><span>command</span></div>
+      <div class="icon-item" data-name="compass"><i class="ph ph-compass"></i><span>compass</span></div>
+      <div class="icon-item" data-name="compass-rose"><i class="ph ph-compass-rose"></i><span>compass-rose</span></div>
+      <div class="icon-item" data-name="compass-tool"><i class="ph ph-compass-tool"></i><span>compass-tool</span></div>
+      <div class="icon-item" data-name="computer-tower"><i class="ph ph-computer-tower"></i><span>computer-tower</span></div>
+      <div class="icon-item" data-name="confetti"><i class="ph ph-confetti"></i><span>confetti</span></div>
+      <div class="icon-item" data-name="contactless-payment"><i class="ph ph-contactless-payment"></i><span>contactless-payment</span></div>
+      <div class="icon-item" data-name="control"><i class="ph ph-control"></i><span>control</span></div>
+      <div class="icon-item" data-name="cookie"><i class="ph ph-cookie"></i><span>cookie</span></div>
+      <div class="icon-item" data-name="cooking-pot"><i class="ph ph-cooking-pot"></i><span>cooking-pot</span></div>
+      <div class="icon-item" data-name="copy"><i class="ph ph-copy"></i><span>copy</span></div>
+      <div class="icon-item" data-name="copy-simple"><i class="ph ph-copy-simple"></i><span>copy-simple</span></div>
+      <div class="icon-item" data-name="copyleft"><i class="ph ph-copyleft"></i><span>copyleft</span></div>
+      <div class="icon-item" data-name="copyright"><i class="ph ph-copyright"></i><span>copyright</span></div>
+      <div class="icon-item" data-name="corners-in"><i class="ph ph-corners-in"></i><span>corners-in</span></div>
+      <div class="icon-item" data-name="corners-out"><i class="ph ph-corners-out"></i><span>corners-out</span></div>
+      <div class="icon-item" data-name="couch"><i class="ph ph-couch"></i><span>couch</span></div>
+      <div class="icon-item" data-name="court-basketball"><i class="ph ph-court-basketball"></i><span>court-basketball</span></div>
+      <div class="icon-item" data-name="cow"><i class="ph ph-cow"></i><span>cow</span></div>
+      <div class="icon-item" data-name="cowboy-hat"><i class="ph ph-cowboy-hat"></i><span>cowboy-hat</span></div>
+      <div class="icon-item" data-name="cpu"><i class="ph ph-cpu"></i><span>cpu</span></div>
+      <div class="icon-item" data-name="crane"><i class="ph ph-crane"></i><span>crane</span></div>
+      <div class="icon-item" data-name="crane-tower"><i class="ph ph-crane-tower"></i><span>crane-tower</span></div>
+      <div class="icon-item" data-name="credit-card"><i class="ph ph-credit-card"></i><span>credit-card</span></div>
+      <div class="icon-item" data-name="cricket"><i class="ph ph-cricket"></i><span>cricket</span></div>
+      <div class="icon-item" data-name="crop"><i class="ph ph-crop"></i><span>crop</span></div>
+      <div class="icon-item" data-name="cross"><i class="ph ph-cross"></i><span>cross</span></div>
+      <div class="icon-item" data-name="crosshair"><i class="ph ph-crosshair"></i><span>crosshair</span></div>
+      <div class="icon-item" data-name="crosshair-simple"><i class="ph ph-crosshair-simple"></i><span>crosshair-simple</span></div>
+      <div class="icon-item" data-name="crown"><i class="ph ph-crown"></i><span>crown</span></div>
+      <div class="icon-item" data-name="crown-cross"><i class="ph ph-crown-cross"></i><span>crown-cross</span></div>
+      <div class="icon-item" data-name="crown-simple"><i class="ph ph-crown-simple"></i><span>crown-simple</span></div>
+      <div class="icon-item" data-name="cube"><i class="ph ph-cube"></i><span>cube</span></div>
+      <div class="icon-item" data-name="cube-focus"><i class="ph ph-cube-focus"></i><span>cube-focus</span></div>
+      <div class="icon-item" data-name="cube-transparent"><i class="ph ph-cube-transparent"></i><span>cube-transparent</span></div>
+      <div class="icon-item" data-name="currency-btc"><i class="ph ph-currency-btc"></i><span>currency-btc</span></div>
+      <div class="icon-item" data-name="currency-circle-dollar"><i class="ph ph-currency-circle-dollar"></i><span>currency-circle-dollar</span></div>
+      <div class="icon-item" data-name="currency-cny"><i class="ph ph-currency-cny"></i><span>currency-cny</span></div>
+      <div class="icon-item" data-name="currency-dollar"><i class="ph ph-currency-dollar"></i><span>currency-dollar</span></div>
+      <div class="icon-item" data-name="currency-dollar-simple"><i class="ph ph-currency-dollar-simple"></i><span>currency-dollar-simple</span></div>
+      <div class="icon-item" data-name="currency-eth"><i class="ph ph-currency-eth"></i><span>currency-eth</span></div>
+      <div class="icon-item" data-name="currency-eur"><i class="ph ph-currency-eur"></i><span>currency-eur</span></div>
+      <div class="icon-item" data-name="currency-gbp"><i class="ph ph-currency-gbp"></i><span>currency-gbp</span></div>
+      <div class="icon-item" data-name="currency-inr"><i class="ph ph-currency-inr"></i><span>currency-inr</span></div>
+      <div class="icon-item" data-name="currency-jpy"><i class="ph ph-currency-jpy"></i><span>currency-jpy</span></div>
+      <div class="icon-item" data-name="currency-krw"><i class="ph ph-currency-krw"></i><span>currency-krw</span></div>
+      <div class="icon-item" data-name="currency-kzt"><i class="ph ph-currency-kzt"></i><span>currency-kzt</span></div>
+      <div class="icon-item" data-name="currency-ngn"><i class="ph ph-currency-ngn"></i><span>currency-ngn</span></div>
+      <div class="icon-item" data-name="currency-rub"><i class="ph ph-currency-rub"></i><span>currency-rub</span></div>
+      <div class="icon-item" data-name="cursor"><i class="ph ph-cursor"></i><span>cursor</span></div>
+      <div class="icon-item" data-name="cursor-click"><i class="ph ph-cursor-click"></i><span>cursor-click</span></div>
+      <div class="icon-item" data-name="cursor-text"><i class="ph ph-cursor-text"></i><span>cursor-text</span></div>
+      <div class="icon-item" data-name="cylinder"><i class="ph ph-cylinder"></i><span>cylinder</span></div>
+      <div class="icon-item" data-name="database"><i class="ph ph-database"></i><span>database</span></div>
+      <div class="icon-item" data-name="desk"><i class="ph ph-desk"></i><span>desk</span></div>
+      <div class="icon-item" data-name="desktop"><i class="ph ph-desktop"></i><span>desktop</span></div>
+      <div class="icon-item" data-name="desktop-tower"><i class="ph ph-desktop-tower"></i><span>desktop-tower</span></div>
+      <div class="icon-item" data-name="detective"><i class="ph ph-detective"></i><span>detective</span></div>
+      <div class="icon-item" data-name="dev-to-logo"><i class="ph ph-dev-to-logo"></i><span>dev-to-logo</span></div>
+      <div class="icon-item" data-name="device-mobile"><i class="ph ph-device-mobile"></i><span>device-mobile</span></div>
+      <div class="icon-item" data-name="device-mobile-camera"><i class="ph ph-device-mobile-camera"></i><span>device-mobile-camera</span></div>
+      <div class="icon-item" data-name="device-mobile-slash"><i class="ph ph-device-mobile-slash"></i><span>device-mobile-slash</span></div>
+      <div class="icon-item" data-name="device-mobile-speaker"><i class="ph ph-device-mobile-speaker"></i><span>device-mobile-speaker</span></div>
+      <div class="icon-item" data-name="device-rotate"><i class="ph ph-device-rotate"></i><span>device-rotate</span></div>
+      <div class="icon-item" data-name="device-tablet"><i class="ph ph-device-tablet"></i><span>device-tablet</span></div>
+      <div class="icon-item" data-name="device-tablet-camera"><i class="ph ph-device-tablet-camera"></i><span>device-tablet-camera</span></div>
+      <div class="icon-item" data-name="device-tablet-speaker"><i class="ph ph-device-tablet-speaker"></i><span>device-tablet-speaker</span></div>
+      <div class="icon-item" data-name="devices"><i class="ph ph-devices"></i><span>devices</span></div>
+      <div class="icon-item" data-name="diamond"><i class="ph ph-diamond"></i><span>diamond</span></div>
+      <div class="icon-item" data-name="diamonds-four"><i class="ph ph-diamonds-four"></i><span>diamonds-four</span></div>
+      <div class="icon-item" data-name="dice-five"><i class="ph ph-dice-five"></i><span>dice-five</span></div>
+      <div class="icon-item" data-name="dice-four"><i class="ph ph-dice-four"></i><span>dice-four</span></div>
+      <div class="icon-item" data-name="dice-one"><i class="ph ph-dice-one"></i><span>dice-one</span></div>
+      <div class="icon-item" data-name="dice-six"><i class="ph ph-dice-six"></i><span>dice-six</span></div>
+      <div class="icon-item" data-name="dice-three"><i class="ph ph-dice-three"></i><span>dice-three</span></div>
+      <div class="icon-item" data-name="dice-two"><i class="ph ph-dice-two"></i><span>dice-two</span></div>
+      <div class="icon-item" data-name="disc"><i class="ph ph-disc"></i><span>disc</span></div>
+      <div class="icon-item" data-name="disco-ball"><i class="ph ph-disco-ball"></i><span>disco-ball</span></div>
+      <div class="icon-item" data-name="discord-logo"><i class="ph ph-discord-logo"></i><span>discord-logo</span></div>
+      <div class="icon-item" data-name="divide"><i class="ph ph-divide"></i><span>divide</span></div>
+      <div class="icon-item" data-name="dna"><i class="ph ph-dna"></i><span>dna</span></div>
+      <div class="icon-item" data-name="dog"><i class="ph ph-dog"></i><span>dog</span></div>
+      <div class="icon-item" data-name="door"><i class="ph ph-door"></i><span>door</span></div>
+      <div class="icon-item" data-name="door-open"><i class="ph ph-door-open"></i><span>door-open</span></div>
+      <div class="icon-item" data-name="dot"><i class="ph ph-dot"></i><span>dot</span></div>
+      <div class="icon-item" data-name="dot-outline"><i class="ph ph-dot-outline"></i><span>dot-outline</span></div>
+      <div class="icon-item" data-name="dots-nine"><i class="ph ph-dots-nine"></i><span>dots-nine</span></div>
+      <div class="icon-item" data-name="dots-six"><i class="ph ph-dots-six"></i><span>dots-six</span></div>
+      <div class="icon-item" data-name="dots-six-vertical"><i class="ph ph-dots-six-vertical"></i><span>dots-six-vertical</span></div>
+      <div class="icon-item" data-name="dots-three"><i class="ph ph-dots-three"></i><span>dots-three</span></div>
+      <div class="icon-item" data-name="dots-three-circle"><i class="ph ph-dots-three-circle"></i><span>dots-three-circle</span></div>
+      <div class="icon-item" data-name="dots-three-circle-vertical"><i class="ph ph-dots-three-circle-vertical"></i><span>dots-three-circle-vertical</span></div>
+      <div class="icon-item" data-name="dots-three-outline"><i class="ph ph-dots-three-outline"></i><span>dots-three-outline</span></div>
+      <div class="icon-item" data-name="dots-three-outline-vertical"><i class="ph ph-dots-three-outline-vertical"></i><span>dots-three-outline-vertical</span></div>
+      <div class="icon-item" data-name="dots-three-vertical"><i class="ph ph-dots-three-vertical"></i><span>dots-three-vertical</span></div>
+      <div class="icon-item" data-name="download"><i class="ph ph-download"></i><span>download</span></div>
+      <div class="icon-item" data-name="download-simple"><i class="ph ph-download-simple"></i><span>download-simple</span></div>
+      <div class="icon-item" data-name="dress"><i class="ph ph-dress"></i><span>dress</span></div>
+      <div class="icon-item" data-name="dresser"><i class="ph ph-dresser"></i><span>dresser</span></div>
+      <div class="icon-item" data-name="dribbble-logo"><i class="ph ph-dribbble-logo"></i><span>dribbble-logo</span></div>
+      <div class="icon-item" data-name="drone"><i class="ph ph-drone"></i><span>drone</span></div>
+      <div class="icon-item" data-name="drop"><i class="ph ph-drop"></i><span>drop</span></div>
+      <div class="icon-item" data-name="drop-half"><i class="ph ph-drop-half"></i><span>drop-half</span></div>
+      <div class="icon-item" data-name="drop-half-bottom"><i class="ph ph-drop-half-bottom"></i><span>drop-half-bottom</span></div>
+      <div class="icon-item" data-name="drop-simple"><i class="ph ph-drop-simple"></i><span>drop-simple</span></div>
+      <div class="icon-item" data-name="drop-slash"><i class="ph ph-drop-slash"></i><span>drop-slash</span></div>
+      <div class="icon-item" data-name="dropbox-logo"><i class="ph ph-dropbox-logo"></i><span>dropbox-logo</span></div>
+      <div class="icon-item" data-name="ear"><i class="ph ph-ear"></i><span>ear</span></div>
+      <div class="icon-item" data-name="ear-slash"><i class="ph ph-ear-slash"></i><span>ear-slash</span></div>
+      <div class="icon-item" data-name="egg"><i class="ph ph-egg"></i><span>egg</span></div>
+      <div class="icon-item" data-name="egg-crack"><i class="ph ph-egg-crack"></i><span>egg-crack</span></div>
+      <div class="icon-item" data-name="eject"><i class="ph ph-eject"></i><span>eject</span></div>
+      <div class="icon-item" data-name="eject-simple"><i class="ph ph-eject-simple"></i><span>eject-simple</span></div>
+      <div class="icon-item" data-name="elevator"><i class="ph ph-elevator"></i><span>elevator</span></div>
+      <div class="icon-item" data-name="empty"><i class="ph ph-empty"></i><span>empty</span></div>
+      <div class="icon-item" data-name="engine"><i class="ph ph-engine"></i><span>engine</span></div>
+      <div class="icon-item" data-name="envelope"><i class="ph ph-envelope"></i><span>envelope</span></div>
+      <div class="icon-item" data-name="envelope-open"><i class="ph ph-envelope-open"></i><span>envelope-open</span></div>
+      <div class="icon-item" data-name="envelope-simple"><i class="ph ph-envelope-simple"></i><span>envelope-simple</span></div>
+      <div class="icon-item" data-name="envelope-simple-open"><i class="ph ph-envelope-simple-open"></i><span>envelope-simple-open</span></div>
+      <div class="icon-item" data-name="equalizer"><i class="ph ph-equalizer"></i><span>equalizer</span></div>
+      <div class="icon-item" data-name="equals"><i class="ph ph-equals"></i><span>equals</span></div>
+      <div class="icon-item" data-name="eraser"><i class="ph ph-eraser"></i><span>eraser</span></div>
+      <div class="icon-item" data-name="escalator-down"><i class="ph ph-escalator-down"></i><span>escalator-down</span></div>
+      <div class="icon-item" data-name="escalator-up"><i class="ph ph-escalator-up"></i><span>escalator-up</span></div>
+      <div class="icon-item" data-name="exam"><i class="ph ph-exam"></i><span>exam</span></div>
+      <div class="icon-item" data-name="exclamation-mark"><i class="ph ph-exclamation-mark"></i><span>exclamation-mark</span></div>
+      <div class="icon-item" data-name="exclude"><i class="ph ph-exclude"></i><span>exclude</span></div>
+      <div class="icon-item" data-name="exclude-square"><i class="ph ph-exclude-square"></i><span>exclude-square</span></div>
+      <div class="icon-item" data-name="export"><i class="ph ph-export"></i><span>export</span></div>
+      <div class="icon-item" data-name="eye"><i class="ph ph-eye"></i><span>eye</span></div>
+      <div class="icon-item" data-name="eye-closed"><i class="ph ph-eye-closed"></i><span>eye-closed</span></div>
+      <div class="icon-item" data-name="eye-slash"><i class="ph ph-eye-slash"></i><span>eye-slash</span></div>
+      <div class="icon-item" data-name="eyedropper"><i class="ph ph-eyedropper"></i><span>eyedropper</span></div>
+      <div class="icon-item" data-name="eyedropper-sample"><i class="ph ph-eyedropper-sample"></i><span>eyedropper-sample</span></div>
+      <div class="icon-item" data-name="eyeglasses"><i class="ph ph-eyeglasses"></i><span>eyeglasses</span></div>
+      <div class="icon-item" data-name="eyes"><i class="ph ph-eyes"></i><span>eyes</span></div>
+      <div class="icon-item" data-name="face-mask"><i class="ph ph-face-mask"></i><span>face-mask</span></div>
+      <div class="icon-item" data-name="facebook-logo"><i class="ph ph-facebook-logo"></i><span>facebook-logo</span></div>
+      <div class="icon-item" data-name="factory"><i class="ph ph-factory"></i><span>factory</span></div>
+      <div class="icon-item" data-name="faders"><i class="ph ph-faders"></i><span>faders</span></div>
+      <div class="icon-item" data-name="faders-horizontal"><i class="ph ph-faders-horizontal"></i><span>faders-horizontal</span></div>
+      <div class="icon-item" data-name="fallout-shelter"><i class="ph ph-fallout-shelter"></i><span>fallout-shelter</span></div>
+      <div class="icon-item" data-name="fan"><i class="ph ph-fan"></i><span>fan</span></div>
+      <div class="icon-item" data-name="farm"><i class="ph ph-farm"></i><span>farm</span></div>
+      <div class="icon-item" data-name="fast-forward"><i class="ph ph-fast-forward"></i><span>fast-forward</span></div>
+      <div class="icon-item" data-name="fast-forward-circle"><i class="ph ph-fast-forward-circle"></i><span>fast-forward-circle</span></div>
+      <div class="icon-item" data-name="feather"><i class="ph ph-feather"></i><span>feather</span></div>
+      <div class="icon-item" data-name="fediverse-logo"><i class="ph ph-fediverse-logo"></i><span>fediverse-logo</span></div>
+      <div class="icon-item" data-name="figma-logo"><i class="ph ph-figma-logo"></i><span>figma-logo</span></div>
+      <div class="icon-item" data-name="file"><i class="ph ph-file"></i><span>file</span></div>
+      <div class="icon-item" data-name="file-archive"><i class="ph ph-file-archive"></i><span>file-archive</span></div>
+      <div class="icon-item" data-name="file-arrow-down"><i class="ph ph-file-arrow-down"></i><span>file-arrow-down</span></div>
+      <div class="icon-item" data-name="file-arrow-up"><i class="ph ph-file-arrow-up"></i><span>file-arrow-up</span></div>
+      <div class="icon-item" data-name="file-audio"><i class="ph ph-file-audio"></i><span>file-audio</span></div>
+      <div class="icon-item" data-name="file-c"><i class="ph ph-file-c"></i><span>file-c</span></div>
+      <div class="icon-item" data-name="file-c-sharp"><i class="ph ph-file-c-sharp"></i><span>file-c-sharp</span></div>
+      <div class="icon-item" data-name="file-cloud"><i class="ph ph-file-cloud"></i><span>file-cloud</span></div>
+      <div class="icon-item" data-name="file-code"><i class="ph ph-file-code"></i><span>file-code</span></div>
+      <div class="icon-item" data-name="file-cpp"><i class="ph ph-file-cpp"></i><span>file-cpp</span></div>
+      <div class="icon-item" data-name="file-css"><i class="ph ph-file-css"></i><span>file-css</span></div>
+      <div class="icon-item" data-name="file-csv"><i class="ph ph-file-csv"></i><span>file-csv</span></div>
+      <div class="icon-item" data-name="file-dashed"><i class="ph ph-file-dashed"></i><span>file-dashed</span></div>
+      <div class="icon-item" data-name="file-doc"><i class="ph ph-file-doc"></i><span>file-doc</span></div>
+      <div class="icon-item" data-name="file-dotted"><i class="ph ph-file-dotted"></i><span>file-dotted</span></div>
+      <div class="icon-item" data-name="file-html"><i class="ph ph-file-html"></i><span>file-html</span></div>
+      <div class="icon-item" data-name="file-image"><i class="ph ph-file-image"></i><span>file-image</span></div>
+      <div class="icon-item" data-name="file-ini"><i class="ph ph-file-ini"></i><span>file-ini</span></div>
+      <div class="icon-item" data-name="file-jpg"><i class="ph ph-file-jpg"></i><span>file-jpg</span></div>
+      <div class="icon-item" data-name="file-js"><i class="ph ph-file-js"></i><span>file-js</span></div>
+      <div class="icon-item" data-name="file-jsx"><i class="ph ph-file-jsx"></i><span>file-jsx</span></div>
+      <div class="icon-item" data-name="file-lock"><i class="ph ph-file-lock"></i><span>file-lock</span></div>
+      <div class="icon-item" data-name="file-magnifying-glass"><i class="ph ph-file-magnifying-glass"></i><span>file-magnifying-glass</span></div>
+      <div class="icon-item" data-name="file-md"><i class="ph ph-file-md"></i><span>file-md</span></div>
+      <div class="icon-item" data-name="file-minus"><i class="ph ph-file-minus"></i><span>file-minus</span></div>
+      <div class="icon-item" data-name="file-pdf"><i class="ph ph-file-pdf"></i><span>file-pdf</span></div>
+      <div class="icon-item" data-name="file-plus"><i class="ph ph-file-plus"></i><span>file-plus</span></div>
+      <div class="icon-item" data-name="file-png"><i class="ph ph-file-png"></i><span>file-png</span></div>
+      <div class="icon-item" data-name="file-ppt"><i class="ph ph-file-ppt"></i><span>file-ppt</span></div>
+      <div class="icon-item" data-name="file-py"><i class="ph ph-file-py"></i><span>file-py</span></div>
+      <div class="icon-item" data-name="file-rs"><i class="ph ph-file-rs"></i><span>file-rs</span></div>
+      <div class="icon-item" data-name="file-search"><i class="ph ph-file-search"></i><span>file-search</span></div>
+      <div class="icon-item" data-name="file-sql"><i class="ph ph-file-sql"></i><span>file-sql</span></div>
+      <div class="icon-item" data-name="file-svg"><i class="ph ph-file-svg"></i><span>file-svg</span></div>
+      <div class="icon-item" data-name="file-text"><i class="ph ph-file-text"></i><span>file-text</span></div>
+      <div class="icon-item" data-name="file-ts"><i class="ph ph-file-ts"></i><span>file-ts</span></div>
+      <div class="icon-item" data-name="file-tsx"><i class="ph ph-file-tsx"></i><span>file-tsx</span></div>
+      <div class="icon-item" data-name="file-txt"><i class="ph ph-file-txt"></i><span>file-txt</span></div>
+      <div class="icon-item" data-name="file-video"><i class="ph ph-file-video"></i><span>file-video</span></div>
+      <div class="icon-item" data-name="file-vue"><i class="ph ph-file-vue"></i><span>file-vue</span></div>
+      <div class="icon-item" data-name="file-x"><i class="ph ph-file-x"></i><span>file-x</span></div>
+      <div class="icon-item" data-name="file-xls"><i class="ph ph-file-xls"></i><span>file-xls</span></div>
+      <div class="icon-item" data-name="file-zip"><i class="ph ph-file-zip"></i><span>file-zip</span></div>
+      <div class="icon-item" data-name="files"><i class="ph ph-files"></i><span>files</span></div>
+      <div class="icon-item" data-name="film-reel"><i class="ph ph-film-reel"></i><span>film-reel</span></div>
+      <div class="icon-item" data-name="film-script"><i class="ph ph-film-script"></i><span>film-script</span></div>
+      <div class="icon-item" data-name="film-slate"><i class="ph ph-film-slate"></i><span>film-slate</span></div>
+      <div class="icon-item" data-name="film-strip"><i class="ph ph-film-strip"></i><span>film-strip</span></div>
+      <div class="icon-item" data-name="fingerprint"><i class="ph ph-fingerprint"></i><span>fingerprint</span></div>
+      <div class="icon-item" data-name="fingerprint-simple"><i class="ph ph-fingerprint-simple"></i><span>fingerprint-simple</span></div>
+      <div class="icon-item" data-name="finn-the-human"><i class="ph ph-finn-the-human"></i><span>finn-the-human</span></div>
+      <div class="icon-item" data-name="fire"><i class="ph ph-fire"></i><span>fire</span></div>
+      <div class="icon-item" data-name="fire-extinguisher"><i class="ph ph-fire-extinguisher"></i><span>fire-extinguisher</span></div>
+      <div class="icon-item" data-name="fire-simple"><i class="ph ph-fire-simple"></i><span>fire-simple</span></div>
+      <div class="icon-item" data-name="fire-truck"><i class="ph ph-fire-truck"></i><span>fire-truck</span></div>
+      <div class="icon-item" data-name="first-aid"><i class="ph ph-first-aid"></i><span>first-aid</span></div>
+      <div class="icon-item" data-name="first-aid-kit"><i class="ph ph-first-aid-kit"></i><span>first-aid-kit</span></div>
+      <div class="icon-item" data-name="fish"><i class="ph ph-fish"></i><span>fish</span></div>
+      <div class="icon-item" data-name="fish-simple"><i class="ph ph-fish-simple"></i><span>fish-simple</span></div>
+      <div class="icon-item" data-name="flag"><i class="ph ph-flag"></i><span>flag</span></div>
+      <div class="icon-item" data-name="flag-banner"><i class="ph ph-flag-banner"></i><span>flag-banner</span></div>
+      <div class="icon-item" data-name="flag-banner-fold"><i class="ph ph-flag-banner-fold"></i><span>flag-banner-fold</span></div>
+      <div class="icon-item" data-name="flag-checkered"><i class="ph ph-flag-checkered"></i><span>flag-checkered</span></div>
+      <div class="icon-item" data-name="flag-pennant"><i class="ph ph-flag-pennant"></i><span>flag-pennant</span></div>
+      <div class="icon-item" data-name="flame"><i class="ph ph-flame"></i><span>flame</span></div>
+      <div class="icon-item" data-name="flashlight"><i class="ph ph-flashlight"></i><span>flashlight</span></div>
+      <div class="icon-item" data-name="flask"><i class="ph ph-flask"></i><span>flask</span></div>
+      <div class="icon-item" data-name="flip-horizontal"><i class="ph ph-flip-horizontal"></i><span>flip-horizontal</span></div>
+      <div class="icon-item" data-name="flip-vertical"><i class="ph ph-flip-vertical"></i><span>flip-vertical</span></div>
+      <div class="icon-item" data-name="floppy-disk"><i class="ph ph-floppy-disk"></i><span>floppy-disk</span></div>
+      <div class="icon-item" data-name="floppy-disk-back"><i class="ph ph-floppy-disk-back"></i><span>floppy-disk-back</span></div>
+      <div class="icon-item" data-name="flow-arrow"><i class="ph ph-flow-arrow"></i><span>flow-arrow</span></div>
+      <div class="icon-item" data-name="flower"><i class="ph ph-flower"></i><span>flower</span></div>
+      <div class="icon-item" data-name="flower-lotus"><i class="ph ph-flower-lotus"></i><span>flower-lotus</span></div>
+      <div class="icon-item" data-name="flower-tulip"><i class="ph ph-flower-tulip"></i><span>flower-tulip</span></div>
+      <div class="icon-item" data-name="flying-saucer"><i class="ph ph-flying-saucer"></i><span>flying-saucer</span></div>
+      <div class="icon-item" data-name="folder"><i class="ph ph-folder"></i><span>folder</span></div>
+      <div class="icon-item" data-name="folder-dashed"><i class="ph ph-folder-dashed"></i><span>folder-dashed</span></div>
+      <div class="icon-item" data-name="folder-dotted"><i class="ph ph-folder-dotted"></i><span>folder-dotted</span></div>
+      <div class="icon-item" data-name="folder-lock"><i class="ph ph-folder-lock"></i><span>folder-lock</span></div>
+      <div class="icon-item" data-name="folder-minus"><i class="ph ph-folder-minus"></i><span>folder-minus</span></div>
+      <div class="icon-item" data-name="folder-notch"><i class="ph ph-folder-notch"></i><span>folder-notch</span></div>
+      <div class="icon-item" data-name="folder-notch-minus"><i class="ph ph-folder-notch-minus"></i><span>folder-notch-minus</span></div>
+      <div class="icon-item" data-name="folder-notch-open"><i class="ph ph-folder-notch-open"></i><span>folder-notch-open</span></div>
+      <div class="icon-item" data-name="folder-notch-plus"><i class="ph ph-folder-notch-plus"></i><span>folder-notch-plus</span></div>
+      <div class="icon-item" data-name="folder-open"><i class="ph ph-folder-open"></i><span>folder-open</span></div>
+      <div class="icon-item" data-name="folder-plus"><i class="ph ph-folder-plus"></i><span>folder-plus</span></div>
+      <div class="icon-item" data-name="folder-simple"><i class="ph ph-folder-simple"></i><span>folder-simple</span></div>
+      <div class="icon-item" data-name="folder-simple-dashed"><i class="ph ph-folder-simple-dashed"></i><span>folder-simple-dashed</span></div>
+      <div class="icon-item" data-name="folder-simple-dotted"><i class="ph ph-folder-simple-dotted"></i><span>folder-simple-dotted</span></div>
+      <div class="icon-item" data-name="folder-simple-lock"><i class="ph ph-folder-simple-lock"></i><span>folder-simple-lock</span></div>
+      <div class="icon-item" data-name="folder-simple-minus"><i class="ph ph-folder-simple-minus"></i><span>folder-simple-minus</span></div>
+      <div class="icon-item" data-name="folder-simple-plus"><i class="ph ph-folder-simple-plus"></i><span>folder-simple-plus</span></div>
+      <div class="icon-item" data-name="folder-simple-star"><i class="ph ph-folder-simple-star"></i><span>folder-simple-star</span></div>
+      <div class="icon-item" data-name="folder-simple-user"><i class="ph ph-folder-simple-user"></i><span>folder-simple-user</span></div>
+      <div class="icon-item" data-name="folder-star"><i class="ph ph-folder-star"></i><span>folder-star</span></div>
+      <div class="icon-item" data-name="folder-user"><i class="ph ph-folder-user"></i><span>folder-user</span></div>
+      <div class="icon-item" data-name="folders"><i class="ph ph-folders"></i><span>folders</span></div>
+      <div class="icon-item" data-name="football"><i class="ph ph-football"></i><span>football</span></div>
+      <div class="icon-item" data-name="football-helmet"><i class="ph ph-football-helmet"></i><span>football-helmet</span></div>
+      <div class="icon-item" data-name="footprints"><i class="ph ph-footprints"></i><span>footprints</span></div>
+      <div class="icon-item" data-name="fork-knife"><i class="ph ph-fork-knife"></i><span>fork-knife</span></div>
+      <div class="icon-item" data-name="four-k"><i class="ph ph-four-k"></i><span>four-k</span></div>
+      <div class="icon-item" data-name="frame-corners"><i class="ph ph-frame-corners"></i><span>frame-corners</span></div>
+      <div class="icon-item" data-name="framer-logo"><i class="ph ph-framer-logo"></i><span>framer-logo</span></div>
+      <div class="icon-item" data-name="function"><i class="ph ph-function"></i><span>function</span></div>
+      <div class="icon-item" data-name="funnel"><i class="ph ph-funnel"></i><span>funnel</span></div>
+      <div class="icon-item" data-name="funnel-simple"><i class="ph ph-funnel-simple"></i><span>funnel-simple</span></div>
+      <div class="icon-item" data-name="funnel-simple-x"><i class="ph ph-funnel-simple-x"></i><span>funnel-simple-x</span></div>
+      <div class="icon-item" data-name="funnel-x"><i class="ph ph-funnel-x"></i><span>funnel-x</span></div>
+      <div class="icon-item" data-name="game-controller"><i class="ph ph-game-controller"></i><span>game-controller</span></div>
+      <div class="icon-item" data-name="garage"><i class="ph ph-garage"></i><span>garage</span></div>
+      <div class="icon-item" data-name="gas-can"><i class="ph ph-gas-can"></i><span>gas-can</span></div>
+      <div class="icon-item" data-name="gas-pump"><i class="ph ph-gas-pump"></i><span>gas-pump</span></div>
+      <div class="icon-item" data-name="gauge"><i class="ph ph-gauge"></i><span>gauge</span></div>
+      <div class="icon-item" data-name="gavel"><i class="ph ph-gavel"></i><span>gavel</span></div>
+      <div class="icon-item" data-name="gear"><i class="ph ph-gear"></i><span>gear</span></div>
+      <div class="icon-item" data-name="gear-fine"><i class="ph ph-gear-fine"></i><span>gear-fine</span></div>
+      <div class="icon-item" data-name="gear-six"><i class="ph ph-gear-six"></i><span>gear-six</span></div>
+      <div class="icon-item" data-name="gender-female"><i class="ph ph-gender-female"></i><span>gender-female</span></div>
+      <div class="icon-item" data-name="gender-intersex"><i class="ph ph-gender-intersex"></i><span>gender-intersex</span></div>
+      <div class="icon-item" data-name="gender-male"><i class="ph ph-gender-male"></i><span>gender-male</span></div>
+      <div class="icon-item" data-name="gender-neuter"><i class="ph ph-gender-neuter"></i><span>gender-neuter</span></div>
+      <div class="icon-item" data-name="gender-nonbinary"><i class="ph ph-gender-nonbinary"></i><span>gender-nonbinary</span></div>
+      <div class="icon-item" data-name="gender-transgender"><i class="ph ph-gender-transgender"></i><span>gender-transgender</span></div>
+      <div class="icon-item" data-name="ghost"><i class="ph ph-ghost"></i><span>ghost</span></div>
+      <div class="icon-item" data-name="gif"><i class="ph ph-gif"></i><span>gif</span></div>
+      <div class="icon-item" data-name="gift"><i class="ph ph-gift"></i><span>gift</span></div>
+      <div class="icon-item" data-name="git-branch"><i class="ph ph-git-branch"></i><span>git-branch</span></div>
+      <div class="icon-item" data-name="git-commit"><i class="ph ph-git-commit"></i><span>git-commit</span></div>
+      <div class="icon-item" data-name="git-diff"><i class="ph ph-git-diff"></i><span>git-diff</span></div>
+      <div class="icon-item" data-name="git-fork"><i class="ph ph-git-fork"></i><span>git-fork</span></div>
+      <div class="icon-item" data-name="git-merge"><i class="ph ph-git-merge"></i><span>git-merge</span></div>
+      <div class="icon-item" data-name="git-pull-request"><i class="ph ph-git-pull-request"></i><span>git-pull-request</span></div>
+      <div class="icon-item" data-name="github-logo"><i class="ph ph-github-logo"></i><span>github-logo</span></div>
+      <div class="icon-item" data-name="gitlab-logo"><i class="ph ph-gitlab-logo"></i><span>gitlab-logo</span></div>
+      <div class="icon-item" data-name="gitlab-logo-simple"><i class="ph ph-gitlab-logo-simple"></i><span>gitlab-logo-simple</span></div>
+      <div class="icon-item" data-name="globe"><i class="ph ph-globe"></i><span>globe</span></div>
+      <div class="icon-item" data-name="globe-hemisphere-east"><i class="ph ph-globe-hemisphere-east"></i><span>globe-hemisphere-east</span></div>
+      <div class="icon-item" data-name="globe-hemisphere-west"><i class="ph ph-globe-hemisphere-west"></i><span>globe-hemisphere-west</span></div>
+      <div class="icon-item" data-name="globe-simple"><i class="ph ph-globe-simple"></i><span>globe-simple</span></div>
+      <div class="icon-item" data-name="globe-simple-x"><i class="ph ph-globe-simple-x"></i><span>globe-simple-x</span></div>
+      <div class="icon-item" data-name="globe-stand"><i class="ph ph-globe-stand"></i><span>globe-stand</span></div>
+      <div class="icon-item" data-name="globe-x"><i class="ph ph-globe-x"></i><span>globe-x</span></div>
+      <div class="icon-item" data-name="goggles"><i class="ph ph-goggles"></i><span>goggles</span></div>
+      <div class="icon-item" data-name="golf"><i class="ph ph-golf"></i><span>golf</span></div>
+      <div class="icon-item" data-name="goodreads-logo"><i class="ph ph-goodreads-logo"></i><span>goodreads-logo</span></div>
+      <div class="icon-item" data-name="google-cardboard-logo"><i class="ph ph-google-cardboard-logo"></i><span>google-cardboard-logo</span></div>
+      <div class="icon-item" data-name="google-chrome-logo"><i class="ph ph-google-chrome-logo"></i><span>google-chrome-logo</span></div>
+      <div class="icon-item" data-name="google-drive-logo"><i class="ph ph-google-drive-logo"></i><span>google-drive-logo</span></div>
+      <div class="icon-item" data-name="google-logo"><i class="ph ph-google-logo"></i><span>google-logo</span></div>
+      <div class="icon-item" data-name="google-photos-logo"><i class="ph ph-google-photos-logo"></i><span>google-photos-logo</span></div>
+      <div class="icon-item" data-name="google-play-logo"><i class="ph ph-google-play-logo"></i><span>google-play-logo</span></div>
+      <div class="icon-item" data-name="google-podcasts-logo"><i class="ph ph-google-podcasts-logo"></i><span>google-podcasts-logo</span></div>
+      <div class="icon-item" data-name="gps"><i class="ph ph-gps"></i><span>gps</span></div>
+      <div class="icon-item" data-name="gps-fix"><i class="ph ph-gps-fix"></i><span>gps-fix</span></div>
+      <div class="icon-item" data-name="gps-slash"><i class="ph ph-gps-slash"></i><span>gps-slash</span></div>
+      <div class="icon-item" data-name="gradient"><i class="ph ph-gradient"></i><span>gradient</span></div>
+      <div class="icon-item" data-name="graduation-cap"><i class="ph ph-graduation-cap"></i><span>graduation-cap</span></div>
+      <div class="icon-item" data-name="grains"><i class="ph ph-grains"></i><span>grains</span></div>
+      <div class="icon-item" data-name="grains-slash"><i class="ph ph-grains-slash"></i><span>grains-slash</span></div>
+      <div class="icon-item" data-name="graph"><i class="ph ph-graph"></i><span>graph</span></div>
+      <div class="icon-item" data-name="graphics-card"><i class="ph ph-graphics-card"></i><span>graphics-card</span></div>
+      <div class="icon-item" data-name="greater-than"><i class="ph ph-greater-than"></i><span>greater-than</span></div>
+      <div class="icon-item" data-name="greater-than-or-equal"><i class="ph ph-greater-than-or-equal"></i><span>greater-than-or-equal</span></div>
+      <div class="icon-item" data-name="grid-four"><i class="ph ph-grid-four"></i><span>grid-four</span></div>
+      <div class="icon-item" data-name="grid-nine"><i class="ph ph-grid-nine"></i><span>grid-nine</span></div>
+      <div class="icon-item" data-name="guitar"><i class="ph ph-guitar"></i><span>guitar</span></div>
+      <div class="icon-item" data-name="hair-dryer"><i class="ph ph-hair-dryer"></i><span>hair-dryer</span></div>
+      <div class="icon-item" data-name="hamburger"><i class="ph ph-hamburger"></i><span>hamburger</span></div>
+      <div class="icon-item" data-name="hammer"><i class="ph ph-hammer"></i><span>hammer</span></div>
+      <div class="icon-item" data-name="hand"><i class="ph ph-hand"></i><span>hand</span></div>
+      <div class="icon-item" data-name="hand-arrow-down"><i class="ph ph-hand-arrow-down"></i><span>hand-arrow-down</span></div>
+      <div class="icon-item" data-name="hand-arrow-up"><i class="ph ph-hand-arrow-up"></i><span>hand-arrow-up</span></div>
+      <div class="icon-item" data-name="hand-coins"><i class="ph ph-hand-coins"></i><span>hand-coins</span></div>
+      <div class="icon-item" data-name="hand-deposit"><i class="ph ph-hand-deposit"></i><span>hand-deposit</span></div>
+      <div class="icon-item" data-name="hand-eye"><i class="ph ph-hand-eye"></i><span>hand-eye</span></div>
+      <div class="icon-item" data-name="hand-fist"><i class="ph ph-hand-fist"></i><span>hand-fist</span></div>
+      <div class="icon-item" data-name="hand-grabbing"><i class="ph ph-hand-grabbing"></i><span>hand-grabbing</span></div>
+      <div class="icon-item" data-name="hand-heart"><i class="ph ph-hand-heart"></i><span>hand-heart</span></div>
+      <div class="icon-item" data-name="hand-palm"><i class="ph ph-hand-palm"></i><span>hand-palm</span></div>
+      <div class="icon-item" data-name="hand-peace"><i class="ph ph-hand-peace"></i><span>hand-peace</span></div>
+      <div class="icon-item" data-name="hand-pointing"><i class="ph ph-hand-pointing"></i><span>hand-pointing</span></div>
+      <div class="icon-item" data-name="hand-soap"><i class="ph ph-hand-soap"></i><span>hand-soap</span></div>
+      <div class="icon-item" data-name="hand-swipe-left"><i class="ph ph-hand-swipe-left"></i><span>hand-swipe-left</span></div>
+      <div class="icon-item" data-name="hand-swipe-right"><i class="ph ph-hand-swipe-right"></i><span>hand-swipe-right</span></div>
+      <div class="icon-item" data-name="hand-tap"><i class="ph ph-hand-tap"></i><span>hand-tap</span></div>
+      <div class="icon-item" data-name="hand-waving"><i class="ph ph-hand-waving"></i><span>hand-waving</span></div>
+      <div class="icon-item" data-name="hand-withdraw"><i class="ph ph-hand-withdraw"></i><span>hand-withdraw</span></div>
+      <div class="icon-item" data-name="handbag"><i class="ph ph-handbag"></i><span>handbag</span></div>
+      <div class="icon-item" data-name="handbag-simple"><i class="ph ph-handbag-simple"></i><span>handbag-simple</span></div>
+      <div class="icon-item" data-name="hands-clapping"><i class="ph ph-hands-clapping"></i><span>hands-clapping</span></div>
+      <div class="icon-item" data-name="hands-praying"><i class="ph ph-hands-praying"></i><span>hands-praying</span></div>
+      <div class="icon-item" data-name="handshake"><i class="ph ph-handshake"></i><span>handshake</span></div>
+      <div class="icon-item" data-name="hard-drive"><i class="ph ph-hard-drive"></i><span>hard-drive</span></div>
+      <div class="icon-item" data-name="hard-drives"><i class="ph ph-hard-drives"></i><span>hard-drives</span></div>
+      <div class="icon-item" data-name="hard-hat"><i class="ph ph-hard-hat"></i><span>hard-hat</span></div>
+      <div class="icon-item" data-name="hash"><i class="ph ph-hash"></i><span>hash</span></div>
+      <div class="icon-item" data-name="hash-straight"><i class="ph ph-hash-straight"></i><span>hash-straight</span></div>
+      <div class="icon-item" data-name="head-circuit"><i class="ph ph-head-circuit"></i><span>head-circuit</span></div>
+      <div class="icon-item" data-name="headlights"><i class="ph ph-headlights"></i><span>headlights</span></div>
+      <div class="icon-item" data-name="headphones"><i class="ph ph-headphones"></i><span>headphones</span></div>
+      <div class="icon-item" data-name="headset"><i class="ph ph-headset"></i><span>headset</span></div>
+      <div class="icon-item" data-name="heart"><i class="ph ph-heart"></i><span>heart</span></div>
+      <div class="icon-item" data-name="heart-break"><i class="ph ph-heart-break"></i><span>heart-break</span></div>
+      <div class="icon-item" data-name="heart-half"><i class="ph ph-heart-half"></i><span>heart-half</span></div>
+      <div class="icon-item" data-name="heart-straight"><i class="ph ph-heart-straight"></i><span>heart-straight</span></div>
+      <div class="icon-item" data-name="heart-straight-break"><i class="ph ph-heart-straight-break"></i><span>heart-straight-break</span></div>
+      <div class="icon-item" data-name="heartbeat"><i class="ph ph-heartbeat"></i><span>heartbeat</span></div>
+      <div class="icon-item" data-name="hexagon"><i class="ph ph-hexagon"></i><span>hexagon</span></div>
+      <div class="icon-item" data-name="high-definition"><i class="ph ph-high-definition"></i><span>high-definition</span></div>
+      <div class="icon-item" data-name="high-heel"><i class="ph ph-high-heel"></i><span>high-heel</span></div>
+      <div class="icon-item" data-name="highlighter"><i class="ph ph-highlighter"></i><span>highlighter</span></div>
+      <div class="icon-item" data-name="highlighter-circle"><i class="ph ph-highlighter-circle"></i><span>highlighter-circle</span></div>
+      <div class="icon-item" data-name="hockey"><i class="ph ph-hockey"></i><span>hockey</span></div>
+      <div class="icon-item" data-name="hoodie"><i class="ph ph-hoodie"></i><span>hoodie</span></div>
+      <div class="icon-item" data-name="horse"><i class="ph ph-horse"></i><span>horse</span></div>
+      <div class="icon-item" data-name="hospital"><i class="ph ph-hospital"></i><span>hospital</span></div>
+      <div class="icon-item" data-name="hourglass"><i class="ph ph-hourglass"></i><span>hourglass</span></div>
+      <div class="icon-item" data-name="hourglass-high"><i class="ph ph-hourglass-high"></i><span>hourglass-high</span></div>
+      <div class="icon-item" data-name="hourglass-low"><i class="ph ph-hourglass-low"></i><span>hourglass-low</span></div>
+      <div class="icon-item" data-name="hourglass-medium"><i class="ph ph-hourglass-medium"></i><span>hourglass-medium</span></div>
+      <div class="icon-item" data-name="hourglass-simple"><i class="ph ph-hourglass-simple"></i><span>hourglass-simple</span></div>
+      <div class="icon-item" data-name="hourglass-simple-high"><i class="ph ph-hourglass-simple-high"></i><span>hourglass-simple-high</span></div>
+      <div class="icon-item" data-name="hourglass-simple-low"><i class="ph ph-hourglass-simple-low"></i><span>hourglass-simple-low</span></div>
+      <div class="icon-item" data-name="hourglass-simple-medium"><i class="ph ph-hourglass-simple-medium"></i><span>hourglass-simple-medium</span></div>
+      <div class="icon-item" data-name="house"><i class="ph ph-house"></i><span>house</span></div>
+      <div class="icon-item" data-name="house-line"><i class="ph ph-house-line"></i><span>house-line</span></div>
+      <div class="icon-item" data-name="house-simple"><i class="ph ph-house-simple"></i><span>house-simple</span></div>
+      <div class="icon-item" data-name="hurricane"><i class="ph ph-hurricane"></i><span>hurricane</span></div>
+      <div class="icon-item" data-name="ice-cream"><i class="ph ph-ice-cream"></i><span>ice-cream</span></div>
+      <div class="icon-item" data-name="identification-badge"><i class="ph ph-identification-badge"></i><span>identification-badge</span></div>
+      <div class="icon-item" data-name="identification-card"><i class="ph ph-identification-card"></i><span>identification-card</span></div>
+      <div class="icon-item" data-name="image"><i class="ph ph-image"></i><span>image</span></div>
+      <div class="icon-item" data-name="image-broken"><i class="ph ph-image-broken"></i><span>image-broken</span></div>
+      <div class="icon-item" data-name="image-square"><i class="ph ph-image-square"></i><span>image-square</span></div>
+      <div class="icon-item" data-name="images"><i class="ph ph-images"></i><span>images</span></div>
+      <div class="icon-item" data-name="images-square"><i class="ph ph-images-square"></i><span>images-square</span></div>
+      <div class="icon-item" data-name="infinity"><i class="ph ph-infinity"></i><span>infinity</span></div>
+      <div class="icon-item" data-name="info"><i class="ph ph-info"></i><span>info</span></div>
+      <div class="icon-item" data-name="instagram-logo"><i class="ph ph-instagram-logo"></i><span>instagram-logo</span></div>
+      <div class="icon-item" data-name="intersect"><i class="ph ph-intersect"></i><span>intersect</span></div>
+      <div class="icon-item" data-name="intersect-square"><i class="ph ph-intersect-square"></i><span>intersect-square</span></div>
+      <div class="icon-item" data-name="intersect-three"><i class="ph ph-intersect-three"></i><span>intersect-three</span></div>
+      <div class="icon-item" data-name="intersection"><i class="ph ph-intersection"></i><span>intersection</span></div>
+      <div class="icon-item" data-name="invoice"><i class="ph ph-invoice"></i><span>invoice</span></div>
+      <div class="icon-item" data-name="island"><i class="ph ph-island"></i><span>island</span></div>
+      <div class="icon-item" data-name="jar"><i class="ph ph-jar"></i><span>jar</span></div>
+      <div class="icon-item" data-name="jar-label"><i class="ph ph-jar-label"></i><span>jar-label</span></div>
+      <div class="icon-item" data-name="jeep"><i class="ph ph-jeep"></i><span>jeep</span></div>
+      <div class="icon-item" data-name="joystick"><i class="ph ph-joystick"></i><span>joystick</span></div>
+      <div class="icon-item" data-name="kanban"><i class="ph ph-kanban"></i><span>kanban</span></div>
+      <div class="icon-item" data-name="key"><i class="ph ph-key"></i><span>key</span></div>
+      <div class="icon-item" data-name="key-return"><i class="ph ph-key-return"></i><span>key-return</span></div>
+      <div class="icon-item" data-name="keyboard"><i class="ph ph-keyboard"></i><span>keyboard</span></div>
+      <div class="icon-item" data-name="keyhole"><i class="ph ph-keyhole"></i><span>keyhole</span></div>
+      <div class="icon-item" data-name="knife"><i class="ph ph-knife"></i><span>knife</span></div>
+      <div class="icon-item" data-name="ladder"><i class="ph ph-ladder"></i><span>ladder</span></div>
+      <div class="icon-item" data-name="ladder-simple"><i class="ph ph-ladder-simple"></i><span>ladder-simple</span></div>
+      <div class="icon-item" data-name="lamp"><i class="ph ph-lamp"></i><span>lamp</span></div>
+      <div class="icon-item" data-name="lamp-pendant"><i class="ph ph-lamp-pendant"></i><span>lamp-pendant</span></div>
+      <div class="icon-item" data-name="laptop"><i class="ph ph-laptop"></i><span>laptop</span></div>
+      <div class="icon-item" data-name="lasso"><i class="ph ph-lasso"></i><span>lasso</span></div>
+      <div class="icon-item" data-name="lastfm-logo"><i class="ph ph-lastfm-logo"></i><span>lastfm-logo</span></div>
+      <div class="icon-item" data-name="layout"><i class="ph ph-layout"></i><span>layout</span></div>
+      <div class="icon-item" data-name="leaf"><i class="ph ph-leaf"></i><span>leaf</span></div>
+      <div class="icon-item" data-name="lectern"><i class="ph ph-lectern"></i><span>lectern</span></div>
+      <div class="icon-item" data-name="lego"><i class="ph ph-lego"></i><span>lego</span></div>
+      <div class="icon-item" data-name="lego-smiley"><i class="ph ph-lego-smiley"></i><span>lego-smiley</span></div>
+      <div class="icon-item" data-name="lemniscate"><i class="ph ph-lemniscate"></i><span>lemniscate</span></div>
+      <div class="icon-item" data-name="less-than"><i class="ph ph-less-than"></i><span>less-than</span></div>
+      <div class="icon-item" data-name="less-than-or-equal"><i class="ph ph-less-than-or-equal"></i><span>less-than-or-equal</span></div>
+      <div class="icon-item" data-name="letter-circle-h"><i class="ph ph-letter-circle-h"></i><span>letter-circle-h</span></div>
+      <div class="icon-item" data-name="letter-circle-p"><i class="ph ph-letter-circle-p"></i><span>letter-circle-p</span></div>
+      <div class="icon-item" data-name="letter-circle-v"><i class="ph ph-letter-circle-v"></i><span>letter-circle-v</span></div>
+      <div class="icon-item" data-name="lifebuoy"><i class="ph ph-lifebuoy"></i><span>lifebuoy</span></div>
+      <div class="icon-item" data-name="lightbulb"><i class="ph ph-lightbulb"></i><span>lightbulb</span></div>
+      <div class="icon-item" data-name="lightbulb-filament"><i class="ph ph-lightbulb-filament"></i><span>lightbulb-filament</span></div>
+      <div class="icon-item" data-name="lighthouse"><i class="ph ph-lighthouse"></i><span>lighthouse</span></div>
+      <div class="icon-item" data-name="lightning"><i class="ph ph-lightning"></i><span>lightning</span></div>
+      <div class="icon-item" data-name="lightning-a"><i class="ph ph-lightning-a"></i><span>lightning-a</span></div>
+      <div class="icon-item" data-name="lightning-slash"><i class="ph ph-lightning-slash"></i><span>lightning-slash</span></div>
+      <div class="icon-item" data-name="line-segment"><i class="ph ph-line-segment"></i><span>line-segment</span></div>
+      <div class="icon-item" data-name="line-segments"><i class="ph ph-line-segments"></i><span>line-segments</span></div>
+      <div class="icon-item" data-name="line-vertical"><i class="ph ph-line-vertical"></i><span>line-vertical</span></div>
+      <div class="icon-item" data-name="link"><i class="ph ph-link"></i><span>link</span></div>
+      <div class="icon-item" data-name="link-break"><i class="ph ph-link-break"></i><span>link-break</span></div>
+      <div class="icon-item" data-name="link-simple"><i class="ph ph-link-simple"></i><span>link-simple</span></div>
+      <div class="icon-item" data-name="link-simple-break"><i class="ph ph-link-simple-break"></i><span>link-simple-break</span></div>
+      <div class="icon-item" data-name="link-simple-horizontal"><i class="ph ph-link-simple-horizontal"></i><span>link-simple-horizontal</span></div>
+      <div class="icon-item" data-name="link-simple-horizontal-break"><i class="ph ph-link-simple-horizontal-break"></i><span>link-simple-horizontal-break</span></div>
+      <div class="icon-item" data-name="linkedin-logo"><i class="ph ph-linkedin-logo"></i><span>linkedin-logo</span></div>
+      <div class="icon-item" data-name="linktree-logo"><i class="ph ph-linktree-logo"></i><span>linktree-logo</span></div>
+      <div class="icon-item" data-name="linux-logo"><i class="ph ph-linux-logo"></i><span>linux-logo</span></div>
+      <div class="icon-item" data-name="list"><i class="ph ph-list"></i><span>list</span></div>
+      <div class="icon-item" data-name="list-bullets"><i class="ph ph-list-bullets"></i><span>list-bullets</span></div>
+      <div class="icon-item" data-name="list-checks"><i class="ph ph-list-checks"></i><span>list-checks</span></div>
+      <div class="icon-item" data-name="list-dashes"><i class="ph ph-list-dashes"></i><span>list-dashes</span></div>
+      <div class="icon-item" data-name="list-heart"><i class="ph ph-list-heart"></i><span>list-heart</span></div>
+      <div class="icon-item" data-name="list-magnifying-glass"><i class="ph ph-list-magnifying-glass"></i><span>list-magnifying-glass</span></div>
+      <div class="icon-item" data-name="list-numbers"><i class="ph ph-list-numbers"></i><span>list-numbers</span></div>
+      <div class="icon-item" data-name="list-plus"><i class="ph ph-list-plus"></i><span>list-plus</span></div>
+      <div class="icon-item" data-name="list-star"><i class="ph ph-list-star"></i><span>list-star</span></div>
+      <div class="icon-item" data-name="lock"><i class="ph ph-lock"></i><span>lock</span></div>
+      <div class="icon-item" data-name="lock-key"><i class="ph ph-lock-key"></i><span>lock-key</span></div>
+      <div class="icon-item" data-name="lock-key-open"><i class="ph ph-lock-key-open"></i><span>lock-key-open</span></div>
+      <div class="icon-item" data-name="lock-laminated"><i class="ph ph-lock-laminated"></i><span>lock-laminated</span></div>
+      <div class="icon-item" data-name="lock-laminated-open"><i class="ph ph-lock-laminated-open"></i><span>lock-laminated-open</span></div>
+      <div class="icon-item" data-name="lock-open"><i class="ph ph-lock-open"></i><span>lock-open</span></div>
+      <div class="icon-item" data-name="lock-simple"><i class="ph ph-lock-simple"></i><span>lock-simple</span></div>
+      <div class="icon-item" data-name="lock-simple-open"><i class="ph ph-lock-simple-open"></i><span>lock-simple-open</span></div>
+      <div class="icon-item" data-name="lockers"><i class="ph ph-lockers"></i><span>lockers</span></div>
+      <div class="icon-item" data-name="log"><i class="ph ph-log"></i><span>log</span></div>
+      <div class="icon-item" data-name="magic-wand"><i class="ph ph-magic-wand"></i><span>magic-wand</span></div>
+      <div class="icon-item" data-name="magnet"><i class="ph ph-magnet"></i><span>magnet</span></div>
+      <div class="icon-item" data-name="magnet-straight"><i class="ph ph-magnet-straight"></i><span>magnet-straight</span></div>
+      <div class="icon-item" data-name="magnifying-glass"><i class="ph ph-magnifying-glass"></i><span>magnifying-glass</span></div>
+      <div class="icon-item" data-name="magnifying-glass-minus"><i class="ph ph-magnifying-glass-minus"></i><span>magnifying-glass-minus</span></div>
+      <div class="icon-item" data-name="magnifying-glass-plus"><i class="ph ph-magnifying-glass-plus"></i><span>magnifying-glass-plus</span></div>
+      <div class="icon-item" data-name="mailbox"><i class="ph ph-mailbox"></i><span>mailbox</span></div>
+      <div class="icon-item" data-name="map-pin"><i class="ph ph-map-pin"></i><span>map-pin</span></div>
+      <div class="icon-item" data-name="map-pin-area"><i class="ph ph-map-pin-area"></i><span>map-pin-area</span></div>
+      <div class="icon-item" data-name="map-pin-line"><i class="ph ph-map-pin-line"></i><span>map-pin-line</span></div>
+      <div class="icon-item" data-name="map-pin-plus"><i class="ph ph-map-pin-plus"></i><span>map-pin-plus</span></div>
+      <div class="icon-item" data-name="map-pin-simple"><i class="ph ph-map-pin-simple"></i><span>map-pin-simple</span></div>
+      <div class="icon-item" data-name="map-pin-simple-area"><i class="ph ph-map-pin-simple-area"></i><span>map-pin-simple-area</span></div>
+      <div class="icon-item" data-name="map-pin-simple-line"><i class="ph ph-map-pin-simple-line"></i><span>map-pin-simple-line</span></div>
+      <div class="icon-item" data-name="map-trifold"><i class="ph ph-map-trifold"></i><span>map-trifold</span></div>
+      <div class="icon-item" data-name="markdown-logo"><i class="ph ph-markdown-logo"></i><span>markdown-logo</span></div>
+      <div class="icon-item" data-name="marker-circle"><i class="ph ph-marker-circle"></i><span>marker-circle</span></div>
+      <div class="icon-item" data-name="martini"><i class="ph ph-martini"></i><span>martini</span></div>
+      <div class="icon-item" data-name="mask-happy"><i class="ph ph-mask-happy"></i><span>mask-happy</span></div>
+      <div class="icon-item" data-name="mask-sad"><i class="ph ph-mask-sad"></i><span>mask-sad</span></div>
+      <div class="icon-item" data-name="mastodon-logo"><i class="ph ph-mastodon-logo"></i><span>mastodon-logo</span></div>
+      <div class="icon-item" data-name="math-operations"><i class="ph ph-math-operations"></i><span>math-operations</span></div>
+      <div class="icon-item" data-name="matrix-logo"><i class="ph ph-matrix-logo"></i><span>matrix-logo</span></div>
+      <div class="icon-item" data-name="medal"><i class="ph ph-medal"></i><span>medal</span></div>
+      <div class="icon-item" data-name="medal-military"><i class="ph ph-medal-military"></i><span>medal-military</span></div>
+      <div class="icon-item" data-name="medium-logo"><i class="ph ph-medium-logo"></i><span>medium-logo</span></div>
+      <div class="icon-item" data-name="megaphone"><i class="ph ph-megaphone"></i><span>megaphone</span></div>
+      <div class="icon-item" data-name="megaphone-simple"><i class="ph ph-megaphone-simple"></i><span>megaphone-simple</span></div>
+      <div class="icon-item" data-name="member-of"><i class="ph ph-member-of"></i><span>member-of</span></div>
+      <div class="icon-item" data-name="memory"><i class="ph ph-memory"></i><span>memory</span></div>
+      <div class="icon-item" data-name="messenger-logo"><i class="ph ph-messenger-logo"></i><span>messenger-logo</span></div>
+      <div class="icon-item" data-name="meta-logo"><i class="ph ph-meta-logo"></i><span>meta-logo</span></div>
+      <div class="icon-item" data-name="meteor"><i class="ph ph-meteor"></i><span>meteor</span></div>
+      <div class="icon-item" data-name="metronome"><i class="ph ph-metronome"></i><span>metronome</span></div>
+      <div class="icon-item" data-name="microphone"><i class="ph ph-microphone"></i><span>microphone</span></div>
+      <div class="icon-item" data-name="microphone-slash"><i class="ph ph-microphone-slash"></i><span>microphone-slash</span></div>
+      <div class="icon-item" data-name="microphone-stage"><i class="ph ph-microphone-stage"></i><span>microphone-stage</span></div>
+      <div class="icon-item" data-name="microscope"><i class="ph ph-microscope"></i><span>microscope</span></div>
+      <div class="icon-item" data-name="microsoft-excel-logo"><i class="ph ph-microsoft-excel-logo"></i><span>microsoft-excel-logo</span></div>
+      <div class="icon-item" data-name="microsoft-outlook-logo"><i class="ph ph-microsoft-outlook-logo"></i><span>microsoft-outlook-logo</span></div>
+      <div class="icon-item" data-name="microsoft-powerpoint-logo"><i class="ph ph-microsoft-powerpoint-logo"></i><span>microsoft-powerpoint-logo</span></div>
+      <div class="icon-item" data-name="microsoft-teams-logo"><i class="ph ph-microsoft-teams-logo"></i><span>microsoft-teams-logo</span></div>
+      <div class="icon-item" data-name="microsoft-word-logo"><i class="ph ph-microsoft-word-logo"></i><span>microsoft-word-logo</span></div>
+      <div class="icon-item" data-name="minus"><i class="ph ph-minus"></i><span>minus</span></div>
+      <div class="icon-item" data-name="minus-circle"><i class="ph ph-minus-circle"></i><span>minus-circle</span></div>
+      <div class="icon-item" data-name="minus-square"><i class="ph ph-minus-square"></i><span>minus-square</span></div>
+      <div class="icon-item" data-name="money"><i class="ph ph-money"></i><span>money</span></div>
+      <div class="icon-item" data-name="money-wavy"><i class="ph ph-money-wavy"></i><span>money-wavy</span></div>
+      <div class="icon-item" data-name="monitor"><i class="ph ph-monitor"></i><span>monitor</span></div>
+      <div class="icon-item" data-name="monitor-arrow-up"><i class="ph ph-monitor-arrow-up"></i><span>monitor-arrow-up</span></div>
+      <div class="icon-item" data-name="monitor-play"><i class="ph ph-monitor-play"></i><span>monitor-play</span></div>
+      <div class="icon-item" data-name="moon"><i class="ph ph-moon"></i><span>moon</span></div>
+      <div class="icon-item" data-name="moon-stars"><i class="ph ph-moon-stars"></i><span>moon-stars</span></div>
+      <div class="icon-item" data-name="moped"><i class="ph ph-moped"></i><span>moped</span></div>
+      <div class="icon-item" data-name="moped-front"><i class="ph ph-moped-front"></i><span>moped-front</span></div>
+      <div class="icon-item" data-name="mosque"><i class="ph ph-mosque"></i><span>mosque</span></div>
+      <div class="icon-item" data-name="motorcycle"><i class="ph ph-motorcycle"></i><span>motorcycle</span></div>
+      <div class="icon-item" data-name="mountains"><i class="ph ph-mountains"></i><span>mountains</span></div>
+      <div class="icon-item" data-name="mouse"><i class="ph ph-mouse"></i><span>mouse</span></div>
+      <div class="icon-item" data-name="mouse-left-click"><i class="ph ph-mouse-left-click"></i><span>mouse-left-click</span></div>
+      <div class="icon-item" data-name="mouse-middle-click"><i class="ph ph-mouse-middle-click"></i><span>mouse-middle-click</span></div>
+      <div class="icon-item" data-name="mouse-right-click"><i class="ph ph-mouse-right-click"></i><span>mouse-right-click</span></div>
+      <div class="icon-item" data-name="mouse-scroll"><i class="ph ph-mouse-scroll"></i><span>mouse-scroll</span></div>
+      <div class="icon-item" data-name="mouse-simple"><i class="ph ph-mouse-simple"></i><span>mouse-simple</span></div>
+      <div class="icon-item" data-name="music-note"><i class="ph ph-music-note"></i><span>music-note</span></div>
+      <div class="icon-item" data-name="music-note-simple"><i class="ph ph-music-note-simple"></i><span>music-note-simple</span></div>
+      <div class="icon-item" data-name="music-notes"><i class="ph ph-music-notes"></i><span>music-notes</span></div>
+      <div class="icon-item" data-name="music-notes-minus"><i class="ph ph-music-notes-minus"></i><span>music-notes-minus</span></div>
+      <div class="icon-item" data-name="music-notes-plus"><i class="ph ph-music-notes-plus"></i><span>music-notes-plus</span></div>
+      <div class="icon-item" data-name="music-notes-simple"><i class="ph ph-music-notes-simple"></i><span>music-notes-simple</span></div>
+      <div class="icon-item" data-name="navigation-arrow"><i class="ph ph-navigation-arrow"></i><span>navigation-arrow</span></div>
+      <div class="icon-item" data-name="needle"><i class="ph ph-needle"></i><span>needle</span></div>
+      <div class="icon-item" data-name="network"><i class="ph ph-network"></i><span>network</span></div>
+      <div class="icon-item" data-name="network-slash"><i class="ph ph-network-slash"></i><span>network-slash</span></div>
+      <div class="icon-item" data-name="network-x"><i class="ph ph-network-x"></i><span>network-x</span></div>
+      <div class="icon-item" data-name="newspaper"><i class="ph ph-newspaper"></i><span>newspaper</span></div>
+      <div class="icon-item" data-name="newspaper-clipping"><i class="ph ph-newspaper-clipping"></i><span>newspaper-clipping</span></div>
+      <div class="icon-item" data-name="not-equals"><i class="ph ph-not-equals"></i><span>not-equals</span></div>
+      <div class="icon-item" data-name="not-member-of"><i class="ph ph-not-member-of"></i><span>not-member-of</span></div>
+      <div class="icon-item" data-name="not-subset-of"><i class="ph ph-not-subset-of"></i><span>not-subset-of</span></div>
+      <div class="icon-item" data-name="not-superset-of"><i class="ph ph-not-superset-of"></i><span>not-superset-of</span></div>
+      <div class="icon-item" data-name="notches"><i class="ph ph-notches"></i><span>notches</span></div>
+      <div class="icon-item" data-name="note"><i class="ph ph-note"></i><span>note</span></div>
+      <div class="icon-item" data-name="note-blank"><i class="ph ph-note-blank"></i><span>note-blank</span></div>
+      <div class="icon-item" data-name="note-pencil"><i class="ph ph-note-pencil"></i><span>note-pencil</span></div>
+      <div class="icon-item" data-name="notebook"><i class="ph ph-notebook"></i><span>notebook</span></div>
+      <div class="icon-item" data-name="notepad"><i class="ph ph-notepad"></i><span>notepad</span></div>
+      <div class="icon-item" data-name="notification"><i class="ph ph-notification"></i><span>notification</span></div>
+      <div class="icon-item" data-name="notion-logo"><i class="ph ph-notion-logo"></i><span>notion-logo</span></div>
+      <div class="icon-item" data-name="nuclear-plant"><i class="ph ph-nuclear-plant"></i><span>nuclear-plant</span></div>
+      <div class="icon-item" data-name="number-circle-eight"><i class="ph ph-number-circle-eight"></i><span>number-circle-eight</span></div>
+      <div class="icon-item" data-name="number-circle-five"><i class="ph ph-number-circle-five"></i><span>number-circle-five</span></div>
+      <div class="icon-item" data-name="number-circle-four"><i class="ph ph-number-circle-four"></i><span>number-circle-four</span></div>
+      <div class="icon-item" data-name="number-circle-nine"><i class="ph ph-number-circle-nine"></i><span>number-circle-nine</span></div>
+      <div class="icon-item" data-name="number-circle-one"><i class="ph ph-number-circle-one"></i><span>number-circle-one</span></div>
+      <div class="icon-item" data-name="number-circle-seven"><i class="ph ph-number-circle-seven"></i><span>number-circle-seven</span></div>
+      <div class="icon-item" data-name="number-circle-six"><i class="ph ph-number-circle-six"></i><span>number-circle-six</span></div>
+      <div class="icon-item" data-name="number-circle-three"><i class="ph ph-number-circle-three"></i><span>number-circle-three</span></div>
+      <div class="icon-item" data-name="number-circle-two"><i class="ph ph-number-circle-two"></i><span>number-circle-two</span></div>
+      <div class="icon-item" data-name="number-circle-zero"><i class="ph ph-number-circle-zero"></i><span>number-circle-zero</span></div>
+      <div class="icon-item" data-name="number-eight"><i class="ph ph-number-eight"></i><span>number-eight</span></div>
+      <div class="icon-item" data-name="number-five"><i class="ph ph-number-five"></i><span>number-five</span></div>
+      <div class="icon-item" data-name="number-four"><i class="ph ph-number-four"></i><span>number-four</span></div>
+      <div class="icon-item" data-name="number-nine"><i class="ph ph-number-nine"></i><span>number-nine</span></div>
+      <div class="icon-item" data-name="number-one"><i class="ph ph-number-one"></i><span>number-one</span></div>
+      <div class="icon-item" data-name="number-seven"><i class="ph ph-number-seven"></i><span>number-seven</span></div>
+      <div class="icon-item" data-name="number-six"><i class="ph ph-number-six"></i><span>number-six</span></div>
+      <div class="icon-item" data-name="number-square-eight"><i class="ph ph-number-square-eight"></i><span>number-square-eight</span></div>
+      <div class="icon-item" data-name="number-square-five"><i class="ph ph-number-square-five"></i><span>number-square-five</span></div>
+      <div class="icon-item" data-name="number-square-four"><i class="ph ph-number-square-four"></i><span>number-square-four</span></div>
+      <div class="icon-item" data-name="number-square-nine"><i class="ph ph-number-square-nine"></i><span>number-square-nine</span></div>
+      <div class="icon-item" data-name="number-square-one"><i class="ph ph-number-square-one"></i><span>number-square-one</span></div>
+      <div class="icon-item" data-name="number-square-seven"><i class="ph ph-number-square-seven"></i><span>number-square-seven</span></div>
+      <div class="icon-item" data-name="number-square-six"><i class="ph ph-number-square-six"></i><span>number-square-six</span></div>
+      <div class="icon-item" data-name="number-square-three"><i class="ph ph-number-square-three"></i><span>number-square-three</span></div>
+      <div class="icon-item" data-name="number-square-two"><i class="ph ph-number-square-two"></i><span>number-square-two</span></div>
+      <div class="icon-item" data-name="number-square-zero"><i class="ph ph-number-square-zero"></i><span>number-square-zero</span></div>
+      <div class="icon-item" data-name="number-three"><i class="ph ph-number-three"></i><span>number-three</span></div>
+      <div class="icon-item" data-name="number-two"><i class="ph ph-number-two"></i><span>number-two</span></div>
+      <div class="icon-item" data-name="number-zero"><i class="ph ph-number-zero"></i><span>number-zero</span></div>
+      <div class="icon-item" data-name="numpad"><i class="ph ph-numpad"></i><span>numpad</span></div>
+      <div class="icon-item" data-name="nut"><i class="ph ph-nut"></i><span>nut</span></div>
+      <div class="icon-item" data-name="ny-times-logo"><i class="ph ph-ny-times-logo"></i><span>ny-times-logo</span></div>
+      <div class="icon-item" data-name="octagon"><i class="ph ph-octagon"></i><span>octagon</span></div>
+      <div class="icon-item" data-name="office-chair"><i class="ph ph-office-chair"></i><span>office-chair</span></div>
+      <div class="icon-item" data-name="onigiri"><i class="ph ph-onigiri"></i><span>onigiri</span></div>
+      <div class="icon-item" data-name="open-ai-logo"><i class="ph ph-open-ai-logo"></i><span>open-ai-logo</span></div>
+      <div class="icon-item" data-name="option"><i class="ph ph-option"></i><span>option</span></div>
+      <div class="icon-item" data-name="orange"><i class="ph ph-orange"></i><span>orange</span></div>
+      <div class="icon-item" data-name="orange-slice"><i class="ph ph-orange-slice"></i><span>orange-slice</span></div>
+      <div class="icon-item" data-name="oven"><i class="ph ph-oven"></i><span>oven</span></div>
+      <div class="icon-item" data-name="package"><i class="ph ph-package"></i><span>package</span></div>
+      <div class="icon-item" data-name="paint-brush"><i class="ph ph-paint-brush"></i><span>paint-brush</span></div>
+      <div class="icon-item" data-name="paint-brush-broad"><i class="ph ph-paint-brush-broad"></i><span>paint-brush-broad</span></div>
+      <div class="icon-item" data-name="paint-brush-household"><i class="ph ph-paint-brush-household"></i><span>paint-brush-household</span></div>
+      <div class="icon-item" data-name="paint-bucket"><i class="ph ph-paint-bucket"></i><span>paint-bucket</span></div>
+      <div class="icon-item" data-name="paint-roller"><i class="ph ph-paint-roller"></i><span>paint-roller</span></div>
+      <div class="icon-item" data-name="palette"><i class="ph ph-palette"></i><span>palette</span></div>
+      <div class="icon-item" data-name="panorama"><i class="ph ph-panorama"></i><span>panorama</span></div>
+      <div class="icon-item" data-name="pants"><i class="ph ph-pants"></i><span>pants</span></div>
+      <div class="icon-item" data-name="paper-plane"><i class="ph ph-paper-plane"></i><span>paper-plane</span></div>
+      <div class="icon-item" data-name="paper-plane-right"><i class="ph ph-paper-plane-right"></i><span>paper-plane-right</span></div>
+      <div class="icon-item" data-name="paper-plane-tilt"><i class="ph ph-paper-plane-tilt"></i><span>paper-plane-tilt</span></div>
+      <div class="icon-item" data-name="paperclip"><i class="ph ph-paperclip"></i><span>paperclip</span></div>
+      <div class="icon-item" data-name="paperclip-horizontal"><i class="ph ph-paperclip-horizontal"></i><span>paperclip-horizontal</span></div>
+      <div class="icon-item" data-name="parachute"><i class="ph ph-parachute"></i><span>parachute</span></div>
+      <div class="icon-item" data-name="paragraph"><i class="ph ph-paragraph"></i><span>paragraph</span></div>
+      <div class="icon-item" data-name="parallelogram"><i class="ph ph-parallelogram"></i><span>parallelogram</span></div>
+      <div class="icon-item" data-name="park"><i class="ph ph-park"></i><span>park</span></div>
+      <div class="icon-item" data-name="password"><i class="ph ph-password"></i><span>password</span></div>
+      <div class="icon-item" data-name="path"><i class="ph ph-path"></i><span>path</span></div>
+      <div class="icon-item" data-name="patreon-logo"><i class="ph ph-patreon-logo"></i><span>patreon-logo</span></div>
+      <div class="icon-item" data-name="pause"><i class="ph ph-pause"></i><span>pause</span></div>
+      <div class="icon-item" data-name="pause-circle"><i class="ph ph-pause-circle"></i><span>pause-circle</span></div>
+      <div class="icon-item" data-name="paw-print"><i class="ph ph-paw-print"></i><span>paw-print</span></div>
+      <div class="icon-item" data-name="paypal-logo"><i class="ph ph-paypal-logo"></i><span>paypal-logo</span></div>
+      <div class="icon-item" data-name="peace"><i class="ph ph-peace"></i><span>peace</span></div>
+      <div class="icon-item" data-name="pen"><i class="ph ph-pen"></i><span>pen</span></div>
+      <div class="icon-item" data-name="pen-nib"><i class="ph ph-pen-nib"></i><span>pen-nib</span></div>
+      <div class="icon-item" data-name="pen-nib-straight"><i class="ph ph-pen-nib-straight"></i><span>pen-nib-straight</span></div>
+      <div class="icon-item" data-name="pencil"><i class="ph ph-pencil"></i><span>pencil</span></div>
+      <div class="icon-item" data-name="pencil-circle"><i class="ph ph-pencil-circle"></i><span>pencil-circle</span></div>
+      <div class="icon-item" data-name="pencil-line"><i class="ph ph-pencil-line"></i><span>pencil-line</span></div>
+      <div class="icon-item" data-name="pencil-ruler"><i class="ph ph-pencil-ruler"></i><span>pencil-ruler</span></div>
+      <div class="icon-item" data-name="pencil-simple"><i class="ph ph-pencil-simple"></i><span>pencil-simple</span></div>
+      <div class="icon-item" data-name="pencil-simple-line"><i class="ph ph-pencil-simple-line"></i><span>pencil-simple-line</span></div>
+      <div class="icon-item" data-name="pencil-simple-slash"><i class="ph ph-pencil-simple-slash"></i><span>pencil-simple-slash</span></div>
+      <div class="icon-item" data-name="pencil-slash"><i class="ph ph-pencil-slash"></i><span>pencil-slash</span></div>
+      <div class="icon-item" data-name="pentagon"><i class="ph ph-pentagon"></i><span>pentagon</span></div>
+      <div class="icon-item" data-name="pentagram"><i class="ph ph-pentagram"></i><span>pentagram</span></div>
+      <div class="icon-item" data-name="pepper"><i class="ph ph-pepper"></i><span>pepper</span></div>
+      <div class="icon-item" data-name="percent"><i class="ph ph-percent"></i><span>percent</span></div>
+      <div class="icon-item" data-name="person"><i class="ph ph-person"></i><span>person</span></div>
+      <div class="icon-item" data-name="person-arms-spread"><i class="ph ph-person-arms-spread"></i><span>person-arms-spread</span></div>
+      <div class="icon-item" data-name="person-simple"><i class="ph ph-person-simple"></i><span>person-simple</span></div>
+      <div class="icon-item" data-name="person-simple-bike"><i class="ph ph-person-simple-bike"></i><span>person-simple-bike</span></div>
+      <div class="icon-item" data-name="person-simple-circle"><i class="ph ph-person-simple-circle"></i><span>person-simple-circle</span></div>
+      <div class="icon-item" data-name="person-simple-hike"><i class="ph ph-person-simple-hike"></i><span>person-simple-hike</span></div>
+      <div class="icon-item" data-name="person-simple-run"><i class="ph ph-person-simple-run"></i><span>person-simple-run</span></div>
+      <div class="icon-item" data-name="person-simple-ski"><i class="ph ph-person-simple-ski"></i><span>person-simple-ski</span></div>
+      <div class="icon-item" data-name="person-simple-snowboard"><i class="ph ph-person-simple-snowboard"></i><span>person-simple-snowboard</span></div>
+      <div class="icon-item" data-name="person-simple-swim"><i class="ph ph-person-simple-swim"></i><span>person-simple-swim</span></div>
+      <div class="icon-item" data-name="person-simple-tai-chi"><i class="ph ph-person-simple-tai-chi"></i><span>person-simple-tai-chi</span></div>
+      <div class="icon-item" data-name="person-simple-throw"><i class="ph ph-person-simple-throw"></i><span>person-simple-throw</span></div>
+      <div class="icon-item" data-name="person-simple-walk"><i class="ph ph-person-simple-walk"></i><span>person-simple-walk</span></div>
+      <div class="icon-item" data-name="perspective"><i class="ph ph-perspective"></i><span>perspective</span></div>
+      <div class="icon-item" data-name="phone"><i class="ph ph-phone"></i><span>phone</span></div>
+      <div class="icon-item" data-name="phone-call"><i class="ph ph-phone-call"></i><span>phone-call</span></div>
+      <div class="icon-item" data-name="phone-disconnect"><i class="ph ph-phone-disconnect"></i><span>phone-disconnect</span></div>
+      <div class="icon-item" data-name="phone-incoming"><i class="ph ph-phone-incoming"></i><span>phone-incoming</span></div>
+      <div class="icon-item" data-name="phone-list"><i class="ph ph-phone-list"></i><span>phone-list</span></div>
+      <div class="icon-item" data-name="phone-outgoing"><i class="ph ph-phone-outgoing"></i><span>phone-outgoing</span></div>
+      <div class="icon-item" data-name="phone-pause"><i class="ph ph-phone-pause"></i><span>phone-pause</span></div>
+      <div class="icon-item" data-name="phone-plus"><i class="ph ph-phone-plus"></i><span>phone-plus</span></div>
+      <div class="icon-item" data-name="phone-slash"><i class="ph ph-phone-slash"></i><span>phone-slash</span></div>
+      <div class="icon-item" data-name="phone-transfer"><i class="ph ph-phone-transfer"></i><span>phone-transfer</span></div>
+      <div class="icon-item" data-name="phone-x"><i class="ph ph-phone-x"></i><span>phone-x</span></div>
+      <div class="icon-item" data-name="phosphor-logo"><i class="ph ph-phosphor-logo"></i><span>phosphor-logo</span></div>
+      <div class="icon-item" data-name="pi"><i class="ph ph-pi"></i><span>pi</span></div>
+      <div class="icon-item" data-name="piano-keys"><i class="ph ph-piano-keys"></i><span>piano-keys</span></div>
+      <div class="icon-item" data-name="picnic-table"><i class="ph ph-picnic-table"></i><span>picnic-table</span></div>
+      <div class="icon-item" data-name="picture-in-picture"><i class="ph ph-picture-in-picture"></i><span>picture-in-picture</span></div>
+      <div class="icon-item" data-name="piggy-bank"><i class="ph ph-piggy-bank"></i><span>piggy-bank</span></div>
+      <div class="icon-item" data-name="pill"><i class="ph ph-pill"></i><span>pill</span></div>
+      <div class="icon-item" data-name="ping-pong"><i class="ph ph-ping-pong"></i><span>ping-pong</span></div>
+      <div class="icon-item" data-name="pint-glass"><i class="ph ph-pint-glass"></i><span>pint-glass</span></div>
+      <div class="icon-item" data-name="pinterest-logo"><i class="ph ph-pinterest-logo"></i><span>pinterest-logo</span></div>
+      <div class="icon-item" data-name="pinwheel"><i class="ph ph-pinwheel"></i><span>pinwheel</span></div>
+      <div class="icon-item" data-name="pipe"><i class="ph ph-pipe"></i><span>pipe</span></div>
+      <div class="icon-item" data-name="pipe-wrench"><i class="ph ph-pipe-wrench"></i><span>pipe-wrench</span></div>
+      <div class="icon-item" data-name="pix-logo"><i class="ph ph-pix-logo"></i><span>pix-logo</span></div>
+      <div class="icon-item" data-name="pizza"><i class="ph ph-pizza"></i><span>pizza</span></div>
+      <div class="icon-item" data-name="placeholder"><i class="ph ph-placeholder"></i><span>placeholder</span></div>
+      <div class="icon-item" data-name="planet"><i class="ph ph-planet"></i><span>planet</span></div>
+      <div class="icon-item" data-name="plant"><i class="ph ph-plant"></i><span>plant</span></div>
+      <div class="icon-item" data-name="play"><i class="ph ph-play"></i><span>play</span></div>
+      <div class="icon-item" data-name="play-circle"><i class="ph ph-play-circle"></i><span>play-circle</span></div>
+      <div class="icon-item" data-name="play-pause"><i class="ph ph-play-pause"></i><span>play-pause</span></div>
+      <div class="icon-item" data-name="playlist"><i class="ph ph-playlist"></i><span>playlist</span></div>
+      <div class="icon-item" data-name="plug"><i class="ph ph-plug"></i><span>plug</span></div>
+      <div class="icon-item" data-name="plug-charging"><i class="ph ph-plug-charging"></i><span>plug-charging</span></div>
+      <div class="icon-item" data-name="plugs"><i class="ph ph-plugs"></i><span>plugs</span></div>
+      <div class="icon-item" data-name="plugs-connected"><i class="ph ph-plugs-connected"></i><span>plugs-connected</span></div>
+      <div class="icon-item" data-name="plus"><i class="ph ph-plus"></i><span>plus</span></div>
+      <div class="icon-item" data-name="plus-circle"><i class="ph ph-plus-circle"></i><span>plus-circle</span></div>
+      <div class="icon-item" data-name="plus-minus"><i class="ph ph-plus-minus"></i><span>plus-minus</span></div>
+      <div class="icon-item" data-name="plus-square"><i class="ph ph-plus-square"></i><span>plus-square</span></div>
+      <div class="icon-item" data-name="poker-chip"><i class="ph ph-poker-chip"></i><span>poker-chip</span></div>
+      <div class="icon-item" data-name="police-car"><i class="ph ph-police-car"></i><span>police-car</span></div>
+      <div class="icon-item" data-name="polygon"><i class="ph ph-polygon"></i><span>polygon</span></div>
+      <div class="icon-item" data-name="popcorn"><i class="ph ph-popcorn"></i><span>popcorn</span></div>
+      <div class="icon-item" data-name="popsicle"><i class="ph ph-popsicle"></i><span>popsicle</span></div>
+      <div class="icon-item" data-name="potted-plant"><i class="ph ph-potted-plant"></i><span>potted-plant</span></div>
+      <div class="icon-item" data-name="power"><i class="ph ph-power"></i><span>power</span></div>
+      <div class="icon-item" data-name="prescription"><i class="ph ph-prescription"></i><span>prescription</span></div>
+      <div class="icon-item" data-name="presentation"><i class="ph ph-presentation"></i><span>presentation</span></div>
+      <div class="icon-item" data-name="presentation-chart"><i class="ph ph-presentation-chart"></i><span>presentation-chart</span></div>
+      <div class="icon-item" data-name="printer"><i class="ph ph-printer"></i><span>printer</span></div>
+      <div class="icon-item" data-name="prohibit"><i class="ph ph-prohibit"></i><span>prohibit</span></div>
+      <div class="icon-item" data-name="prohibit-inset"><i class="ph ph-prohibit-inset"></i><span>prohibit-inset</span></div>
+      <div class="icon-item" data-name="projector-screen"><i class="ph ph-projector-screen"></i><span>projector-screen</span></div>
+      <div class="icon-item" data-name="projector-screen-chart"><i class="ph ph-projector-screen-chart"></i><span>projector-screen-chart</span></div>
+      <div class="icon-item" data-name="pulse"><i class="ph ph-pulse"></i><span>pulse</span></div>
+      <div class="icon-item" data-name="push-pin"><i class="ph ph-push-pin"></i><span>push-pin</span></div>
+      <div class="icon-item" data-name="push-pin-simple"><i class="ph ph-push-pin-simple"></i><span>push-pin-simple</span></div>
+      <div class="icon-item" data-name="push-pin-simple-slash"><i class="ph ph-push-pin-simple-slash"></i><span>push-pin-simple-slash</span></div>
+      <div class="icon-item" data-name="push-pin-slash"><i class="ph ph-push-pin-slash"></i><span>push-pin-slash</span></div>
+      <div class="icon-item" data-name="puzzle-piece"><i class="ph ph-puzzle-piece"></i><span>puzzle-piece</span></div>
+      <div class="icon-item" data-name="qr-code"><i class="ph ph-qr-code"></i><span>qr-code</span></div>
+      <div class="icon-item" data-name="question"><i class="ph ph-question"></i><span>question</span></div>
+      <div class="icon-item" data-name="question-mark"><i class="ph ph-question-mark"></i><span>question-mark</span></div>
+      <div class="icon-item" data-name="queue"><i class="ph ph-queue"></i><span>queue</span></div>
+      <div class="icon-item" data-name="quotes"><i class="ph ph-quotes"></i><span>quotes</span></div>
+      <div class="icon-item" data-name="rabbit"><i class="ph ph-rabbit"></i><span>rabbit</span></div>
+      <div class="icon-item" data-name="racquet"><i class="ph ph-racquet"></i><span>racquet</span></div>
+      <div class="icon-item" data-name="radical"><i class="ph ph-radical"></i><span>radical</span></div>
+      <div class="icon-item" data-name="radio"><i class="ph ph-radio"></i><span>radio</span></div>
+      <div class="icon-item" data-name="radio-button"><i class="ph ph-radio-button"></i><span>radio-button</span></div>
+      <div class="icon-item" data-name="radioactive"><i class="ph ph-radioactive"></i><span>radioactive</span></div>
+      <div class="icon-item" data-name="rainbow"><i class="ph ph-rainbow"></i><span>rainbow</span></div>
+      <div class="icon-item" data-name="rainbow-cloud"><i class="ph ph-rainbow-cloud"></i><span>rainbow-cloud</span></div>
+      <div class="icon-item" data-name="ranking"><i class="ph ph-ranking"></i><span>ranking</span></div>
+      <div class="icon-item" data-name="read-cv-logo"><i class="ph ph-read-cv-logo"></i><span>read-cv-logo</span></div>
+      <div class="icon-item" data-name="receipt"><i class="ph ph-receipt"></i><span>receipt</span></div>
+      <div class="icon-item" data-name="receipt-x"><i class="ph ph-receipt-x"></i><span>receipt-x</span></div>
+      <div class="icon-item" data-name="record"><i class="ph ph-record"></i><span>record</span></div>
+      <div class="icon-item" data-name="rectangle"><i class="ph ph-rectangle"></i><span>rectangle</span></div>
+      <div class="icon-item" data-name="rectangle-dashed"><i class="ph ph-rectangle-dashed"></i><span>rectangle-dashed</span></div>
+      <div class="icon-item" data-name="recycle"><i class="ph ph-recycle"></i><span>recycle</span></div>
+      <div class="icon-item" data-name="reddit-logo"><i class="ph ph-reddit-logo"></i><span>reddit-logo</span></div>
+      <div class="icon-item" data-name="repeat"><i class="ph ph-repeat"></i><span>repeat</span></div>
+      <div class="icon-item" data-name="repeat-once"><i class="ph ph-repeat-once"></i><span>repeat-once</span></div>
+      <div class="icon-item" data-name="replit-logo"><i class="ph ph-replit-logo"></i><span>replit-logo</span></div>
+      <div class="icon-item" data-name="resize"><i class="ph ph-resize"></i><span>resize</span></div>
+      <div class="icon-item" data-name="rewind"><i class="ph ph-rewind"></i><span>rewind</span></div>
+      <div class="icon-item" data-name="rewind-circle"><i class="ph ph-rewind-circle"></i><span>rewind-circle</span></div>
+      <div class="icon-item" data-name="road-horizon"><i class="ph ph-road-horizon"></i><span>road-horizon</span></div>
+      <div class="icon-item" data-name="robot"><i class="ph ph-robot"></i><span>robot</span></div>
+      <div class="icon-item" data-name="rocket"><i class="ph ph-rocket"></i><span>rocket</span></div>
+      <div class="icon-item" data-name="rocket-launch"><i class="ph ph-rocket-launch"></i><span>rocket-launch</span></div>
+      <div class="icon-item" data-name="rows"><i class="ph ph-rows"></i><span>rows</span></div>
+      <div class="icon-item" data-name="rows-plus-bottom"><i class="ph ph-rows-plus-bottom"></i><span>rows-plus-bottom</span></div>
+      <div class="icon-item" data-name="rows-plus-top"><i class="ph ph-rows-plus-top"></i><span>rows-plus-top</span></div>
+      <div class="icon-item" data-name="rss"><i class="ph ph-rss"></i><span>rss</span></div>
+      <div class="icon-item" data-name="rss-simple"><i class="ph ph-rss-simple"></i><span>rss-simple</span></div>
+      <div class="icon-item" data-name="rug"><i class="ph ph-rug"></i><span>rug</span></div>
+      <div class="icon-item" data-name="ruler"><i class="ph ph-ruler"></i><span>ruler</span></div>
+      <div class="icon-item" data-name="sailboat"><i class="ph ph-sailboat"></i><span>sailboat</span></div>
+      <div class="icon-item" data-name="scales"><i class="ph ph-scales"></i><span>scales</span></div>
+      <div class="icon-item" data-name="scan"><i class="ph ph-scan"></i><span>scan</span></div>
+      <div class="icon-item" data-name="scan-smiley"><i class="ph ph-scan-smiley"></i><span>scan-smiley</span></div>
+      <div class="icon-item" data-name="scissors"><i class="ph ph-scissors"></i><span>scissors</span></div>
+      <div class="icon-item" data-name="scooter"><i class="ph ph-scooter"></i><span>scooter</span></div>
+      <div class="icon-item" data-name="screencast"><i class="ph ph-screencast"></i><span>screencast</span></div>
+      <div class="icon-item" data-name="screwdriver"><i class="ph ph-screwdriver"></i><span>screwdriver</span></div>
+      <div class="icon-item" data-name="scribble"><i class="ph ph-scribble"></i><span>scribble</span></div>
+      <div class="icon-item" data-name="scribble-loop"><i class="ph ph-scribble-loop"></i><span>scribble-loop</span></div>
+      <div class="icon-item" data-name="scroll"><i class="ph ph-scroll"></i><span>scroll</span></div>
+      <div class="icon-item" data-name="seal"><i class="ph ph-seal"></i><span>seal</span></div>
+      <div class="icon-item" data-name="seal-check"><i class="ph ph-seal-check"></i><span>seal-check</span></div>
+      <div class="icon-item" data-name="seal-percent"><i class="ph ph-seal-percent"></i><span>seal-percent</span></div>
+      <div class="icon-item" data-name="seal-question"><i class="ph ph-seal-question"></i><span>seal-question</span></div>
+      <div class="icon-item" data-name="seal-warning"><i class="ph ph-seal-warning"></i><span>seal-warning</span></div>
+      <div class="icon-item" data-name="seat"><i class="ph ph-seat"></i><span>seat</span></div>
+      <div class="icon-item" data-name="seatbelt"><i class="ph ph-seatbelt"></i><span>seatbelt</span></div>
+      <div class="icon-item" data-name="security-camera"><i class="ph ph-security-camera"></i><span>security-camera</span></div>
+      <div class="icon-item" data-name="selection"><i class="ph ph-selection"></i><span>selection</span></div>
+      <div class="icon-item" data-name="selection-all"><i class="ph ph-selection-all"></i><span>selection-all</span></div>
+      <div class="icon-item" data-name="selection-background"><i class="ph ph-selection-background"></i><span>selection-background</span></div>
+      <div class="icon-item" data-name="selection-foreground"><i class="ph ph-selection-foreground"></i><span>selection-foreground</span></div>
+      <div class="icon-item" data-name="selection-inverse"><i class="ph ph-selection-inverse"></i><span>selection-inverse</span></div>
+      <div class="icon-item" data-name="selection-plus"><i class="ph ph-selection-plus"></i><span>selection-plus</span></div>
+      <div class="icon-item" data-name="selection-slash"><i class="ph ph-selection-slash"></i><span>selection-slash</span></div>
+      <div class="icon-item" data-name="shapes"><i class="ph ph-shapes"></i><span>shapes</span></div>
+      <div class="icon-item" data-name="share"><i class="ph ph-share"></i><span>share</span></div>
+      <div class="icon-item" data-name="share-fat"><i class="ph ph-share-fat"></i><span>share-fat</span></div>
+      <div class="icon-item" data-name="share-network"><i class="ph ph-share-network"></i><span>share-network</span></div>
+      <div class="icon-item" data-name="shield"><i class="ph ph-shield"></i><span>shield</span></div>
+      <div class="icon-item" data-name="shield-check"><i class="ph ph-shield-check"></i><span>shield-check</span></div>
+      <div class="icon-item" data-name="shield-checkered"><i class="ph ph-shield-checkered"></i><span>shield-checkered</span></div>
+      <div class="icon-item" data-name="shield-chevron"><i class="ph ph-shield-chevron"></i><span>shield-chevron</span></div>
+      <div class="icon-item" data-name="shield-plus"><i class="ph ph-shield-plus"></i><span>shield-plus</span></div>
+      <div class="icon-item" data-name="shield-slash"><i class="ph ph-shield-slash"></i><span>shield-slash</span></div>
+      <div class="icon-item" data-name="shield-star"><i class="ph ph-shield-star"></i><span>shield-star</span></div>
+      <div class="icon-item" data-name="shield-warning"><i class="ph ph-shield-warning"></i><span>shield-warning</span></div>
+      <div class="icon-item" data-name="shipping-container"><i class="ph ph-shipping-container"></i><span>shipping-container</span></div>
+      <div class="icon-item" data-name="shirt-folded"><i class="ph ph-shirt-folded"></i><span>shirt-folded</span></div>
+      <div class="icon-item" data-name="shooting-star"><i class="ph ph-shooting-star"></i><span>shooting-star</span></div>
+      <div class="icon-item" data-name="shopping-bag"><i class="ph ph-shopping-bag"></i><span>shopping-bag</span></div>
+      <div class="icon-item" data-name="shopping-bag-open"><i class="ph ph-shopping-bag-open"></i><span>shopping-bag-open</span></div>
+      <div class="icon-item" data-name="shopping-cart"><i class="ph ph-shopping-cart"></i><span>shopping-cart</span></div>
+      <div class="icon-item" data-name="shopping-cart-simple"><i class="ph ph-shopping-cart-simple"></i><span>shopping-cart-simple</span></div>
+      <div class="icon-item" data-name="shovel"><i class="ph ph-shovel"></i><span>shovel</span></div>
+      <div class="icon-item" data-name="shower"><i class="ph ph-shower"></i><span>shower</span></div>
+      <div class="icon-item" data-name="shrimp"><i class="ph ph-shrimp"></i><span>shrimp</span></div>
+      <div class="icon-item" data-name="shuffle"><i class="ph ph-shuffle"></i><span>shuffle</span></div>
+      <div class="icon-item" data-name="shuffle-angular"><i class="ph ph-shuffle-angular"></i><span>shuffle-angular</span></div>
+      <div class="icon-item" data-name="shuffle-simple"><i class="ph ph-shuffle-simple"></i><span>shuffle-simple</span></div>
+      <div class="icon-item" data-name="sidebar"><i class="ph ph-sidebar"></i><span>sidebar</span></div>
+      <div class="icon-item" data-name="sidebar-simple"><i class="ph ph-sidebar-simple"></i><span>sidebar-simple</span></div>
+      <div class="icon-item" data-name="sigma"><i class="ph ph-sigma"></i><span>sigma</span></div>
+      <div class="icon-item" data-name="sign-in"><i class="ph ph-sign-in"></i><span>sign-in</span></div>
+      <div class="icon-item" data-name="sign-out"><i class="ph ph-sign-out"></i><span>sign-out</span></div>
+      <div class="icon-item" data-name="signature"><i class="ph ph-signature"></i><span>signature</span></div>
+      <div class="icon-item" data-name="signpost"><i class="ph ph-signpost"></i><span>signpost</span></div>
+      <div class="icon-item" data-name="sim-card"><i class="ph ph-sim-card"></i><span>sim-card</span></div>
+      <div class="icon-item" data-name="siren"><i class="ph ph-siren"></i><span>siren</span></div>
+      <div class="icon-item" data-name="sketch-logo"><i class="ph ph-sketch-logo"></i><span>sketch-logo</span></div>
+      <div class="icon-item" data-name="skip-back"><i class="ph ph-skip-back"></i><span>skip-back</span></div>
+      <div class="icon-item" data-name="skip-back-circle"><i class="ph ph-skip-back-circle"></i><span>skip-back-circle</span></div>
+      <div class="icon-item" data-name="skip-forward"><i class="ph ph-skip-forward"></i><span>skip-forward</span></div>
+      <div class="icon-item" data-name="skip-forward-circle"><i class="ph ph-skip-forward-circle"></i><span>skip-forward-circle</span></div>
+      <div class="icon-item" data-name="skull"><i class="ph ph-skull"></i><span>skull</span></div>
+      <div class="icon-item" data-name="skype-logo"><i class="ph ph-skype-logo"></i><span>skype-logo</span></div>
+      <div class="icon-item" data-name="slack-logo"><i class="ph ph-slack-logo"></i><span>slack-logo</span></div>
+      <div class="icon-item" data-name="sliders"><i class="ph ph-sliders"></i><span>sliders</span></div>
+      <div class="icon-item" data-name="sliders-horizontal"><i class="ph ph-sliders-horizontal"></i><span>sliders-horizontal</span></div>
+      <div class="icon-item" data-name="slideshow"><i class="ph ph-slideshow"></i><span>slideshow</span></div>
+      <div class="icon-item" data-name="smiley"><i class="ph ph-smiley"></i><span>smiley</span></div>
+      <div class="icon-item" data-name="smiley-angry"><i class="ph ph-smiley-angry"></i><span>smiley-angry</span></div>
+      <div class="icon-item" data-name="smiley-blank"><i class="ph ph-smiley-blank"></i><span>smiley-blank</span></div>
+      <div class="icon-item" data-name="smiley-meh"><i class="ph ph-smiley-meh"></i><span>smiley-meh</span></div>
+      <div class="icon-item" data-name="smiley-melting"><i class="ph ph-smiley-melting"></i><span>smiley-melting</span></div>
+      <div class="icon-item" data-name="smiley-nervous"><i class="ph ph-smiley-nervous"></i><span>smiley-nervous</span></div>
+      <div class="icon-item" data-name="smiley-sad"><i class="ph ph-smiley-sad"></i><span>smiley-sad</span></div>
+      <div class="icon-item" data-name="smiley-sticker"><i class="ph ph-smiley-sticker"></i><span>smiley-sticker</span></div>
+      <div class="icon-item" data-name="smiley-wink"><i class="ph ph-smiley-wink"></i><span>smiley-wink</span></div>
+      <div class="icon-item" data-name="smiley-x-eyes"><i class="ph ph-smiley-x-eyes"></i><span>smiley-x-eyes</span></div>
+      <div class="icon-item" data-name="snapchat-logo"><i class="ph ph-snapchat-logo"></i><span>snapchat-logo</span></div>
+      <div class="icon-item" data-name="sneaker"><i class="ph ph-sneaker"></i><span>sneaker</span></div>
+      <div class="icon-item" data-name="sneaker-move"><i class="ph ph-sneaker-move"></i><span>sneaker-move</span></div>
+      <div class="icon-item" data-name="snowflake"><i class="ph ph-snowflake"></i><span>snowflake</span></div>
+      <div class="icon-item" data-name="soccer-ball"><i class="ph ph-soccer-ball"></i><span>soccer-ball</span></div>
+      <div class="icon-item" data-name="sock"><i class="ph ph-sock"></i><span>sock</span></div>
+      <div class="icon-item" data-name="solar-panel"><i class="ph ph-solar-panel"></i><span>solar-panel</span></div>
+      <div class="icon-item" data-name="solar-roof"><i class="ph ph-solar-roof"></i><span>solar-roof</span></div>
+      <div class="icon-item" data-name="sort-ascending"><i class="ph ph-sort-ascending"></i><span>sort-ascending</span></div>
+      <div class="icon-item" data-name="sort-descending"><i class="ph ph-sort-descending"></i><span>sort-descending</span></div>
+      <div class="icon-item" data-name="soundcloud-logo"><i class="ph ph-soundcloud-logo"></i><span>soundcloud-logo</span></div>
+      <div class="icon-item" data-name="spade"><i class="ph ph-spade"></i><span>spade</span></div>
+      <div class="icon-item" data-name="sparkle"><i class="ph ph-sparkle"></i><span>sparkle</span></div>
+      <div class="icon-item" data-name="speaker-hifi"><i class="ph ph-speaker-hifi"></i><span>speaker-hifi</span></div>
+      <div class="icon-item" data-name="speaker-high"><i class="ph ph-speaker-high"></i><span>speaker-high</span></div>
+      <div class="icon-item" data-name="speaker-low"><i class="ph ph-speaker-low"></i><span>speaker-low</span></div>
+      <div class="icon-item" data-name="speaker-none"><i class="ph ph-speaker-none"></i><span>speaker-none</span></div>
+      <div class="icon-item" data-name="speaker-simple-high"><i class="ph ph-speaker-simple-high"></i><span>speaker-simple-high</span></div>
+      <div class="icon-item" data-name="speaker-simple-low"><i class="ph ph-speaker-simple-low"></i><span>speaker-simple-low</span></div>
+      <div class="icon-item" data-name="speaker-simple-none"><i class="ph ph-speaker-simple-none"></i><span>speaker-simple-none</span></div>
+      <div class="icon-item" data-name="speaker-simple-slash"><i class="ph ph-speaker-simple-slash"></i><span>speaker-simple-slash</span></div>
+      <div class="icon-item" data-name="speaker-simple-x"><i class="ph ph-speaker-simple-x"></i><span>speaker-simple-x</span></div>
+      <div class="icon-item" data-name="speaker-slash"><i class="ph ph-speaker-slash"></i><span>speaker-slash</span></div>
+      <div class="icon-item" data-name="speaker-x"><i class="ph ph-speaker-x"></i><span>speaker-x</span></div>
+      <div class="icon-item" data-name="speedometer"><i class="ph ph-speedometer"></i><span>speedometer</span></div>
+      <div class="icon-item" data-name="sphere"><i class="ph ph-sphere"></i><span>sphere</span></div>
+      <div class="icon-item" data-name="spinner"><i class="ph ph-spinner"></i><span>spinner</span></div>
+      <div class="icon-item" data-name="spinner-ball"><i class="ph ph-spinner-ball"></i><span>spinner-ball</span></div>
+      <div class="icon-item" data-name="spinner-gap"><i class="ph ph-spinner-gap"></i><span>spinner-gap</span></div>
+      <div class="icon-item" data-name="spiral"><i class="ph ph-spiral"></i><span>spiral</span></div>
+      <div class="icon-item" data-name="split-horizontal"><i class="ph ph-split-horizontal"></i><span>split-horizontal</span></div>
+      <div class="icon-item" data-name="split-vertical"><i class="ph ph-split-vertical"></i><span>split-vertical</span></div>
+      <div class="icon-item" data-name="spotify-logo"><i class="ph ph-spotify-logo"></i><span>spotify-logo</span></div>
+      <div class="icon-item" data-name="spray-bottle"><i class="ph ph-spray-bottle"></i><span>spray-bottle</span></div>
+      <div class="icon-item" data-name="square"><i class="ph ph-square"></i><span>square</span></div>
+      <div class="icon-item" data-name="square-half"><i class="ph ph-square-half"></i><span>square-half</span></div>
+      <div class="icon-item" data-name="square-half-bottom"><i class="ph ph-square-half-bottom"></i><span>square-half-bottom</span></div>
+      <div class="icon-item" data-name="square-logo"><i class="ph ph-square-logo"></i><span>square-logo</span></div>
+      <div class="icon-item" data-name="square-split-horizontal"><i class="ph ph-square-split-horizontal"></i><span>square-split-horizontal</span></div>
+      <div class="icon-item" data-name="square-split-vertical"><i class="ph ph-square-split-vertical"></i><span>square-split-vertical</span></div>
+      <div class="icon-item" data-name="squares-four"><i class="ph ph-squares-four"></i><span>squares-four</span></div>
+      <div class="icon-item" data-name="stack"><i class="ph ph-stack"></i><span>stack</span></div>
+      <div class="icon-item" data-name="stack-minus"><i class="ph ph-stack-minus"></i><span>stack-minus</span></div>
+      <div class="icon-item" data-name="stack-overflow-logo"><i class="ph ph-stack-overflow-logo"></i><span>stack-overflow-logo</span></div>
+      <div class="icon-item" data-name="stack-plus"><i class="ph ph-stack-plus"></i><span>stack-plus</span></div>
+      <div class="icon-item" data-name="stack-simple"><i class="ph ph-stack-simple"></i><span>stack-simple</span></div>
+      <div class="icon-item" data-name="stairs"><i class="ph ph-stairs"></i><span>stairs</span></div>
+      <div class="icon-item" data-name="stamp"><i class="ph ph-stamp"></i><span>stamp</span></div>
+      <div class="icon-item" data-name="standard-definition"><i class="ph ph-standard-definition"></i><span>standard-definition</span></div>
+      <div class="icon-item" data-name="star"><i class="ph ph-star"></i><span>star</span></div>
+      <div class="icon-item" data-name="star-and-crescent"><i class="ph ph-star-and-crescent"></i><span>star-and-crescent</span></div>
+      <div class="icon-item" data-name="star-four"><i class="ph ph-star-four"></i><span>star-four</span></div>
+      <div class="icon-item" data-name="star-half"><i class="ph ph-star-half"></i><span>star-half</span></div>
+      <div class="icon-item" data-name="star-of-david"><i class="ph ph-star-of-david"></i><span>star-of-david</span></div>
+      <div class="icon-item" data-name="steam-logo"><i class="ph ph-steam-logo"></i><span>steam-logo</span></div>
+      <div class="icon-item" data-name="steering-wheel"><i class="ph ph-steering-wheel"></i><span>steering-wheel</span></div>
+      <div class="icon-item" data-name="steps"><i class="ph ph-steps"></i><span>steps</span></div>
+      <div class="icon-item" data-name="stethoscope"><i class="ph ph-stethoscope"></i><span>stethoscope</span></div>
+      <div class="icon-item" data-name="sticker"><i class="ph ph-sticker"></i><span>sticker</span></div>
+      <div class="icon-item" data-name="stool"><i class="ph ph-stool"></i><span>stool</span></div>
+      <div class="icon-item" data-name="stop"><i class="ph ph-stop"></i><span>stop</span></div>
+      <div class="icon-item" data-name="stop-circle"><i class="ph ph-stop-circle"></i><span>stop-circle</span></div>
+      <div class="icon-item" data-name="storefront"><i class="ph ph-storefront"></i><span>storefront</span></div>
+      <div class="icon-item" data-name="strategy"><i class="ph ph-strategy"></i><span>strategy</span></div>
+      <div class="icon-item" data-name="stripe-logo"><i class="ph ph-stripe-logo"></i><span>stripe-logo</span></div>
+      <div class="icon-item" data-name="student"><i class="ph ph-student"></i><span>student</span></div>
+      <div class="icon-item" data-name="subset-of"><i class="ph ph-subset-of"></i><span>subset-of</span></div>
+      <div class="icon-item" data-name="subset-proper-of"><i class="ph ph-subset-proper-of"></i><span>subset-proper-of</span></div>
+      <div class="icon-item" data-name="subtitles"><i class="ph ph-subtitles"></i><span>subtitles</span></div>
+      <div class="icon-item" data-name="subtitles-slash"><i class="ph ph-subtitles-slash"></i><span>subtitles-slash</span></div>
+      <div class="icon-item" data-name="subtract"><i class="ph ph-subtract"></i><span>subtract</span></div>
+      <div class="icon-item" data-name="subtract-square"><i class="ph ph-subtract-square"></i><span>subtract-square</span></div>
+      <div class="icon-item" data-name="subway"><i class="ph ph-subway"></i><span>subway</span></div>
+      <div class="icon-item" data-name="suitcase"><i class="ph ph-suitcase"></i><span>suitcase</span></div>
+      <div class="icon-item" data-name="suitcase-rolling"><i class="ph ph-suitcase-rolling"></i><span>suitcase-rolling</span></div>
+      <div class="icon-item" data-name="suitcase-simple"><i class="ph ph-suitcase-simple"></i><span>suitcase-simple</span></div>
+      <div class="icon-item" data-name="sun"><i class="ph ph-sun"></i><span>sun</span></div>
+      <div class="icon-item" data-name="sun-dim"><i class="ph ph-sun-dim"></i><span>sun-dim</span></div>
+      <div class="icon-item" data-name="sun-horizon"><i class="ph ph-sun-horizon"></i><span>sun-horizon</span></div>
+      <div class="icon-item" data-name="sunglasses"><i class="ph ph-sunglasses"></i><span>sunglasses</span></div>
+      <div class="icon-item" data-name="superset-of"><i class="ph ph-superset-of"></i><span>superset-of</span></div>
+      <div class="icon-item" data-name="superset-proper-of"><i class="ph ph-superset-proper-of"></i><span>superset-proper-of</span></div>
+      <div class="icon-item" data-name="swap"><i class="ph ph-swap"></i><span>swap</span></div>
+      <div class="icon-item" data-name="swatches"><i class="ph ph-swatches"></i><span>swatches</span></div>
+      <div class="icon-item" data-name="swimming-pool"><i class="ph ph-swimming-pool"></i><span>swimming-pool</span></div>
+      <div class="icon-item" data-name="sword"><i class="ph ph-sword"></i><span>sword</span></div>
+      <div class="icon-item" data-name="synagogue"><i class="ph ph-synagogue"></i><span>synagogue</span></div>
+      <div class="icon-item" data-name="syringe"><i class="ph ph-syringe"></i><span>syringe</span></div>
+      <div class="icon-item" data-name="t-shirt"><i class="ph ph-t-shirt"></i><span>t-shirt</span></div>
+      <div class="icon-item" data-name="table"><i class="ph ph-table"></i><span>table</span></div>
+      <div class="icon-item" data-name="tabs"><i class="ph ph-tabs"></i><span>tabs</span></div>
+      <div class="icon-item" data-name="tag"><i class="ph ph-tag"></i><span>tag</span></div>
+      <div class="icon-item" data-name="tag-chevron"><i class="ph ph-tag-chevron"></i><span>tag-chevron</span></div>
+      <div class="icon-item" data-name="tag-simple"><i class="ph ph-tag-simple"></i><span>tag-simple</span></div>
+      <div class="icon-item" data-name="target"><i class="ph ph-target"></i><span>target</span></div>
+      <div class="icon-item" data-name="taxi"><i class="ph ph-taxi"></i><span>taxi</span></div>
+      <div class="icon-item" data-name="tea-bag"><i class="ph ph-tea-bag"></i><span>tea-bag</span></div>
+      <div class="icon-item" data-name="telegram-logo"><i class="ph ph-telegram-logo"></i><span>telegram-logo</span></div>
+      <div class="icon-item" data-name="television"><i class="ph ph-television"></i><span>television</span></div>
+      <div class="icon-item" data-name="television-simple"><i class="ph ph-television-simple"></i><span>television-simple</span></div>
+      <div class="icon-item" data-name="tennis-ball"><i class="ph ph-tennis-ball"></i><span>tennis-ball</span></div>
+      <div class="icon-item" data-name="tent"><i class="ph ph-tent"></i><span>tent</span></div>
+      <div class="icon-item" data-name="terminal"><i class="ph ph-terminal"></i><span>terminal</span></div>
+      <div class="icon-item" data-name="terminal-window"><i class="ph ph-terminal-window"></i><span>terminal-window</span></div>
+      <div class="icon-item" data-name="test-tube"><i class="ph ph-test-tube"></i><span>test-tube</span></div>
+      <div class="icon-item" data-name="text-a-underline"><i class="ph ph-text-a-underline"></i><span>text-a-underline</span></div>
+      <div class="icon-item" data-name="text-aa"><i class="ph ph-text-aa"></i><span>text-aa</span></div>
+      <div class="icon-item" data-name="text-align-center"><i class="ph ph-text-align-center"></i><span>text-align-center</span></div>
+      <div class="icon-item" data-name="text-align-justify"><i class="ph ph-text-align-justify"></i><span>text-align-justify</span></div>
+      <div class="icon-item" data-name="text-align-left"><i class="ph ph-text-align-left"></i><span>text-align-left</span></div>
+      <div class="icon-item" data-name="text-align-right"><i class="ph ph-text-align-right"></i><span>text-align-right</span></div>
+      <div class="icon-item" data-name="text-b"><i class="ph ph-text-b"></i><span>text-b</span></div>
+      <div class="icon-item" data-name="text-bolder"><i class="ph ph-text-bolder"></i><span>text-bolder</span></div>
+      <div class="icon-item" data-name="text-columns"><i class="ph ph-text-columns"></i><span>text-columns</span></div>
+      <div class="icon-item" data-name="text-h"><i class="ph ph-text-h"></i><span>text-h</span></div>
+      <div class="icon-item" data-name="text-h-five"><i class="ph ph-text-h-five"></i><span>text-h-five</span></div>
+      <div class="icon-item" data-name="text-h-four"><i class="ph ph-text-h-four"></i><span>text-h-four</span></div>
+      <div class="icon-item" data-name="text-h-one"><i class="ph ph-text-h-one"></i><span>text-h-one</span></div>
+      <div class="icon-item" data-name="text-h-six"><i class="ph ph-text-h-six"></i><span>text-h-six</span></div>
+      <div class="icon-item" data-name="text-h-three"><i class="ph ph-text-h-three"></i><span>text-h-three</span></div>
+      <div class="icon-item" data-name="text-h-two"><i class="ph ph-text-h-two"></i><span>text-h-two</span></div>
+      <div class="icon-item" data-name="text-indent"><i class="ph ph-text-indent"></i><span>text-indent</span></div>
+      <div class="icon-item" data-name="text-italic"><i class="ph ph-text-italic"></i><span>text-italic</span></div>
+      <div class="icon-item" data-name="text-outdent"><i class="ph ph-text-outdent"></i><span>text-outdent</span></div>
+      <div class="icon-item" data-name="text-strikethrough"><i class="ph ph-text-strikethrough"></i><span>text-strikethrough</span></div>
+      <div class="icon-item" data-name="text-subscript"><i class="ph ph-text-subscript"></i><span>text-subscript</span></div>
+      <div class="icon-item" data-name="text-superscript"><i class="ph ph-text-superscript"></i><span>text-superscript</span></div>
+      <div class="icon-item" data-name="text-t"><i class="ph ph-text-t"></i><span>text-t</span></div>
+      <div class="icon-item" data-name="text-t-slash"><i class="ph ph-text-t-slash"></i><span>text-t-slash</span></div>
+      <div class="icon-item" data-name="text-underline"><i class="ph ph-text-underline"></i><span>text-underline</span></div>
+      <div class="icon-item" data-name="textbox"><i class="ph ph-textbox"></i><span>textbox</span></div>
+      <div class="icon-item" data-name="thermometer"><i class="ph ph-thermometer"></i><span>thermometer</span></div>
+      <div class="icon-item" data-name="thermometer-cold"><i class="ph ph-thermometer-cold"></i><span>thermometer-cold</span></div>
+      <div class="icon-item" data-name="thermometer-hot"><i class="ph ph-thermometer-hot"></i><span>thermometer-hot</span></div>
+      <div class="icon-item" data-name="thermometer-simple"><i class="ph ph-thermometer-simple"></i><span>thermometer-simple</span></div>
+      <div class="icon-item" data-name="threads-logo"><i class="ph ph-threads-logo"></i><span>threads-logo</span></div>
+      <div class="icon-item" data-name="three-d"><i class="ph ph-three-d"></i><span>three-d</span></div>
+      <div class="icon-item" data-name="thumbs-down"><i class="ph ph-thumbs-down"></i><span>thumbs-down</span></div>
+      <div class="icon-item" data-name="thumbs-up"><i class="ph ph-thumbs-up"></i><span>thumbs-up</span></div>
+      <div class="icon-item" data-name="ticket"><i class="ph ph-ticket"></i><span>ticket</span></div>
+      <div class="icon-item" data-name="tidal-logo"><i class="ph ph-tidal-logo"></i><span>tidal-logo</span></div>
+      <div class="icon-item" data-name="tiktok-logo"><i class="ph ph-tiktok-logo"></i><span>tiktok-logo</span></div>
+      <div class="icon-item" data-name="tilde"><i class="ph ph-tilde"></i><span>tilde</span></div>
+      <div class="icon-item" data-name="timer"><i class="ph ph-timer"></i><span>timer</span></div>
+      <div class="icon-item" data-name="tip-jar"><i class="ph ph-tip-jar"></i><span>tip-jar</span></div>
+      <div class="icon-item" data-name="tipi"><i class="ph ph-tipi"></i><span>tipi</span></div>
+      <div class="icon-item" data-name="tire"><i class="ph ph-tire"></i><span>tire</span></div>
+      <div class="icon-item" data-name="toggle-left"><i class="ph ph-toggle-left"></i><span>toggle-left</span></div>
+      <div class="icon-item" data-name="toggle-right"><i class="ph ph-toggle-right"></i><span>toggle-right</span></div>
+      <div class="icon-item" data-name="toilet"><i class="ph ph-toilet"></i><span>toilet</span></div>
+      <div class="icon-item" data-name="toilet-paper"><i class="ph ph-toilet-paper"></i><span>toilet-paper</span></div>
+      <div class="icon-item" data-name="toolbox"><i class="ph ph-toolbox"></i><span>toolbox</span></div>
+      <div class="icon-item" data-name="tooth"><i class="ph ph-tooth"></i><span>tooth</span></div>
+      <div class="icon-item" data-name="tornado"><i class="ph ph-tornado"></i><span>tornado</span></div>
+      <div class="icon-item" data-name="tote"><i class="ph ph-tote"></i><span>tote</span></div>
+      <div class="icon-item" data-name="tote-simple"><i class="ph ph-tote-simple"></i><span>tote-simple</span></div>
+      <div class="icon-item" data-name="towel"><i class="ph ph-towel"></i><span>towel</span></div>
+      <div class="icon-item" data-name="tractor"><i class="ph ph-tractor"></i><span>tractor</span></div>
+      <div class="icon-item" data-name="trademark"><i class="ph ph-trademark"></i><span>trademark</span></div>
+      <div class="icon-item" data-name="trademark-registered"><i class="ph ph-trademark-registered"></i><span>trademark-registered</span></div>
+      <div class="icon-item" data-name="traffic-cone"><i class="ph ph-traffic-cone"></i><span>traffic-cone</span></div>
+      <div class="icon-item" data-name="traffic-sign"><i class="ph ph-traffic-sign"></i><span>traffic-sign</span></div>
+      <div class="icon-item" data-name="traffic-signal"><i class="ph ph-traffic-signal"></i><span>traffic-signal</span></div>
+      <div class="icon-item" data-name="train"><i class="ph ph-train"></i><span>train</span></div>
+      <div class="icon-item" data-name="train-regional"><i class="ph ph-train-regional"></i><span>train-regional</span></div>
+      <div class="icon-item" data-name="train-simple"><i class="ph ph-train-simple"></i><span>train-simple</span></div>
+      <div class="icon-item" data-name="tram"><i class="ph ph-tram"></i><span>tram</span></div>
+      <div class="icon-item" data-name="translate"><i class="ph ph-translate"></i><span>translate</span></div>
+      <div class="icon-item" data-name="trash"><i class="ph ph-trash"></i><span>trash</span></div>
+      <div class="icon-item" data-name="trash-simple"><i class="ph ph-trash-simple"></i><span>trash-simple</span></div>
+      <div class="icon-item" data-name="tray"><i class="ph ph-tray"></i><span>tray</span></div>
+      <div class="icon-item" data-name="tray-arrow-down"><i class="ph ph-tray-arrow-down"></i><span>tray-arrow-down</span></div>
+      <div class="icon-item" data-name="tray-arrow-up"><i class="ph ph-tray-arrow-up"></i><span>tray-arrow-up</span></div>
+      <div class="icon-item" data-name="treasure-chest"><i class="ph ph-treasure-chest"></i><span>treasure-chest</span></div>
+      <div class="icon-item" data-name="tree"><i class="ph ph-tree"></i><span>tree</span></div>
+      <div class="icon-item" data-name="tree-evergreen"><i class="ph ph-tree-evergreen"></i><span>tree-evergreen</span></div>
+      <div class="icon-item" data-name="tree-palm"><i class="ph ph-tree-palm"></i><span>tree-palm</span></div>
+      <div class="icon-item" data-name="tree-structure"><i class="ph ph-tree-structure"></i><span>tree-structure</span></div>
+      <div class="icon-item" data-name="tree-view"><i class="ph ph-tree-view"></i><span>tree-view</span></div>
+      <div class="icon-item" data-name="trend-down"><i class="ph ph-trend-down"></i><span>trend-down</span></div>
+      <div class="icon-item" data-name="trend-up"><i class="ph ph-trend-up"></i><span>trend-up</span></div>
+      <div class="icon-item" data-name="triangle"><i class="ph ph-triangle"></i><span>triangle</span></div>
+      <div class="icon-item" data-name="triangle-dashed"><i class="ph ph-triangle-dashed"></i><span>triangle-dashed</span></div>
+      <div class="icon-item" data-name="trolley"><i class="ph ph-trolley"></i><span>trolley</span></div>
+      <div class="icon-item" data-name="trolley-suitcase"><i class="ph ph-trolley-suitcase"></i><span>trolley-suitcase</span></div>
+      <div class="icon-item" data-name="trophy"><i class="ph ph-trophy"></i><span>trophy</span></div>
+      <div class="icon-item" data-name="truck"><i class="ph ph-truck"></i><span>truck</span></div>
+      <div class="icon-item" data-name="truck-trailer"><i class="ph ph-truck-trailer"></i><span>truck-trailer</span></div>
+      <div class="icon-item" data-name="tumblr-logo"><i class="ph ph-tumblr-logo"></i><span>tumblr-logo</span></div>
+      <div class="icon-item" data-name="twitch-logo"><i class="ph ph-twitch-logo"></i><span>twitch-logo</span></div>
+      <div class="icon-item" data-name="twitter-logo"><i class="ph ph-twitter-logo"></i><span>twitter-logo</span></div>
+      <div class="icon-item" data-name="umbrella"><i class="ph ph-umbrella"></i><span>umbrella</span></div>
+      <div class="icon-item" data-name="umbrella-simple"><i class="ph ph-umbrella-simple"></i><span>umbrella-simple</span></div>
+      <div class="icon-item" data-name="union"><i class="ph ph-union"></i><span>union</span></div>
+      <div class="icon-item" data-name="unite"><i class="ph ph-unite"></i><span>unite</span></div>
+      <div class="icon-item" data-name="unite-square"><i class="ph ph-unite-square"></i><span>unite-square</span></div>
+      <div class="icon-item" data-name="upload"><i class="ph ph-upload"></i><span>upload</span></div>
+      <div class="icon-item" data-name="upload-simple"><i class="ph ph-upload-simple"></i><span>upload-simple</span></div>
+      <div class="icon-item" data-name="usb"><i class="ph ph-usb"></i><span>usb</span></div>
+      <div class="icon-item" data-name="user"><i class="ph ph-user"></i><span>user</span></div>
+      <div class="icon-item" data-name="user-check"><i class="ph ph-user-check"></i><span>user-check</span></div>
+      <div class="icon-item" data-name="user-circle"><i class="ph ph-user-circle"></i><span>user-circle</span></div>
+      <div class="icon-item" data-name="user-circle-check"><i class="ph ph-user-circle-check"></i><span>user-circle-check</span></div>
+      <div class="icon-item" data-name="user-circle-dashed"><i class="ph ph-user-circle-dashed"></i><span>user-circle-dashed</span></div>
+      <div class="icon-item" data-name="user-circle-gear"><i class="ph ph-user-circle-gear"></i><span>user-circle-gear</span></div>
+      <div class="icon-item" data-name="user-circle-minus"><i class="ph ph-user-circle-minus"></i><span>user-circle-minus</span></div>
+      <div class="icon-item" data-name="user-circle-plus"><i class="ph ph-user-circle-plus"></i><span>user-circle-plus</span></div>
+      <div class="icon-item" data-name="user-focus"><i class="ph ph-user-focus"></i><span>user-focus</span></div>
+      <div class="icon-item" data-name="user-gear"><i class="ph ph-user-gear"></i><span>user-gear</span></div>
+      <div class="icon-item" data-name="user-list"><i class="ph ph-user-list"></i><span>user-list</span></div>
+      <div class="icon-item" data-name="user-minus"><i class="ph ph-user-minus"></i><span>user-minus</span></div>
+      <div class="icon-item" data-name="user-plus"><i class="ph ph-user-plus"></i><span>user-plus</span></div>
+      <div class="icon-item" data-name="user-rectangle"><i class="ph ph-user-rectangle"></i><span>user-rectangle</span></div>
+      <div class="icon-item" data-name="user-sound"><i class="ph ph-user-sound"></i><span>user-sound</span></div>
+      <div class="icon-item" data-name="user-square"><i class="ph ph-user-square"></i><span>user-square</span></div>
+      <div class="icon-item" data-name="user-switch"><i class="ph ph-user-switch"></i><span>user-switch</span></div>
+      <div class="icon-item" data-name="users"><i class="ph ph-users"></i><span>users</span></div>
+      <div class="icon-item" data-name="users-four"><i class="ph ph-users-four"></i><span>users-four</span></div>
+      <div class="icon-item" data-name="users-three"><i class="ph ph-users-three"></i><span>users-three</span></div>
+      <div class="icon-item" data-name="van"><i class="ph ph-van"></i><span>van</span></div>
+      <div class="icon-item" data-name="vault"><i class="ph ph-vault"></i><span>vault</span></div>
+      <div class="icon-item" data-name="vector-three"><i class="ph ph-vector-three"></i><span>vector-three</span></div>
+      <div class="icon-item" data-name="vector-two"><i class="ph ph-vector-two"></i><span>vector-two</span></div>
+      <div class="icon-item" data-name="vibrate"><i class="ph ph-vibrate"></i><span>vibrate</span></div>
+      <div class="icon-item" data-name="video"><i class="ph ph-video"></i><span>video</span></div>
+      <div class="icon-item" data-name="video-camera"><i class="ph ph-video-camera"></i><span>video-camera</span></div>
+      <div class="icon-item" data-name="video-camera-slash"><i class="ph ph-video-camera-slash"></i><span>video-camera-slash</span></div>
+      <div class="icon-item" data-name="video-conference"><i class="ph ph-video-conference"></i><span>video-conference</span></div>
+      <div class="icon-item" data-name="vignette"><i class="ph ph-vignette"></i><span>vignette</span></div>
+      <div class="icon-item" data-name="vinyl-record"><i class="ph ph-vinyl-record"></i><span>vinyl-record</span></div>
+      <div class="icon-item" data-name="virtual-reality"><i class="ph ph-virtual-reality"></i><span>virtual-reality</span></div>
+      <div class="icon-item" data-name="virus"><i class="ph ph-virus"></i><span>virus</span></div>
+      <div class="icon-item" data-name="visor"><i class="ph ph-visor"></i><span>visor</span></div>
+      <div class="icon-item" data-name="voicemail"><i class="ph ph-voicemail"></i><span>voicemail</span></div>
+      <div class="icon-item" data-name="volleyball"><i class="ph ph-volleyball"></i><span>volleyball</span></div>
+      <div class="icon-item" data-name="wall"><i class="ph ph-wall"></i><span>wall</span></div>
+      <div class="icon-item" data-name="wallet"><i class="ph ph-wallet"></i><span>wallet</span></div>
+      <div class="icon-item" data-name="warehouse"><i class="ph ph-warehouse"></i><span>warehouse</span></div>
+      <div class="icon-item" data-name="warning"><i class="ph ph-warning"></i><span>warning</span></div>
+      <div class="icon-item" data-name="warning-circle"><i class="ph ph-warning-circle"></i><span>warning-circle</span></div>
+      <div class="icon-item" data-name="warning-diamond"><i class="ph ph-warning-diamond"></i><span>warning-diamond</span></div>
+      <div class="icon-item" data-name="warning-octagon"><i class="ph ph-warning-octagon"></i><span>warning-octagon</span></div>
+      <div class="icon-item" data-name="washing-machine"><i class="ph ph-washing-machine"></i><span>washing-machine</span></div>
+      <div class="icon-item" data-name="watch"><i class="ph ph-watch"></i><span>watch</span></div>
+      <div class="icon-item" data-name="wave-sawtooth"><i class="ph ph-wave-sawtooth"></i><span>wave-sawtooth</span></div>
+      <div class="icon-item" data-name="wave-sine"><i class="ph ph-wave-sine"></i><span>wave-sine</span></div>
+      <div class="icon-item" data-name="wave-square"><i class="ph ph-wave-square"></i><span>wave-square</span></div>
+      <div class="icon-item" data-name="wave-triangle"><i class="ph ph-wave-triangle"></i><span>wave-triangle</span></div>
+      <div class="icon-item" data-name="waveform"><i class="ph ph-waveform"></i><span>waveform</span></div>
+      <div class="icon-item" data-name="waveform-slash"><i class="ph ph-waveform-slash"></i><span>waveform-slash</span></div>
+      <div class="icon-item" data-name="waves"><i class="ph ph-waves"></i><span>waves</span></div>
+      <div class="icon-item" data-name="webcam"><i class="ph ph-webcam"></i><span>webcam</span></div>
+      <div class="icon-item" data-name="webcam-slash"><i class="ph ph-webcam-slash"></i><span>webcam-slash</span></div>
+      <div class="icon-item" data-name="webhooks-logo"><i class="ph ph-webhooks-logo"></i><span>webhooks-logo</span></div>
+      <div class="icon-item" data-name="wechat-logo"><i class="ph ph-wechat-logo"></i><span>wechat-logo</span></div>
+      <div class="icon-item" data-name="whatsapp-logo"><i class="ph ph-whatsapp-logo"></i><span>whatsapp-logo</span></div>
+      <div class="icon-item" data-name="wheelchair"><i class="ph ph-wheelchair"></i><span>wheelchair</span></div>
+      <div class="icon-item" data-name="wheelchair-motion"><i class="ph ph-wheelchair-motion"></i><span>wheelchair-motion</span></div>
+      <div class="icon-item" data-name="wifi-high"><i class="ph ph-wifi-high"></i><span>wifi-high</span></div>
+      <div class="icon-item" data-name="wifi-low"><i class="ph ph-wifi-low"></i><span>wifi-low</span></div>
+      <div class="icon-item" data-name="wifi-medium"><i class="ph ph-wifi-medium"></i><span>wifi-medium</span></div>
+      <div class="icon-item" data-name="wifi-none"><i class="ph ph-wifi-none"></i><span>wifi-none</span></div>
+      <div class="icon-item" data-name="wifi-slash"><i class="ph ph-wifi-slash"></i><span>wifi-slash</span></div>
+      <div class="icon-item" data-name="wifi-x"><i class="ph ph-wifi-x"></i><span>wifi-x</span></div>
+      <div class="icon-item" data-name="wind"><i class="ph ph-wind"></i><span>wind</span></div>
+      <div class="icon-item" data-name="windmill"><i class="ph ph-windmill"></i><span>windmill</span></div>
+      <div class="icon-item" data-name="windows-logo"><i class="ph ph-windows-logo"></i><span>windows-logo</span></div>
+      <div class="icon-item" data-name="wine"><i class="ph ph-wine"></i><span>wine</span></div>
+      <div class="icon-item" data-name="wrench"><i class="ph ph-wrench"></i><span>wrench</span></div>
+      <div class="icon-item" data-name="x"><i class="ph ph-x"></i><span>x</span></div>
+      <div class="icon-item" data-name="x-circle"><i class="ph ph-x-circle"></i><span>x-circle</span></div>
+      <div class="icon-item" data-name="x-logo"><i class="ph ph-x-logo"></i><span>x-logo</span></div>
+      <div class="icon-item" data-name="x-square"><i class="ph ph-x-square"></i><span>x-square</span></div>
+      <div class="icon-item" data-name="yarn"><i class="ph ph-yarn"></i><span>yarn</span></div>
+      <div class="icon-item" data-name="yin-yang"><i class="ph ph-yin-yang"></i><span>yin-yang</span></div>
+      <div class="icon-item" data-name="youtube-logo"><i class="ph ph-youtube-logo"></i><span>youtube-logo</span></div>
+    </div>
+  </section>
+
+  <!-- IN CONTEXT -->
+  <section class="demo-section" id="context">
+    <h2 class="ds-h2">In Context</h2>
+    <p class="demo-desc">How icons look inside real components.</p>
+
+    <div class="ds-card ds-mb-5">
+      <h3 class="ds-h4 ds-mb-3">Buttons</h3>
+      <div class="demo-row">
+        <button class="ds-btn ds-btn--primary"><i class="ph ph-plus"></i>New item</button>
+        <button class="ds-btn ds-btn--secondary"><i class="ph ph-download"></i>Download</button>
+        <button class="ds-btn ds-btn--ghost ds-btn--icon" aria-label="Settings"><i class="ph ph-gear" style="font-size:18px"></i></button>
+      </div>
+    </div>
+
+    <div class="ds-card ds-mb-5">
+      <h3 class="ds-h4 ds-mb-3">Alerts</h3>
+      <div class="ds-flex ds-flex-col ds-gap-3">
+        <div class="ds-alert ds-alert--info" role="alert">
+          <i class="ph ph-info" style="font-size:20px;flex-shrink:0;margin-top:2px"></i>
+          <div>Your changes have been saved automatically.</div>
+        </div>
+        <div class="ds-alert ds-alert--success" role="alert">
+          <i class="ph ph-check-circle" style="font-size:20px;flex-shrink:0;margin-top:2px"></i>
+          <div>Deployment completed successfully.</div>
+        </div>
+        <div class="ds-alert ds-alert--warning" role="alert">
+          <i class="ph ph-warning" style="font-size:20px;flex-shrink:0;margin-top:2px"></i>
+          <div>Your subscription expires in 3 days.</div>
+        </div>
+        <div class="ds-alert ds-alert--danger" role="alert">
+          <i class="ph ph-x-circle" style="font-size:20px;flex-shrink:0;margin-top:2px"></i>
+          <div>Unable to connect to the server. Please retry.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-card ds-mb-5">
+      <h3 class="ds-h4 ds-mb-3">Form inputs</h3>
+      <div class="ds-form-group ds-mb-0" style="max-width:360px">
+        <label class="ds-label" for="demo-search">Search</label>
+        <div style="position:relative">
+          <i class="ph ph-magnifying-glass" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--text-muted);pointer-events:none"></i>
+          <input class="ds-input" id="demo-search" type="text" placeholder="Search icons..." style="padding-left:40px">
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-card">
+      <h3 class="ds-h4 ds-mb-3">Badges &amp; Tags</h3>
+      <div class="demo-row">
+        <span class="ds-badge ds-badge--info"><i class="ph ph-info"></i>Info</span>
+        <span class="ds-badge ds-badge--success"><i class="ph ph-check"></i>Success</span>
+        <span class="ds-badge ds-badge--warning"><i class="ph ph-warning"></i>Warning</span>
+        <span class="ds-tag"><i class="ph ph-hash"></i>design</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+  // Icon live search
+  (function() {
+    const searchInput = document.getElementById('icon-search');
+    const grid = document.getElementById('icon-grid');
+    const meta = document.getElementById('search-meta');
+    const items = Array.from(grid.querySelectorAll('.icon-item'));
+
+    searchInput.addEventListener('input', function() {
+      const query = this.value.trim().toLowerCase();
+      let visible = 0;
+      items.forEach(function(item) {
+        const name = item.getAttribute('data-name');
+        if (name.includes(query)) {
+          item.classList.remove('hidden');
+          visible++;
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+      meta.textContent = visible + (visible === 1 ? ' icon' : ' icons') + (query ? ' matching "' + query + '"' : '') + ' of ' + items.length;
+    });
+  })();
+</script>
+<script src="../theme.js"></script>
+</body>
+</html>

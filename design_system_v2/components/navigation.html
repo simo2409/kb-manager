@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navigation — Design System v2</title>
+  <link rel="stylesheet" href="../fonts/Biennale/Biennale.css">
+  <link rel="stylesheet" href="../ds.css">
+  <style>
+    .demo-section { margin-bottom: var(--space-8); }
+    .demo-title { font-size: var(--text-xl); font-weight: var(--weight-regular); color: var(--text-heading); margin-bottom: var(--space-2); }
+    .demo-desc { font-size: var(--text-md); color: var(--text-secondary); margin-bottom: var(--space-5); }
+  </style>
+</head>
+<body>
+<a href="#main-content" class="ds-skip-link">Skip to main content</a>
+  <nav class="ds-navbar" aria-label="Main navigation">
+    <a href="../index.html" class="ds-navbar__brand">DS v2</a>
+    <ul class="ds-navbar__nav ds-hide-mobile">
+      <li><a href="../index.html" class="ds-navbar__link">Overview</a></li>
+      <li><a href="foundation.html" class="ds-navbar__link">Foundation</a></li>
+      <li><a href="buttons.html" class="ds-navbar__link">Buttons</a></li>
+      <li><a href="forms.html" class="ds-navbar__link">Forms</a></li>
+      <li><a href="cards.html" class="ds-navbar__link">Cards</a></li>
+      <li><a href="navigation.html" class="ds-navbar__link ds-navbar__link--active">Navigation</a></li>
+      <li><a href="feedback.html" class="ds-navbar__link">Feedback</a></li>
+      <li><a href="layout.html" class="ds-navbar__link">Layout</a></li>
+      <li><a href="icons.html" class="ds-navbar__link">Icons</a></li>
+    </ul>
+    <label class="ds-switch" style="margin-left:auto">
+      <input type="checkbox" id="ds-theme-toggle" role="switch" aria-checked="false">
+      <span class="ds-switch__track"><span class="ds-switch__thumb"></span></span>
+      <span class="ds-small">Light</span>
+    </label>
+    <button class="ds-navbar__hamburger" id="ds-hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="ds-mobile-nav">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </nav>
+  <nav id="ds-mobile-nav" class="ds-navbar__mobile" hidden aria-label="Mobile navigation">
+    <button class="ds-btn ds-btn--ghost ds-btn--icon ds-navbar__mobile__close" id="ds-mobile-close" aria-label="Close navigation">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <ul class="ds-navbar__mobile__nav">
+      <li><a href="../index.html" class="ds-navbar__mobile__link">Overview</a></li>
+      <li><a href="foundation.html" class="ds-navbar__mobile__link">Foundation</a></li>
+      <li><a href="buttons.html" class="ds-navbar__mobile__link">Buttons</a></li>
+      <li><a href="forms.html" class="ds-navbar__mobile__link">Forms</a></li>
+      <li><a href="cards.html" class="ds-navbar__mobile__link">Cards</a></li>
+      <li><a href="navigation.html" class="ds-navbar__mobile__link ds-navbar__mobile__link--active">Navigation</a></li>
+      <li><a href="feedback.html" class="ds-navbar__mobile__link">Feedback</a></li>
+      <li><a href="layout.html" class="ds-navbar__mobile__link">Layout</a></li>
+      <li><a href="icons.html" class="ds-navbar__mobile__link">Icons</a></li>
+    </ul>
+  </nav>
+  
+  <main class="ds-container" id="main-content">
+    <section class="demo-section">
+      <h1 class="ds-h1 ds-mb-2">Navigation</h1>
+      <p class="ds-lead">Navbar, tabs and breadcrumbs for wayfinding.</p>
+      <span class="ds-line"></span>
+    </section>
+    
+    <!-- NAVBAR -->
+    <section class="demo-section">
+      <h2 class="ds-h2">Navbar</h2>
+      <p class="demo-desc">Sticky glassmorphism navbar with brand and nav links.</p>
+      <div style="border: 1px solid var(--glass-border); border-radius: var(--radius-lg); overflow: hidden;">
+        <nav class="ds-navbar" style="position: relative;" aria-label="Demo navbar">
+          <div class="ds-navbar__brand">Simone Dall'Angelo</div>
+          <ul class="ds-navbar__nav">
+            <li><a href="#" class="ds-navbar__link ds-navbar__link--active">Dashboard</a></li>
+            <li><a href="#" class="ds-navbar__link">Projects</a></li>
+            <li><a href="#" class="ds-navbar__link">Reports</a></li>
+            <li><a href="#" class="ds-navbar__link">Settings</a></li>
+          </ul>
+        </nav>
+        <div style="padding: var(--space-8); background: var(--bg-elevated);">
+          <p class="ds-body">Page content goes here. The navbar above is sticky by default.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TABS -->
+    <section class="demo-section">
+      <h2 class="ds-h2">Tabs</h2>
+      <p class="demo-desc">Horizontal tab navigation with active state indicator.</p>
+      <div class="ds-card">
+        <ul class="ds-tabs" role="tablist" aria-label="Demo tabs" id="tablist-nav">
+          <li class="ds-tabs__item" role="presentation"><button class="ds-tabs__link ds-tabs__link--active" role="tab" id="tab-nav-overview" aria-selected="true" aria-controls="panel-nav-overview">Overview</button></li>
+          <li class="ds-tabs__item" role="presentation"><button class="ds-tabs__link" role="tab" id="tab-nav-analytics" aria-selected="false" aria-controls="panel-nav-analytics" tabindex="-1">Analytics</button></li>
+          <li class="ds-tabs__item" role="presentation"><button class="ds-tabs__link" role="tab" id="tab-nav-reports" aria-selected="false" aria-controls="panel-nav-reports" tabindex="-1">Reports</button></li>
+          <li class="ds-tabs__item" role="presentation"><button class="ds-tabs__link" role="tab" id="tab-nav-settings" aria-selected="false" aria-controls="panel-nav-settings" tabindex="-1">Settings</button></li>
+        </ul>
+        <div role="tabpanel" id="panel-nav-overview" aria-labelledby="tab-nav-overview" style="padding: var(--space-5) 0;">
+          <p class="ds-body">Overview panel. The active tab has a bottom border accent and link color.</p>
+        </div>
+        <div role="tabpanel" id="panel-nav-analytics" aria-labelledby="tab-nav-analytics" style="padding: var(--space-5) 0;" hidden>
+          <p class="ds-body">Analytics panel content.</p>
+        </div>
+        <div role="tabpanel" id="panel-nav-reports" aria-labelledby="tab-nav-reports" style="padding: var(--space-5) 0;" hidden>
+          <p class="ds-body">Reports panel content.</p>
+        </div>
+        <div role="tabpanel" id="panel-nav-settings" aria-labelledby="tab-nav-settings" style="padding: var(--space-5) 0;" hidden>
+          <p class="ds-body">Settings panel content.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- BREADCRUMBS -->
+    <section class="demo-section">
+      <h2 class="ds-h2">Breadcrumbs</h2>
+      <p class="demo-desc">Hierarchical navigation path.</p>
+      <div class="ds-card">
+        <nav aria-label="Breadcrumb">
+          <ol class="ds-breadcrumbs">
+            <li><a href="#">Home</a></li>
+            <li class="ds-breadcrumbs__sep" aria-hidden="true">/</li>
+            <li><a href="#">Projects</a></li>
+            <li class="ds-breadcrumbs__sep" aria-hidden="true">/</li>
+            <li><a href="#">Strategy</a></li>
+            <li class="ds-breadcrumbs__sep" aria-hidden="true">/</li>
+            <li class="ds-breadcrumbs__current" aria-current="page">Q3 Roadmap</li>
+          </ol>
+        </nav>
+      </div>
+    </section>
+  </main>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('[role="tablist"]').forEach(function (tl) {
+    tl.addEventListener('keydown', function (e) {
+      var tabs = Array.from(tl.querySelectorAll('[role="tab"]'));
+      var idx = tabs.indexOf(document.activeElement);
+      if (idx === -1) return;
+      var next;
+      if (e.key === 'ArrowRight') next = (idx + 1) % tabs.length;
+      else if (e.key === 'ArrowLeft') next = (idx - 1 + tabs.length) % tabs.length;
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = tabs.length - 1;
+      else return;
+      e.preventDefault();
+      tabs.forEach(function (t, i) { t.setAttribute('tabindex', i === next ? '0' : '-1'); });
+      tabs[next].focus();
+    });
+    tl.addEventListener('click', function (e) {
+      var tab = e.target.closest('[role="tab"]');
+      if (!tab) return;
+      var tabs = Array.from(tl.querySelectorAll('[role="tab"]'));
+      tabs.forEach(function (t) {
+        var sel = t === tab;
+        t.setAttribute('aria-selected', sel);
+        t.setAttribute('tabindex', sel ? '0' : '-1');
+        t.classList.toggle('ds-tabs__link--active', sel);
+        var pid = t.getAttribute('aria-controls');
+        if (pid) { var p = document.getElementById(pid); if (p) p.hidden = !sel; }
+      });
+    });
+  });
+});
+</script>
+<script src="../theme.js"></script>
+</body>
+</html>

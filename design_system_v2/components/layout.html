@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Layout — Design System v2</title>
+  <link rel="stylesheet" href="../fonts/Biennale/Biennale.css">
+  <link rel="stylesheet" href="../ds.css">
+  <style>
+    .ds-demo-grid { display: grid; gap: var(--space-4); }
+    @media (min-width: 768px) { .ds-demo-grid--2 { grid-template-columns: repeat(2, 1fr); } }
+
+    .ds-demo-box {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      padding: 20px;
+      border-radius: 8px;
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      text-align: center;
+    }
+
+    .ds-demo-bar {
+      height: 16px;
+      background: linear-gradient(90deg, var(--link), var(--accent-primary));
+      border-radius: var(--radius-sm);
+      margin-bottom: var(--space-2);
+    }
+
+    .ds-demo-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      margin-bottom: var(--space-4);
+    }
+
+    .ds-demo-bar-label:last-child {
+      margin-bottom: 0;
+    }
+
+    .custom-bullets {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .custom-bullets li {
+      position: relative;
+      padding-left: var(--space-5);
+      margin-bottom: var(--space-2);
+      color: var(--text-primary);
+      font-weight: var(--weight-light);
+    }
+
+    .custom-bullets li::before {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 10px;
+      width: 6px;
+      height: 6px;
+      background: var(--accent-primary);
+      border-radius: var(--radius-full);
+    }
+  </style>
+</head>
+<body>
+<a href="#main-content" class="ds-skip-link">Skip to main content</a>
+  <nav class="ds-navbar" aria-label="Main navigation">
+    <a href="../index.html" class="ds-navbar__brand">DS v2</a>
+    <ul class="ds-navbar__nav ds-hide-mobile">
+      <li><a href="../index.html" class="ds-navbar__link">Overview</a></li>
+      <li><a href="foundation.html" class="ds-navbar__link">Foundation</a></li>
+      <li><a href="buttons.html" class="ds-navbar__link">Buttons</a></li>
+      <li><a href="forms.html" class="ds-navbar__link">Forms</a></li>
+      <li><a href="cards.html" class="ds-navbar__link">Cards</a></li>
+      <li><a href="navigation.html" class="ds-navbar__link">Navigation</a></li>
+      <li><a href="feedback.html" class="ds-navbar__link">Feedback</a></li>
+      <li><a href="layout.html" class="ds-navbar__link ds-navbar__link--active">Layout</a></li>
+      <li><a href="icons.html" class="ds-navbar__link">Icons</a></li>
+    </ul>
+    <label class="ds-switch" style="margin-left:auto">
+      <input type="checkbox" id="ds-theme-toggle" role="switch" aria-checked="false">
+      <span class="ds-switch__track"><span class="ds-switch__thumb"></span></span>
+      <span class="ds-small">Light</span>
+    </label>
+    <button class="ds-navbar__hamburger" id="ds-hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="ds-mobile-nav">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </nav>
+  <nav id="ds-mobile-nav" class="ds-navbar__mobile" hidden aria-label="Mobile navigation">
+    <button class="ds-btn ds-btn--ghost ds-btn--icon ds-navbar__mobile__close" id="ds-mobile-close" aria-label="Close navigation">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <ul class="ds-navbar__mobile__nav">
+      <li><a href="../index.html" class="ds-navbar__mobile__link">Overview</a></li>
+      <li><a href="foundation.html" class="ds-navbar__mobile__link">Foundation</a></li>
+      <li><a href="buttons.html" class="ds-navbar__mobile__link">Buttons</a></li>
+      <li><a href="forms.html" class="ds-navbar__mobile__link">Forms</a></li>
+      <li><a href="cards.html" class="ds-navbar__mobile__link">Cards</a></li>
+      <li><a href="navigation.html" class="ds-navbar__mobile__link">Navigation</a></li>
+      <li><a href="feedback.html" class="ds-navbar__mobile__link">Feedback</a></li>
+      <li><a href="layout.html" class="ds-navbar__mobile__link ds-navbar__mobile__link--active">Layout</a></li>
+      <li><a href="icons.html" class="ds-navbar__mobile__link">Icons</a></li>
+    </ul>
+  </nav>
+
+  <main class="ds-container ds-mb-8" id="main-content">
+    <h1 class="ds-h1 ds-mb-2">Layout</h1>
+    <span class="ds-line"></span>
+    <p class="ds-lead ds-mb-6">Structural components, containers, lists, tables, dividers and accordion.</p>
+
+    <!-- ACCORDION -->
+    <section class="ds-mb-8">
+      <h2 class="ds-h2 ds-mb-4">Accordion</h2>
+      <p class="ds-small ds-mb-3">Collapsible sections using <code class="ds-code">.ds-accordion</code>. Click a header to expand or collapse its panel.</p>
+      <div class="ds-accordion">
+        <div class="ds-accordion__item ds-accordion__item--open">
+          <button class="ds-accordion__trigger" aria-expanded="true" aria-controls="acc-lyt-1" id="acc-lyt-trigger-1">
+            <span>Project Overview</span>
+            <svg class="ds-accordion__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="ds-accordion__panel" id="acc-lyt-1" role="region" aria-labelledby="acc-lyt-trigger-1">
+            <div class="ds-accordion__content">
+              <p>The project encompasses a full digital transformation initiative, including strategy development, technology implementation and continuous optimisation over a 12-month timeline.</p>
+            </div>
+          </div>
+        </div>
+        <div class="ds-accordion__item">
+          <button class="ds-accordion__trigger" aria-expanded="false" aria-controls="acc-lyt-2" id="acc-lyt-trigger-2">
+            <span>Deliverables</span>
+            <svg class="ds-accordion__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="ds-accordion__panel" id="acc-lyt-2" role="region" aria-labelledby="acc-lyt-trigger-2">
+            <div class="ds-accordion__content">
+              <p>Strategic roadmap, design system v2, component library, API documentation, QA test suite and deployment pipeline configuration.</p>
+            </div>
+          </div>
+        </div>
+        <div class="ds-accordion__item">
+          <button class="ds-accordion__trigger" aria-expanded="false" aria-controls="acc-lyt-3" id="acc-lyt-trigger-3">
+            <span>Timeline & Budget</span>
+            <svg class="ds-accordion__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="ds-accordion__panel" id="acc-lyt-3" role="region" aria-labelledby="acc-lyt-trigger-3">
+            <div class="ds-accordion__content">
+              <p>Phase 1 (Discovery) — 4 weeks. Phase 2 (Build) — 16 weeks. Phase 3 (Launch) — 4 weeks. Total budget allocated: €185,000.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LISTS -->
+    <section class="ds-mb-8">
+      <h2 class="ds-h2 ds-mb-4">Lists</h2>
+      <p class="ds-small ds-mb-3">Bordered list items with meta timestamps, and a custom-bulleted unordered list.</p>
+      <div class="ds-demo-grid ds-demo-grid--2">
+        <div>
+          <h3 class="ds-h5 ds-mb-3">Bordered List</h3>
+          <ul class="ds-list ds-list--bordered">
+            <li>
+              <div class="ds-list-item">
+                <span>Deployment completed</span>
+                <span class="ds-list-item__meta">2 min ago</span>
+              </div>
+            </li>
+            <li>
+              <div class="ds-list-item">
+                <span>Pull request merged</span>
+                <span class="ds-list-item__meta">1 hr ago</span>
+              </div>
+            </li>
+            <li>
+              <div class="ds-list-item">
+                <span>New comment on issue #42</span>
+                <span class="ds-list-item__meta">3 hrs ago</span>
+              </div>
+            </li>
+            <li>
+              <div class="ds-list-item">
+                <span>Design review scheduled</span>
+                <span class="ds-list-item__meta">Yesterday</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="ds-h5 ds-mb-3">Custom Bullets</h3>
+          <ul class="custom-bullets">
+            <li>Responsive grid system with mobile-first breakpoints</li>
+            <li>Glassmorphism cards with backdrop-filter blur</li>
+            <li>Accessible form controls and validation states</li>
+            <li>Semantic colour tokens for light and dark contexts</li>
+            <li>Consistent spacing scale across all components</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TABLES -->
+    <section class="ds-mb-8">
+      <h2 class="ds-h2 ds-mb-4">Tables</h2>
+      <p class="ds-small ds-mb-3">Scrollable table wrapper with hover states and semantic column alignment.</p>
+      <div class="ds-table-wrapper">
+        <table class="ds-table">
+          <thead>
+            <tr>
+              <th scope="col">Project</th>
+              <th scope="col">Status</th>
+              <th scope="col">Date</th>
+              <th scope="col" class="ds-text-right">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Alpha Redesign</td>
+              <td><span class="ds-badge ds-badge--success">Active</span></td>
+              <td>Jun 2024</td>
+              <td class="ds-text-right">€42,500</td>
+            </tr>
+            <tr>
+              <td>Beta Platform</td>
+              <td><span class="ds-badge ds-badge--warning">On Hold</span></td>
+              <td>Aug 2024</td>
+              <td class="ds-text-right">€68,000</td>
+            </tr>
+            <tr>
+              <td>Gamma Analytics</td>
+              <td><span class="ds-badge ds-badge--info">Review</span></td>
+              <td>Sep 2024</td>
+              <td class="ds-text-right">€31,250</td>
+            </tr>
+            <tr>
+              <td>Delta Migration</td>
+              <td><span class="ds-badge ds-badge--danger">Delayed</span></td>
+              <td>Oct 2024</td>
+              <td class="ds-text-right">€55,000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- DIVIDERS -->
+    <section class="ds-mb-8">
+      <h2 class="ds-h2 ds-mb-4">Dividers</h2>
+      <p class="ds-small ds-mb-3">Visual separators: default solid, dashed variant and the accent line.</p>
+      <div class="ds-card ds-card--flat">
+        <p class="ds-body">Content above the default divider</p>
+        <hr class="ds-divider">
+        <p class="ds-body">Content between dividers</p>
+        <hr class="ds-divider ds-divider--dashed">
+        <p class="ds-body">Content below the dashed divider, with an accent line</p>
+        <span class="ds-line ds-mt-4"></span>
+      </div>
+    </section>
+
+    <!-- GRID -->
+    <section class="ds-mb-8">
+      <h2 class="ds-h2 ds-mb-4">Grid</h2>
+      <p class="ds-small ds-mb-3">Responsive grid helpers. Columns collapse to a single stack on small screens (except <code class="ds-code">.ds-grid--4</code>, which becomes 2 columns).</p>
+
+      <h3 class="ds-h5 ds-mb-3">2 Columns</h3>
+      <div class="ds-grid ds-grid--2 ds-mb-5">
+        <div class="ds-demo-box">1</div>
+        <div class="ds-demo-box">2</div>
+      </div>
+
+      <h3 class="ds-h5 ds-mb-3">3 Columns</h3>
+      <div class="ds-grid ds-grid--3 ds-mb-5">
+        <div class="ds-demo-box">A</div>
+        <div class="ds-demo-box">B</div>
+        <div class="ds-demo-box">C</div>
+      </div>
+
+      <h3 class="ds-h5 ds-mb-3">4 Columns</h3>
+      <div class="ds-grid ds-grid--4">
+        <div class="ds-demo-box">I</div>
+        <div class="ds-demo-box">II</div>
+        <div class="ds-demo-box">III</div>
+        <div class="ds-demo-box">IV</div>
+      </div>
+    </section>
+
+    <!-- SPACING -->
+    <section class="ds-mb-8">
+      <h2 class="ds-h2 ds-mb-4">Spacing</h2>
+      <p class="ds-small ds-mb-3">Visual scale of spacing tokens from <code class="ds-code">--space-1</code> to <code class="ds-code">--space-6</code>.</p>
+      <div class="ds-card ds-card--flat">
+        <div class="ds-demo-bar-label">
+          <span>--space-1</span>
+          <span>4 px</span>
+        </div>
+        <div class="ds-demo-bar" style="width: var(--space-1);"></div>
+
+        <div class="ds-demo-bar-label">
+          <span>--space-2</span>
+          <span>8 px</span>
+        </div>
+        <div class="ds-demo-bar" style="width: var(--space-2);"></div>
+
+        <div class="ds-demo-bar-label">
+          <span>--space-3</span>
+          <span>12 px</span>
+        </div>
+        <div class="ds-demo-bar" style="width: var(--space-3);"></div>
+
+        <div class="ds-demo-bar-label">
+          <span>--space-4</span>
+          <span>16 px</span>
+        </div>
+        <div class="ds-demo-bar" style="width: var(--space-4);"></div>
+
+        <div class="ds-demo-bar-label">
+          <span>--space-5</span>
+          <span>20 px</span>
+        </div>
+        <div class="ds-demo-bar" style="width: var(--space-5);"></div>
+
+        <div class="ds-demo-bar-label">
+          <span>--space-6</span>
+          <span>24 px</span>
+        </div>
+        <div class="ds-demo-bar" style="width: var(--space-6);"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const accordions = document.querySelectorAll('.ds-accordion');
+      accordions.forEach(function (accordion) {
+        accordion.addEventListener('click', function (e) {
+          const trigger = e.target.closest('.ds-accordion__trigger');
+          if (!trigger) return;
+
+          const item = trigger.closest('.ds-accordion__item');
+          const isOpen = item.classList.contains('ds-accordion__item--open');
+
+          // Close all siblings if you want accordion behaviour (optional):
+          // accordion.querySelectorAll('.ds-accordion__item').forEach(function (i) {
+          //   i.classList.remove('ds-accordion__item--open');
+          //   i.querySelector('.ds-accordion__trigger').setAttribute('aria-expanded', 'false');
+          // });
+
+          if (isOpen) {
+            item.classList.remove('ds-accordion__item--open');
+            trigger.setAttribute('aria-expanded', 'false');
+          } else {
+            item.classList.add('ds-accordion__item--open');
+            trigger.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+    })();
+  </script>
+<script src="../theme.js"></script>
+</body>
+</html>

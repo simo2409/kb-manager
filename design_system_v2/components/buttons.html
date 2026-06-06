@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buttons — Design System v2</title>
+  <link rel="stylesheet" href="../fonts/Biennale/Biennale.css">
+  <link rel="stylesheet" href="../ds.css">
+  <style>
+    .demo-section { margin-bottom: var(--space-8); }
+    .demo-title { font-size: var(--text-xl); font-weight: var(--weight-regular); color: var(--text-heading); margin-bottom: var(--space-2); }
+    .demo-desc { font-size: var(--text-md); color: var(--text-secondary); margin-bottom: var(--space-5); }
+    .demo-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin-top: var(--space-4); }
+  </style>
+</head>
+<body>
+<a href="#main-content" class="ds-skip-link">Skip to main content</a>
+  <nav class="ds-navbar" aria-label="Main navigation">
+    <a href="../index.html" class="ds-navbar__brand">DS v2</a>
+    <ul class="ds-navbar__nav ds-hide-mobile">
+      <li><a href="../index.html" class="ds-navbar__link">Overview</a></li>
+      <li><a href="foundation.html" class="ds-navbar__link">Foundation</a></li>
+      <li><a href="buttons.html" class="ds-navbar__link ds-navbar__link--active">Buttons</a></li>
+      <li><a href="forms.html" class="ds-navbar__link">Forms</a></li>
+      <li><a href="cards.html" class="ds-navbar__link">Cards</a></li>
+      <li><a href="navigation.html" class="ds-navbar__link">Navigation</a></li>
+      <li><a href="feedback.html" class="ds-navbar__link">Feedback</a></li>
+      <li><a href="layout.html" class="ds-navbar__link">Layout</a></li>
+      <li><a href="icons.html" class="ds-navbar__link">Icons</a></li>
+    </ul>
+    <label class="ds-switch" style="margin-left:auto">
+      <input type="checkbox" id="ds-theme-toggle" role="switch" aria-checked="false">
+      <span class="ds-switch__track"><span class="ds-switch__thumb"></span></span>
+      <span class="ds-small">Light</span>
+    </label>
+    <button class="ds-navbar__hamburger" id="ds-hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="ds-mobile-nav">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </nav>
+  <nav id="ds-mobile-nav" class="ds-navbar__mobile" hidden aria-label="Mobile navigation">
+    <button class="ds-btn ds-btn--ghost ds-btn--icon ds-navbar__mobile__close" id="ds-mobile-close" aria-label="Close navigation">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <ul class="ds-navbar__mobile__nav">
+      <li><a href="../index.html" class="ds-navbar__mobile__link">Overview</a></li>
+      <li><a href="foundation.html" class="ds-navbar__mobile__link">Foundation</a></li>
+      <li><a href="buttons.html" class="ds-navbar__mobile__link ds-navbar__mobile__link--active">Buttons</a></li>
+      <li><a href="forms.html" class="ds-navbar__mobile__link">Forms</a></li>
+      <li><a href="cards.html" class="ds-navbar__mobile__link">Cards</a></li>
+      <li><a href="navigation.html" class="ds-navbar__mobile__link">Navigation</a></li>
+      <li><a href="feedback.html" class="ds-navbar__mobile__link">Feedback</a></li>
+      <li><a href="layout.html" class="ds-navbar__mobile__link">Layout</a></li>
+      <li><a href="icons.html" class="ds-navbar__mobile__link">Icons</a></li>
+    </ul>
+  </nav>
+  
+  <main class="ds-container" id="main-content">
+    <section class="demo-section">
+      <h1 class="ds-h1 ds-mb-2">Buttons</h1>
+      <p class="ds-lead">Interactive button components with multiple variants, sizes and states.</p>
+      <span class="ds-line"></span>
+    </section>
+    
+    <!-- VARIANTS -->
+    <section class="demo-section">
+      <h2 class="ds-h2">Variants</h2>
+      <p class="demo-desc">Primary, secondary, outline, ghost and danger styles.</p>
+      <div class="demo-row">
+        <button class="ds-btn ds-btn--primary">Primary</button>
+        <button class="ds-btn ds-btn--secondary">Secondary</button>
+        <button class="ds-btn ds-btn--outline">Outline</button>
+        <button class="ds-btn ds-btn--ghost">Ghost</button>
+        <button class="ds-btn ds-btn--danger">Danger</button>
+      </div>
+    </section>
+
+    <!-- SIZES -->
+    <section class="demo-section">
+      <h2 class="ds-h2">Sizes</h2>
+      <p class="demo-desc">Small, default and large button sizes.</p>
+      <div class="demo-row">
+        <button class="ds-btn ds-btn--primary ds-btn--sm">Small</button>
+        <button class="ds-btn ds-btn--primary">Default</button>
+        <button class="ds-btn ds-btn--primary ds-btn--lg">Large</button>
+      </div>
+    </section>
+
+    <!-- STATES -->
+    <section class="demo-section">
+      <h2 class="ds-h2">States</h2>
+      <p class="demo-desc">Disabled and full-width states.</p>
+      <div class="demo-row">
+        <button class="ds-btn ds-btn--primary" disabled>Disabled</button>
+        <button class="ds-btn ds-btn--secondary" disabled>Disabled</button>
+        <button class="ds-btn ds-btn--outline" disabled>Disabled</button>
+      </div>
+      <div class="demo-row" style="margin-top: var(--space-5);">
+        <button class="ds-btn ds-btn--primary ds-btn--full">Full width primary</button>
+      </div>
+    </section>
+
+    <!-- WITH ICONS -->
+    <section class="demo-section">
+      <h2 class="ds-h2">With Icons</h2>
+      <p class="demo-desc">Buttons can include icons and icon-only variants.</p>
+      <div class="demo-row">
+        <button class="ds-btn ds-btn--primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          Add New
+        </button>
+        <button class="ds-btn ds-btn--secondary">
+          Settings
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        </button>
+        <button class="ds-btn ds-btn--primary ds-btn--icon" aria-label="Add item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- SPLIT BUTTON -->
+    <section class="demo-section">
+      <h2 class="ds-h2">Split Button</h2>
+      <p class="demo-desc">A button with a primary action and a dropdown toggle. Click the label for the main action, or the arrow to reveal alternate options.</p>
+      <div class="demo-row">
+        <div class="ds-btn-split">
+          <button class="ds-btn ds-btn--primary">Save</button>
+          <button class="ds-btn ds-btn--primary" aria-haspopup="true" aria-expanded="false" aria-label="More save options">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="ds-dropdown" role="menu">
+            <button class="ds-dropdown__item" role="menuitem">Save as draft</button>
+            <button class="ds-dropdown__item" role="menuitem">Save &amp; publish</button>
+            <div class="ds-dropdown__divider"></div>
+            <button class="ds-dropdown__item ds-dropdown__item--danger" role="menuitem">Discard changes</button>
+          </div>
+        </div>
+
+        <div class="ds-btn-split">
+          <button class="ds-btn ds-btn--secondary">Export</button>
+          <button class="ds-btn ds-btn--secondary" aria-haspopup="true" aria-expanded="false" aria-label="More export options">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="ds-dropdown" role="menu">
+            <button class="ds-dropdown__item" role="menuitem">Export as PDF</button>
+            <button class="ds-dropdown__item" role="menuitem">Export as CSV</button>
+            <button class="ds-dropdown__item" role="menuitem">Export as JSON</button>
+          </div>
+        </div>
+
+        <div class="ds-btn-split">
+          <button class="ds-btn ds-btn--ghost" aria-label="Download">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          </button>
+          <button class="ds-btn ds-btn--ghost" aria-haspopup="true" aria-expanded="false" aria-label="More download options">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="ds-dropdown" role="menu">
+            <button class="ds-dropdown__item" role="menuitem">Download PDF</button>
+            <button class="ds-dropdown__item" role="menuitem">Download CSV</button>
+            <button class="ds-dropdown__item" role="menuitem">Download JSON</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOVER & ACTIVE -->
+    <section class="demo-section">
+      <h2 class="ds-h2">Interaction</h2>
+      <p class="demo-desc">All buttons have hover, active and focus-visible states.</p>
+      <div class="demo-row">
+        <button class="ds-btn ds-btn--primary">Hover me</button>
+        <button class="ds-btn ds-btn--secondary">Hover me</button>
+        <button class="ds-btn ds-btn--outline">Hover me</button>
+        <button class="ds-btn ds-btn--ghost">Hover me</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function() {
+      var containers = document.querySelectorAll('.ds-btn-split');
+
+      function closeAll(skipContainer) {
+        containers.forEach(function(container) {
+          if (container === skipContainer) return;
+          var menu = container.querySelector('.ds-dropdown');
+          var toggle = container.querySelector('[aria-haspopup="true"]');
+          if (menu && menu.classList.contains('is-open')) {
+            menu.classList.remove('is-open');
+            if (toggle) toggle.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+
+      containers.forEach(function(container) {
+        var toggle = container.querySelector('[aria-haspopup="true"]');
+        var menu = container.querySelector('.ds-dropdown');
+        if (!toggle || !menu) return;
+
+        toggle.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var isOpen = menu.classList.contains('is-open');
+          if (isOpen) {
+            menu.classList.remove('is-open');
+            toggle.setAttribute('aria-expanded', 'false');
+          } else {
+            closeAll(container);
+            menu.classList.add('is-open');
+            toggle.setAttribute('aria-expanded', 'true');
+          }
+        });
+
+        menu.querySelectorAll('.ds-dropdown__item').forEach(function(item) {
+          item.addEventListener('click', function() {
+            menu.classList.remove('is-open');
+            toggle.setAttribute('aria-expanded', 'false');
+          });
+        });
+      });
+
+      document.addEventListener('click', function(e) {
+        var clickedContainer = null;
+        containers.forEach(function(container) {
+          if (container.contains(e.target)) clickedContainer = container;
+        });
+        closeAll(clickedContainer);
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeAll();
+      });
+    })();
+  </script>
+<script src="../theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cards — Design System v2</title>
+  <link rel="stylesheet" href="../fonts/Biennale/Biennale.css">
+  <link rel="stylesheet" href="../ds.css">
+  <style>
+    .demo-section { margin-bottom: var(--space-8); }
+    .demo-title { font-size: var(--text-xl); font-weight: var(--weight-regular); color: var(--text-heading); margin-bottom: var(--space-2); }
+    .demo-desc { font-size: var(--text-md); color: var(--text-secondary); margin-bottom: var(--space-5); }
+  </style>
+</head>
+<body>
+<a href="#main-content" class="ds-skip-link">Skip to main content</a>
+  <nav class="ds-navbar" aria-label="Main navigation">
+    <a href="../index.html" class="ds-navbar__brand">DS v2</a>
+    <ul class="ds-navbar__nav ds-hide-mobile">
+      <li><a href="../index.html" class="ds-navbar__link">Overview</a></li>
+      <li><a href="foundation.html" class="ds-navbar__link">Foundation</a></li>
+      <li><a href="buttons.html" class="ds-navbar__link">Buttons</a></li>
+      <li><a href="forms.html" class="ds-navbar__link">Forms</a></li>
+      <li><a href="cards.html" class="ds-navbar__link ds-navbar__link--active">Cards</a></li>
+      <li><a href="navigation.html" class="ds-navbar__link">Navigation</a></li>
+      <li><a href="feedback.html" class="ds-navbar__link">Feedback</a></li>
+      <li><a href="layout.html" class="ds-navbar__link">Layout</a></li>
+      <li><a href="icons.html" class="ds-navbar__link">Icons</a></li>
+    </ul>
+    <label class="ds-switch" style="margin-left:auto">
+      <input type="checkbox" id="ds-theme-toggle" role="switch" aria-checked="false">
+      <span class="ds-switch__track"><span class="ds-switch__thumb"></span></span>
+      <span class="ds-small">Light</span>
+    </label>
+    <button class="ds-navbar__hamburger" id="ds-hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="ds-mobile-nav">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </nav>
+  <nav id="ds-mobile-nav" class="ds-navbar__mobile" hidden aria-label="Mobile navigation">
+    <button class="ds-btn ds-btn--ghost ds-btn--icon ds-navbar__mobile__close" id="ds-mobile-close" aria-label="Close navigation">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <ul class="ds-navbar__mobile__nav">
+      <li><a href="../index.html" class="ds-navbar__mobile__link">Overview</a></li>
+      <li><a href="foundation.html" class="ds-navbar__mobile__link">Foundation</a></li>
+      <li><a href="buttons.html" class="ds-navbar__mobile__link">Buttons</a></li>
+      <li><a href="forms.html" class="ds-navbar__mobile__link">Forms</a></li>
+      <li><a href="cards.html" class="ds-navbar__mobile__link ds-navbar__mobile__link--active">Cards</a></li>
+      <li><a href="navigation.html" class="ds-navbar__mobile__link">Navigation</a></li>
+      <li><a href="feedback.html" class="ds-navbar__mobile__link">Feedback</a></li>
+      <li><a href="layout.html" class="ds-navbar__mobile__link">Layout</a></li>
+      <li><a href="icons.html" class="ds-navbar__mobile__link">Icons</a></li>
+    </ul>
+  </nav>
+
+  <main class="ds-container" id="main-content">
+    <section class="demo-section">
+      <h1 class="ds-h1 ds-mb-2">Cards</h1>
+      <p class="ds-lead">Containers for content with glassmorphism, flat and interactive variants. Hover is opt-in via <code class="ds-code">ds-card--hover</code>.</p>
+      <span class="ds-line"></span>
+    </section>
+
+    <!-- STATIC vs HOVER -->
+    <section class="demo-section">
+      <h2 class="ds-h2">Static vs Hover</h2>
+      <p class="demo-desc">By default cards are static. Add <code class="ds-code">ds-card--hover</code> to enable the lift-and-glow effect on mouse over.</p>
+      <div class="ds-grid ds-grid--2">
+        <div class="ds-card">
+          <h3 class="ds-card__title">Static Card</h3>
+          <p class="ds-card__body">No hover effect. Use for dashboards, read-only lists or dense grids where motion would be distracting.</p>
+        </div>
+        <div class="ds-card ds-card--hover">
+          <h3 class="ds-card__title">Hover Card</h3>
+          <p class="ds-card__body">Lifts and glows on hover. Ideal for galleries, product grids and any clickable surface that invites exploration.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- BASIC CARDS -->
+    <section class="demo-section">
+      <h2 class="ds-h2">Basic Card</h2>
+      <p class="demo-desc">Default glassmorphism card with optional hover lift effect.</p>
+      <div class="ds-grid ds-grid--3">
+        <div class="ds-card ds-card--hover">
+          <h3 class="ds-card__title">Project Alpha</h3>
+          <p class="ds-card__subtitle">Strategic consulting</p>
+          <p class="ds-card__body">A comprehensive strategy project focused on digital transformation and business growth.</p>
+        </div>
+        <div class="ds-card ds-card--hover">
+          <h3 class="ds-card__title">Project Beta</h3>
+          <p class="ds-card__subtitle">Technology development</p>
+          <p class="ds-card__body">Full-stack development of a SaaS platform for the music industry.</p>
+        </div>
+        <div class="ds-card ds-card--hover">
+          <h3 class="ds-card__title">Project Gamma</h3>
+          <p class="ds-card__subtitle">Innovation lab</p>
+          <p class="ds-card__body">Experimental initiative exploring AI-driven business process automation.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CARD WITH HEADER & FOOTER -->
+    <section class="demo-section">
+      <h2 class="ds-h2">With Header & Footer</h2>
+      <p class="demo-desc">Cards with structured header, body and action footer.</p>
+      <div class="ds-grid ds-grid--2">
+        <div class="ds-card ds-card--hover">
+          <div class="ds-card__header">
+            <div>
+              <h3 class="ds-card__title">Revenue Report</h3>
+              <p class="ds-card__subtitle">Q3 2024</p>
+            </div>
+            <span class="ds-badge ds-badge--success">+14%</span>
+          </div>
+          <div class="ds-card__body">
+            <p>Total revenue reached €284K with a 14% increase compared to the same period last year. Key drivers include new enterprise clients.</p>
+          </div>
+          <div class="ds-card__footer">
+            <button class="ds-btn ds-btn--ghost ds-btn--sm">Dismiss</button>
+            <button class="ds-btn ds-btn--primary ds-btn--sm">View details</button>
+          </div>
+        </div>
+        <div class="ds-card ds-card--hover">
+          <div class="ds-card__header">
+            <div>
+              <h3 class="ds-card__title">Open Tasks</h3>
+              <p class="ds-card__subtitle">Pending review</p>
+            </div>
+            <span class="ds-badge ds-badge--warning">47</span>
+          </div>
+          <div class="ds-card__body">
+            <p>You have 47 open tasks requiring attention. 12 are high priority and should be completed by end of week.</p>
+          </div>
+          <div class="ds-card__footer">
+            <button class="ds-btn ds-btn--ghost ds-btn--sm">Later</button>
+            <button class="ds-btn ds-btn--primary ds-btn--sm">Review</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CARD WITH CODE BLOCK -->
+    <section class="demo-section">
+      <h2 class="ds-h2">With Code Block</h2>
+      <p class="demo-desc">Useful for logs, configuration snippets or command output. The code area is scrollable and sits between the body and the footer. Use the toggle to show or hide the block.</p>
+      <div class="ds-grid ds-grid--2" style="align-items: start;">
+        <div class="ds-card ds-card--hover">
+          <div class="ds-card__header">
+            <div>
+              <h3 class="ds-card__title">Deployment Log</h3>
+              <p class="ds-card__subtitle">Build #4821 — Visible by default</p>
+            </div>
+            <span class="ds-badge ds-badge--success">Done</span>
+          </div>
+          <div class="ds-card__body">
+            <p>The deployment completed with warnings. Review the log below for details.</p>
+          </div>
+          <div class="ds-card__meta">
+            <span>Last update: 2 min ago</span>
+            <button class="ds-card__toggle" aria-expanded="true" aria-controls="log-4821">Hide log</button>
+          </div>
+          <pre class="ds-card__code" id="log-4821"><code>[INFO]  Starting build...
+[INFO]  Resolving dependencies — found 147 packages, 12 outdated, 3 critical vulnerabilities
+[WARN]  Deprecated API usage in module auth-v2 at /src/services/authentication/index.js:142:18
+[WARN]  Function "legacyLogin" is scheduled for removal in v3.0 — consider migrating to "ssoAuth"
+[INFO]  Optimizing assets...
+[INFO]  Minifying bundle — entrypoint main.js (1.24 MB) → main.min.js (342 KB) via terser-webpack-plugin
+[INFO]  Generating source maps for production build
+[INFO]  Build successful in 14.2s — 0 errors, 2 warnings, 1 deprecation notice
+[INFO]  Running post-build checks...
+[INFO]  Uploading to CDN — region eu-west-1, bucket s3://cdn-prod-assets, path /builds/4821/
+[INFO]  Asset upload progress: 0% ████████████████████████████████████████████████ 100% (42 files, 18.4 MB total)
+[INFO]  Purging Cloudflare cache — zone_id=8f7d3a..., purged 3 edge locations
+[INFO]  Invalidating Fastly surrogate keys: build-4821, assets-latest, main-min-js
+[INFO]  Running smoke tests against https://staging.simonedallangelo.com/build/4821/
+[INFO]  Smoke test suite passed — 14/14 assertions OK (latency avg 124ms, p95 210ms)
+[INFO]  Deployment complete — Build #4821 is now live on production (deployed at 2026-06-06T13:48:12Z)</code></pre>
+          <div class="ds-card__footer">
+            <button class="ds-btn ds-btn--ghost ds-btn--sm">Download log</button>
+            <button class="ds-btn ds-btn--primary ds-btn--sm">View build</button>
+          </div>
+        </div>
+
+        <div class="ds-card ds-card--hover">
+          <div class="ds-card__header">
+            <div>
+              <h3 class="ds-card__title">Previous Build</h3>
+              <p class="ds-card__subtitle">Build #4820 — Hidden by default</p>
+            </div>
+            <span class="ds-badge ds-badge--info">Archived</span>
+          </div>
+          <div class="ds-card__body">
+            <p>An older build log. The code block is collapsed by default to save vertical space.</p>
+          </div>
+          <div class="ds-card__meta">
+            <span>Last update: 1 hour ago</span>
+            <button class="ds-card__toggle" aria-expanded="false" aria-controls="log-4820">Show log</button>
+          </div>
+          <pre class="ds-card__code is-hidden" id="log-4820"><code>[INFO]  Starting build...
+[INFO]  Resolving dependencies — found 147 packages, 12 outdated, 3 critical vulnerabilities
+[WARN]  Deprecated API usage in module auth-v2 at /src/services/authentication/index.js:142:18
+[WARN]  Function "legacyLogin" is scheduled for removal in v3.0 — consider migrating to "ssoAuth"
+[INFO]  Optimizing assets...
+[INFO]  Minifying bundle — entrypoint main.js (1.24 MB) → main.min.js (342 KB) via terser-webpack-plugin
+[INFO]  Generating source maps for production build
+[INFO]  Build successful in 14.2s — 0 errors, 2 warnings, 1 deprecation notice
+[INFO]  Running post-build checks...
+[INFO]  Uploading to CDN — region eu-west-1, bucket s3://cdn-prod-assets, path /builds/4821/
+[INFO]  Asset upload progress: 0% ████████████████████████████████████████████████ 100% (42 files, 18.4 MB total)
+[INFO]  Purging Cloudflare cache — zone_id=8f7d3a..., purged 3 edge locations
+[INFO]  Invalidating Fastly surrogate keys: build-4821, assets-latest, main-min-js
+[INFO]  Running smoke tests against https://staging.simonedallangelo.com/build/4821/
+[INFO]  Smoke test suite passed — 14/14 assertions OK (latency avg 124ms, p95 210ms)
+[INFO]  Deployment complete — Build #4821 is now live on production (deployed at 2026-06-06T13:48:12Z)</code></pre>
+          <div class="ds-card__footer">
+            <button class="ds-btn ds-btn--ghost ds-btn--sm">Download log</button>
+            <button class="ds-btn ds-btn--primary ds-btn--sm">View build</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FLAT CARD -->
+    <section class="demo-section">
+      <h2 class="ds-h2">Flat Card</h2>
+      <p class="demo-desc">Solid background without glassmorphism blur. Combine with <code class="ds-code">ds-card--hover</code> when you want motion.</p>
+      <div class="ds-card ds-card--flat" style="max-width: 480px;">
+        <h3 class="ds-card__title">Terms of Service</h3>
+        <p class="ds-card__body">This flat card variant uses a solid elevated background without backdrop blur. It's ideal for long-form content, terms pages, or sections where glassmorphism would create visual noise.</p>
+      </div>
+    </section>
+
+    <!-- SELECTED CARD -->
+    <section class="demo-section">
+      <h2 class="ds-h2">Selected</h2>
+      <p class="demo-desc">Use <code class="ds-code">ds-card--selected</code> to highlight one or more cards in a list or grid. The state combines a tinted background, a thicker accent border and a subtle lift so it is perceivable even without colour vision. Combine with <code class="ds-code">aria-selected="true"</code> when the card acts as a selectable gridcell.</p>
+      <div class="ds-grid ds-grid--3">
+        <div class="ds-card ds-card--hover">
+          <h3 class="ds-card__title">Option A</h3>
+          <p class="ds-card__body">Standard card in a selectable grid.</p>
+        </div>
+        <div class="ds-card ds-card--selected" aria-selected="true">
+          <h3 class="ds-card__title">Option B</h3>
+          <p class="ds-card__body">This card is selected. The border and background change to signal state.</p>
+        </div>
+        <div class="ds-card ds-card--hover">
+          <h3 class="ds-card__title">Option C</h3>
+          <p class="ds-card__body">Another standard card.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE CARD -->
+    <section class="demo-section">
+      <h2 class="ds-h2">Interactive</h2>
+      <p class="demo-desc">Cards with click behavior and focus states. Pair with <code class="ds-code">ds-card--hover</code> to add motion on mouse over.</p>
+      <div class="ds-grid ds-grid--2">
+        <div class="ds-card ds-card--interactive ds-card--hover" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}">
+          <h3 class="ds-card__title">Select Plan</h3>
+          <p class="ds-card__body">Click or press Enter to select this plan. The card has full keyboard accessibility with focus-visible outline.</p>
+        </div>
+        <div class="ds-card ds-card--interactive" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}">
+          <h3 class="ds-card__title">Compare</h3>
+          <p class="ds-card__body">Interactive cards can be used in grids where users need to make a selection among multiple options. This one is static (no hover).</p>
+        </div>
+      </div>
+    </section>
+  </main>
+<script src="../theme.js"></script>
+  <script>
+    (function() {
+      document.querySelectorAll('.ds-card__toggle').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var targetId = this.getAttribute('aria-controls');
+          var target = document.getElementById(targetId);
+          var isHidden = target.classList.contains('is-hidden');
+          if (isHidden) {
+            target.classList.remove('is-hidden');
+            this.setAttribute('aria-expanded', 'true');
+            this.textContent = 'Hide log';
+          } else {
+            target.classList.add('is-hidden');
+            this.setAttribute('aria-expanded', 'false');
+            this.textContent = 'Show log';
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

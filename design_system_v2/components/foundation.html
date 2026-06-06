@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foundation — Design System v2</title>
+  <link rel="stylesheet" href="../fonts/Biennale/Biennale.css">
+  <link rel="stylesheet" href="../ds.css">
+  <style>
+    .demo-section { margin-bottom: var(--space-8); }
+    .demo-title { font-size: var(--text-xl); font-weight: var(--weight-regular); color: var(--text-heading); margin-bottom: var(--space-2); }
+    .demo-desc { font-size: var(--text-md); color: var(--text-secondary); margin-bottom: var(--space-5); }
+    .demo-grid { display: grid; gap: var(--space-4); margin-top: var(--space-4); }
+    .color-swatch { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3); background: var(--glass-bg); border-radius: var(--radius-md); border: 1px solid var(--glass-border); }
+    .color-swatch__box { width: 48px; height: 48px; border-radius: var(--radius-md); border: 1px solid var(--glass-border); flex-shrink: 0; }
+    .color-swatch__info { font-size: var(--text-sm); }
+    .spacing-box { background: var(--link); border-radius: var(--radius-sm); height: 20px; }
+  </style>
+</head>
+<body>
+<a href="#main-content" class="ds-skip-link">Skip to main content</a>
+  <nav class="ds-navbar" aria-label="Main navigation">
+    <a href="../index.html" class="ds-navbar__brand">DS v2</a>
+    <ul class="ds-navbar__nav ds-hide-mobile">
+      <li><a href="../index.html" class="ds-navbar__link">Overview</a></li>
+      <li><a href="foundation.html" class="ds-navbar__link ds-navbar__link--active">Foundation</a></li>
+      <li><a href="buttons.html" class="ds-navbar__link">Buttons</a></li>
+      <li><a href="forms.html" class="ds-navbar__link">Forms</a></li>
+      <li><a href="cards.html" class="ds-navbar__link">Cards</a></li>
+      <li><a href="navigation.html" class="ds-navbar__link">Navigation</a></li>
+      <li><a href="feedback.html" class="ds-navbar__link">Feedback</a></li>
+      <li><a href="layout.html" class="ds-navbar__link">Layout</a></li>
+      <li><a href="icons.html" class="ds-navbar__link">Icons</a></li>
+    </ul>
+    <label class="ds-switch" style="margin-left:auto">
+      <input type="checkbox" id="ds-theme-toggle" role="switch" aria-checked="false">
+      <span class="ds-switch__track"><span class="ds-switch__thumb"></span></span>
+      <span class="ds-small">Light</span>
+    </label>
+    <button class="ds-navbar__hamburger" id="ds-hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="ds-mobile-nav">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </nav>
+  <nav id="ds-mobile-nav" class="ds-navbar__mobile" hidden aria-label="Mobile navigation">
+    <button class="ds-btn ds-btn--ghost ds-btn--icon ds-navbar__mobile__close" id="ds-mobile-close" aria-label="Close navigation">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <ul class="ds-navbar__mobile__nav">
+      <li><a href="../index.html" class="ds-navbar__mobile__link">Overview</a></li>
+      <li><a href="foundation.html" class="ds-navbar__mobile__link ds-navbar__mobile__link--active">Foundation</a></li>
+      <li><a href="buttons.html" class="ds-navbar__mobile__link">Buttons</a></li>
+      <li><a href="forms.html" class="ds-navbar__mobile__link">Forms</a></li>
+      <li><a href="cards.html" class="ds-navbar__mobile__link">Cards</a></li>
+      <li><a href="navigation.html" class="ds-navbar__mobile__link">Navigation</a></li>
+      <li><a href="feedback.html" class="ds-navbar__mobile__link">Feedback</a></li>
+      <li><a href="layout.html" class="ds-navbar__mobile__link">Layout</a></li>
+      <li><a href="icons.html" class="ds-navbar__mobile__link">Icons</a></li>
+    </ul>
+  </nav>
+  
+  <main class="ds-container" id="main-content">
+    <section class="demo-section">
+      <h1 class="ds-h1 ds-mb-2">Foundation</h1>
+      <p class="ds-lead">Colors, typography, spacing and core tokens.</p>
+      <span class="ds-line"></span>
+    </section>
+    
+    <!-- TYPOGRAPHY -->
+    <section class="demo-section">
+      <h2 class="ds-h2">Typography</h2>
+      <p class="demo-desc">The type scale uses Biennale font with weights from 100 to 600.</p>
+      <div class="ds-card ds-mb-4">
+        <p class="ds-h1">H1 — Heading (38px, weight 600)</p>
+        <p class="ds-h2">H2 — Heading (28px, weight 400)</p>
+        <p class="ds-h3">H3 — Heading (23px, weight 400)</p>
+        <p class="ds-h4">H4 — Heading (23.75px, weight 400)</p>
+        <p class="ds-h5">H5 — Label uppercase (19px, weight 500)</p>
+        <p class="ds-h6">H6 — Small label uppercase (14px, weight 500)</p>
+        <p class="ds-lead ds-mt-4">Lead text — italic, 23.75px, weight 400</p>
+        <p class="ds-body ds-mt-3">Body text — 19px, weight 400, line-height 1.6. Used for paragraphs and general content.</p>
+        <p class="ds-small ds-mt-3">Small text — 14px, weight 400. Used for captions, meta info.</p>
+        <p class="ds-caption ds-mt-3">Caption — 12px, weight 400, muted color.</p>
+        <blockquote class="ds-blockquote ds-mt-4">Blockquote — italic, left border accent, used for quotes.</blockquote>
+        <p class="ds-mt-3">Inline code: <code class="ds-code">const x = 42;</code></p>
+      </div>
+    </section>
+
+    <!-- COLORS -->
+    <section class="demo-section">
+      <h2 class="ds-h2">Colors</h2>
+      <p class="demo-desc">Semantic color tokens for backgrounds, text, accents and states.</p>
+      <div class="ds-grid ds-grid--2">
+        <!-- Backgrounds -->
+        <div class="color-swatch"><div class="color-swatch__box" style="background: var(--bg-primary);"></div><div class="color-swatch__info"><strong>bg-primary</strong><br>--bg-primary</div></div>
+        <div class="color-swatch"><div class="color-swatch__box" style="background: var(--bg-gradient-end);"></div><div class="color-swatch__info"><strong>bg-gradient-end</strong><br>--bg-gradient-end</div></div>
+        <div class="color-swatch"><div class="color-swatch__box" style="background: var(--bg-elevated);"></div><div class="color-swatch__info"><strong>bg-elevated</strong><br>--bg-elevated</div></div>
+        <!-- Text -->
+        <div class="color-swatch"><div class="color-swatch__box" style="background: var(--text-primary);"></div><div class="color-swatch__info"><strong>text-primary</strong><br>--text-primary</div></div>
+        <div class="color-swatch"><div class="color-swatch__box" style="background: var(--text-secondary);"></div><div class="color-swatch__info"><strong>text-secondary</strong><br>--text-secondary</div></div>
+        <div class="color-swatch"><div class="color-swatch__box" style="background: var(--text-heading);"></div><div class="color-swatch__info"><strong>text-heading</strong><br>--text-heading</div></div>
+        <div class="color-swatch"><div class="color-swatch__box" style="background: var(--text-muted);"></div><div class="color-swatch__info"><strong>text-muted</strong><br>--text-muted</div></div>
+        <!-- Accents -->
+        <div class="color-swatch"><div class="color-swatch__box" style="background: var(--link);"></div><div class="color-swatch__info"><strong>link</strong><br>--link</div></div>
+        <div class="color-swatch"><div class="color-swatch__box" style="background: var(--accent-positive);"></div><div class="color-swatch__info"><strong>accent-positive</strong><br>--accent-positive</div></div>
+        <div class="color-swatch"><div class="color-swatch__box" style="background: var(--accent-negative);"></div><div class="color-swatch__info"><strong>accent-negative</strong><br>--accent-negative</div></div>
+        <div class="color-swatch"><div class="color-swatch__box" style="background: var(--accent-warning);"></div><div class="color-swatch__info"><strong>accent-warning</strong><br>--accent-warning</div></div>
+        <div class="color-swatch"><div class="color-swatch__box" style="background: var(--accent-primary);"></div><div class="color-swatch__info"><strong>accent-primary</strong><br>--accent-primary</div></div>
+      </div>
+    </section>
+
+    <!-- SPACING -->
+    <section class="demo-section">
+      <h2 class="ds-h2">Spacing</h2>
+      <p class="demo-desc">8px-based spacing scale with CSS custom properties.</p>
+      <div class="ds-card">
+        <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3);"><span class="ds-small" style="width: 80px;">space-1</span><div class="spacing-box" style="width: 4px;"></div><span class="ds-caption">4px</span></div>
+        <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3);"><span class="ds-small" style="width: 80px;">space-2</span><div class="spacing-box" style="width: 8px;"></div><span class="ds-caption">8px</span></div>
+        <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3);"><span class="ds-small" style="width: 80px;">space-3</span><div class="spacing-box" style="width: 12px;"></div><span class="ds-caption">12px</span></div>
+        <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3);"><span class="ds-small" style="width: 80px;">space-4</span><div class="spacing-box" style="width: 16px;"></div><span class="ds-caption">16px</span></div>
+        <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3);"><span class="ds-small" style="width: 80px;">space-5</span><div class="spacing-box" style="width: 20px;"></div><span class="ds-caption">20px</span></div>
+        <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3);"><span class="ds-small" style="width: 80px;">space-6</span><div class="spacing-box" style="width: 24px;"></div><span class="ds-caption">24px</span></div>
+        <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3);"><span class="ds-small" style="width: 80px;">space-8</span><div class="spacing-box" style="width: 32px;"></div><span class="ds-caption">32px</span></div>
+        <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3);"><span class="ds-small" style="width: 80px;">space-10</span><div class="spacing-box" style="width: 40px;"></div><span class="ds-caption">40px</span></div>
+        <div style="display: flex; align-items: center; gap: var(--space-3);"><span class="ds-small" style="width: 80px;">space-12</span><div class="spacing-box" style="width: 48px;"></div><span class="ds-caption">48px</span></div>
+      </div>
+    </section>
+
+    <!-- SHADOWS & RADIUS -->
+    <section class="demo-section">
+      <h2 class="ds-h2">Shadows & Radius</h2>
+      <div class="ds-grid ds-grid--2">
+        <div class="ds-card" style="box-shadow: var(--shadow-sm);"><p class="ds-small">shadow-sm</p></div>
+        <div class="ds-card" style="box-shadow: var(--shadow-soft);"><p class="ds-small">shadow-soft</p></div>
+        <div class="ds-card" style="box-shadow: var(--shadow-hover);"><p class="ds-small">shadow-hover</p></div>
+        <div class="ds-card" style="box-shadow: var(--shadow-inner); padding: var(--space-4);"><p class="ds-small">shadow-inner</p></div>
+      </div>
+      <div class="ds-flex ds-gap-4 ds-mt-5 ds-items-center">
+        <div style="width: 64px; height: 64px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-sm);"></div>
+        <div style="width: 64px; height: 64px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-md);"></div>
+        <div style="width: 64px; height: 64px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg);"></div>
+        <div style="width: 64px; height: 64px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-xl);"></div>
+      </div>
+      <p class="ds-caption ds-mt-3">radius-sm → radius-xl</p>
+    </section>
+  </main>
+<script src="../theme.js"></script>
+</body>
+</html>

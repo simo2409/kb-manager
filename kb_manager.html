@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KB Manager</title>
+  <link rel="stylesheet" href="design_system_v2/fonts/Biennale/Biennale.css">
+  <link rel="stylesheet" href="design_system_v2/ds.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    .kb-page { min-height: 100vh; }
+    .kb-header { margin-bottom: var(--space-6); }
+    .kb-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+    .kb-list > .ds-card {
+      width: 100%;
+    }
+    .kb-layout {
+      display: flex;
+      gap: var(--space-4);
+      align-items: flex-start;
+    }
+    .kb-sidebar {
+      width: 25%;
+      flex-shrink: 0;
+      position: sticky;
+      top: 80px;
+      align-self: flex-start;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+    }
+    .kb-main {
+      flex: 1;
+      min-width: 0;
+    }
+    @media (max-width: 767px) {
+      .kb-sidebar { display: none; }
+      .kb-main { width: 100%; }
+    }
+    .kb-fav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+    .kb-fav-item {
+      padding: var(--space-3);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--glass-border);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .kb-fav-item:hover {
+      background: color-mix(in srgb, var(--text-primary) 6%, transparent);
+      border-color: var(--glass-hover-border);
+    }
+    .kb-fav-name {
+      font-size: var(--text-sm);
+      font-weight: var(--weight-medium);
+      color: var(--text-primary);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .kb-fav-path {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+    .kb-fav-item--dragging {
+      opacity: 0.5;
+      border-style: dashed;
+    }
+    .kb-fav-item--over {
+      border-color: var(--link);
+    }
+    .kb-fav-item .ph-dots-six-vertical {
+      cursor: grab;
+      flex-shrink: 0;
+    }
+    .kb-fav-item .ph-dots-six-vertical:active {
+      cursor: grabbing;
+    }
+    .kb-brain-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      padding: 0;
+      flex-shrink: 0;
+    }
+    .kb-brain-btn:hover {
+      transform: scale(1.1);
+    }
+    .kb-brain-btn.is-fav {
+      color: var(--accent-warning);
+    }
+    .ds-btn-split .ds-dropdown {
+      z-index: calc(var(--z-sticky) + 1);
+    }
+    .ds-card {
+      position: relative;
+      z-index: 1;
+    }
+    .ds-card__code {
+      position: relative;
+    }
+    .kb-code-expand {
+      position: absolute;
+      top: var(--space-2);
+      right: var(--space-2);
+      background: color-mix(in srgb, var(--bg-base) 80%, transparent);
+      border: 1px solid var(--glass-border);
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: var(--space-1);
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      transition: all var(--transition-fast);
+    }
+    .kb-code-expand:hover {
+      color: var(--text-primary);
+      background: var(--bg-elevated);
+    }
+    .kb-log-modal {
+      width: 95vw;
+      max-width: 95vw;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .kb-log-modal .ds-modal__body {
+      overflow: auto;
+      flex: 1;
+      min-height: 0;
+    }
+    .kb-log-modal__pre {
+      margin: 0;
+      background: transparent;
+      padding: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      color: var(--text-primary);
+    }
+    .kb-search-bar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: var(--space-4);
+    }
+
+    .kb-empty { min-height: 50vh; display: flex; align-items: center; justify-content: center; }
+    .kb-modal-form { display: flex; flex-direction: column; gap: var(--space-4); }
+    .kb-check-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+    }
+    .kb-check {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      cursor: pointer;
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+    }
+    .kb-check input {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--separator);
+      border-radius: var(--radius-sm);
+      background: color-mix(in srgb, var(--text-primary) 6%, transparent);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      flex-shrink: 0;
+      position: relative;
+    }
+    .kb-check input:checked {
+      background: var(--link);
+      border-color: var(--link);
+    }
+    .kb-check input:checked::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    .kb-check input:focus-visible {
+      outline: 2px solid var(--link);
+      outline-offset: 2px;
+    }
+    .kb-copy-box {
+      background: rgba(0,0,0,0.25);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-3);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--text-primary);
+      word-break: break-all;
+    }
+    .kb-toast {
+      position: fixed;
+      bottom: var(--space-5);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      padding: var(--space-3) var(--space-5);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-hover);
+      font-size: var(--text-sm);
+      z-index: 700;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-base);
+    }
+    .kb-toast--show { opacity: 1; pointer-events: auto; }
+    .ds-modal__footer { justify-content: space-between; }
+    .ds-modal__footer .ds-btn + .ds-btn { margin-left: auto; }
+    .ds-modal__footer--right { justify-content: flex-end; gap: var(--space-3); }
+
+    .kb-import-list {
+      max-height: 320px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      padding-right: var(--space-2);
+    }
+    .kb-import-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--glass-border);
+      background: color-mix(in srgb, var(--text-primary) 3%, transparent);
+      cursor: pointer;
+      transition: background var(--transition-fast);
+    }
+    .kb-import-item:hover {
+      background: color-mix(in srgb, var(--text-primary) 6%, transparent);
+    }
+    .kb-import-item input {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--separator);
+      border-radius: var(--radius-sm);
+      background: color-mix(in srgb, var(--text-primary) 6%, transparent);
+      cursor: pointer;
+      flex-shrink: 0;
+      position: relative;
+      transition: all var(--transition-fast);
+    }
+    .kb-import-item input:checked {
+      background: var(--link);
+      border-color: var(--link);
+    }
+    .kb-import-item input:checked::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    .kb-import-item input:focus-visible {
+      outline: 2px solid var(--link);
+      outline-offset: 2px;
+    }
+    .kb-import-item input:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body class="kb-page">
+<a href="#main-content" class="ds-skip-link">Skip to main content</a>
+
+<nav class="ds-navbar" aria-label="Main navigation">
+  <span class="ds-navbar__brand">KB Manager</span>
+  <div class="ds-navbar__nav ds-hide-mobile" style="margin-left:auto;gap:var(--space-3);display:flex;align-items:center;">
+    <button class="ds-btn ds-btn--ghost ds-btn--icon" id="btn-settings" aria-label="Settings" onclick="openSettingsModal()">
+      <i class="ph ph-gear" style="font-size:20px"></i>
+    </button>
+    <div class="ds-btn-split" id="btn-data">
+      <button class="ds-btn ds-btn--secondary" onclick="openFetchModal()">
+        <i class="ph ph-database" style="font-size:16px"></i>
+        Data
+      </button>
+      <button class="ds-btn ds-btn--secondary" aria-haspopup="true" aria-expanded="false" aria-label="Data options" style="padding-left:10px;">
+        <i class="ph ph-caret-down" style="font-size:12px"></i>
+      </button>
+      <div class="ds-dropdown" role="menu">
+        <button class="ds-dropdown__item" role="menuitem" onclick="openFetchModal()"><i class="ph ph-hand-grabbing" style="font-size:16px;"></i>Fetch</button>
+        <div class="ds-dropdown__divider"></div>
+        <button class="ds-dropdown__item" role="menuitem" onclick="exportData()"><i class="ph ph-upload-simple" style="font-size:16px;"></i>Export</button>
+        <button class="ds-dropdown__item" role="menuitem" onclick="openImportDataModal()"><i class="ph ph-download-simple" style="font-size:16px;"></i>Import</button>
+      </div>
+    </div>
+    <button class="ds-btn ds-btn--primary" onclick="openProjectModal()">
+      <i class="ph ph-plus" style="font-size:16px"></i>
+      New project
+    </button>
+  </div>
+  <button class="ds-navbar__hamburger" id="ds-hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="ds-mobile-nav">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+</nav>
+<nav id="ds-mobile-nav" class="ds-navbar__mobile" hidden aria-label="Mobile navigation">
+  <button class="ds-btn ds-btn--ghost ds-btn--icon ds-navbar__mobile__close" id="ds-mobile-close" aria-label="Close navigation">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <ul class="ds-navbar__mobile__nav">
+    <li><button class="ds-navbar__mobile__link" onclick="openSettingsModal(); closeMobileNav();">Settings</button></li>
+    <li><button class="ds-navbar__mobile__link" onclick="openFetchModal(); closeMobileNav();">Fetch</button></li>
+    <li><button class="ds-navbar__mobile__link" onclick="openProjectModal(); closeMobileNav();">New project</button></li>
+  </ul>
+</nav>
+
+<main class="ds-container" id="main-content">
+  <section class="kb-header">
+    <h1 class="ds-h1 ds-mb-2">KB manager</h1>
+    <p class="ds-lead">Your KBs</p>
+    <span class="ds-line"></span>
+  </section>
+
+  <div class="kb-search-bar">
+    <div class="ds-form-group" style="margin-bottom:0;width:100%;max-width:320px;">
+      <input type="text" id="kb-search" class="ds-input" placeholder="Search KB..." oninput="onSearchInput()">
+    </div>
+  </div>
+
+  <div class="kb-layout">
+    <aside class="kb-sidebar ds-hide-mobile">
+      <div class="ds-h5" style="margin-bottom:var(--space-3);">Favorites</div>
+      <ul class="kb-fav-list" id="fav-sidebar-list">
+        <li class="ds-caption" style="color:var(--text-muted);padding:var(--space-2) 0;">No favorites</li>
+      </ul>
+    </aside>
+    <div class="kb-main">
+      <div id="file-alert" class="ds-alert ds-alert--warning ds-mb-5" role="alert" style="display:none;">
+        <i class="ph ph-warning" style="font-size:20px;flex-shrink:0;margin-top:2px"></i>
+        <div>
+          <strong>File mode detected.</strong> To open Finder, VSCode and Ghostty directly, start the local server: <code class="ds-code">python3 launcher_server.py</code> and open <code class="ds-code">http://localhost:8765</code>. Obsidian works in both modes.
+        </div>
+      </div>
+
+      <div id="projects-container" class="kb-list"></div>
+
+      <div id="empty-state" class="ds-empty kb-empty" style="display:none;">
+        <i class="ph ph-folder-notch-open" style="font-size:48px;color:var(--text-muted)"></i>
+        <div class="ds-empty__title">No projects</div>
+        <p class="ds-empty__desc">Create your first project to start launching your favorite apps.</p>
+        <button class="ds-btn ds-btn--primary ds-mt-4" onclick="openProjectModal()">Create project</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- MODAL: Progetto -->
+<div id="modal-project" class="ds-modal-backdrop" onclick="if(event.target===this)closeProjectModal()">
+  <div class="ds-modal" role="dialog" aria-modal="true" aria-labelledby="modal-project-title">
+    <div class="ds-modal__header">
+      <h3 class="ds-modal__title" id="modal-project-title">New project</h3>
+      <button class="ds-modal__close" onclick="closeProjectModal()" aria-label="Close dialogo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="ds-modal__body">
+      <form id="project-form" class="kb-modal-form" onsubmit="return false;">
+        <input type="hidden" id="project-id">
+        <div class="ds-form-group" style="margin-bottom:0;">
+          <label class="ds-label" for="project-name">Project name *</label>
+          <input type="text" id="project-name" class="ds-input" placeholder="es. Strategy 2026" required>
+        </div>
+        <div class="ds-form-group" style="margin-bottom:0;">
+          <label class="ds-label" for="project-path">Absolute path *</label>
+          <input type="text" id="project-path" class="ds-input" placeholder="/Users/simone/obs-vaults/strategy" required>
+          <p class="ds-hint">If it does not exist, it will be created in the parent path configured in the settings.</p>
+        </div>
+        <div class="ds-form-group" style="margin-bottom:0;">
+          <label class="ds-label" for="project-desc">Description</label>
+          <textarea id="project-desc" class="ds-textarea" placeholder="Breve descrizione della knowledge base..."></textarea>
+        </div>
+        <div class="ds-form-group" style="margin-bottom:0;">
+          <label class="ds-label" for="project-vault">Obsidian vault name (optional)</label>
+          <input type="text" id="project-vault" class="ds-input" placeholder="es. strategy">
+          <p class="ds-hint">If empty, uses the project name. Used for the obsidian:// link</p>
+        </div>
+        <fieldset class="ds-fieldset">
+          <legend class="ds-legend">Active shortcuts</legend>
+          <div class="kb-check-group">
+            <label class="kb-check">
+              <input type="checkbox" id="act-finder" checked>
+              <span>Finder</span>
+            </label>
+            <label class="kb-check">
+              <input type="checkbox" id="act-vscode" checked>
+              <span>VSCode</span>
+            </label>
+            <label class="kb-check">
+              <input type="checkbox" id="act-obsidian" checked>
+              <span>Obsidian</span>
+            </label>
+            <label class="kb-check">
+              <input type="checkbox" id="act-ghostty" checked>
+              <span>Ghostty</span>
+            </label>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+    <div class="ds-modal__footer">
+      <button class="ds-btn ds-btn--ghost" onclick="closeProjectModal()">Cancel</button>
+      <button class="ds-btn ds-btn--primary" onclick="saveProject()">Save project</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Settings -->
+<div id="modal-settings" class="ds-modal-backdrop" onclick="if(event.target===this)closeSettingsModal()">
+  <div class="ds-modal" role="dialog" aria-modal="true" aria-labelledby="modal-settings-title">
+    <div class="ds-modal__header">
+      <h3 class="ds-modal__title" id="modal-settings-title">Settings</h3>
+      <button class="ds-modal__close" onclick="closeSettingsModal()" aria-label="Close dialogo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="ds-modal__body">
+      <form id="settings-form" class="kb-modal-form" onsubmit="return false;">
+        <div class="ds-form-group" style="margin-bottom:0;">
+          <label class="ds-label" for="setting-parent">Parent path for new projects</label>
+          <input type="text" id="setting-parent" class="ds-input" value="/Users/simone/obs-vaults">
+          <p class="ds-hint">When creating a project in a non-existing path, it will be created here.</p>
+        </div>
+        <div class="ds-form-group" style="margin-bottom:0;">
+          <label class="ds-label" for="setting-green">Green range (days)</label>
+          <input type="number" id="setting-green" class="ds-input" value="7" min="1">
+        </div>
+        <div class="ds-form-group" style="margin-bottom:0;">
+          <label class="ds-label" for="setting-orange">Orange range (days)</label>
+          <input type="number" id="setting-orange" class="ds-input" value="30" min="1">
+        </div>
+      </form>
+    </div>
+    <div class="ds-modal__footer ds-modal__footer--right">
+      <button class="ds-btn ds-btn--ghost" onclick="closeSettingsModal()">Cancel</button>
+      <button class="ds-btn ds-btn--primary" onclick="saveSettings()">Save settings</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Importa -->
+<div id="modal-fetch" class="ds-modal-backdrop" onclick="if(event.target===this)closeFetchModal()">
+  <div class="ds-modal" role="dialog" aria-modal="true" aria-labelledby="modal-import-title">
+    <div class="ds-modal__header">
+      <h3 class="ds-modal__title" id="modal-fetch-title">Import Knowledge Base</h3>
+      <button class="ds-modal__close" onclick="closeFetchModal()" aria-label="Close dialogo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="ds-modal__body">
+      <p class="ds-body ds-mb-3">Select folders in the parent path to import as projects.</p>
+      <div id="fetch-list-container" class="kb-fetch-list"></div>
+      <div id="fetch-empty" class="ds-empty" style="display:none;padding:var(--space-6) 0;">
+        <i class="ph ph-folder-open" style="font-size:32px;color:var(--text-muted)"></i>
+        <div class="ds-empty__title">No folders found</div>
+        <p class="ds-empty__desc">The parent path is empty or does not exist.</p>
+      </div>
+      <div id="fetch-file-warning" class="ds-alert ds-alert--warning ds-mt-3" role="alert" style="display:none;">
+        <i class="ph ph-warning" style="font-size:20px;flex-shrink:0;margin-top:2px"></i>
+        <div>To automatically import folders you must use the local server (<code class="ds-code">python3 launcher_server.py</code>).</div>
+      </div>
+    </div>
+    <div class="ds-modal__footer ds-modal__footer--right">
+      <button class="ds-btn ds-btn--ghost" onclick="closeFetchModal()">Cancel</button>
+      <button class="ds-btn ds-btn--primary" id="btn-confirm-fetch" onclick="fetchSelected()">Import selected</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Import data -->
+<div id="modal-import-data" class="ds-modal-backdrop" onclick="if(event.target===this)closeImportDataModal()">
+  <div class="ds-modal" role="dialog" aria-modal="true" aria-labelledby="modal-import-data-title">
+    <div class="ds-modal__header">
+      <h3 class="ds-modal__title" id="modal-import-data-title">Import data</h3>
+      <button class="ds-modal__close" onclick="closeImportDataModal()" aria-label="Close dialogo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="ds-modal__body">
+      <p class="ds-body ds-mb-3">Select a previously exported JSON file to overwrite all data.</p>
+      <div class="ds-form-group" style="margin-bottom:0;">
+        <input type="file" id="import-data-file" accept=".json" class="ds-input">
+      </div>
+    </div>
+    <div class="ds-modal__footer ds-modal__footer--right">
+      <button class="ds-btn ds-btn--ghost" onclick="closeImportDataModal()">Cancel</button>
+      <button class="ds-btn ds-btn--primary" onclick="confirmImportData()">Importa</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Copia comando -->
+<div id="modal-copy" class="ds-modal-backdrop" onclick="if(event.target===this)closeCopyModal()">
+  <div class="ds-modal" role="dialog" aria-modal="true" aria-labelledby="modal-copy-title">
+    <div class="ds-modal__header">
+      <h3 class="ds-modal__title" id="modal-copy-title">Command to run</h3>
+      <button class="ds-modal__close" onclick="closeCopyModal()" aria-label="Close dialogo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="ds-modal__body">
+      <p class="ds-body ds-mb-3">In file:// mode it is not possible to launch external apps automatically. Copy this command to the Terminal:</p>
+      <div class="kb-copy-box" id="copy-command-box"></div>
+    </div>
+    <div class="ds-modal__footer ds-modal__footer--right">
+      <button class="ds-btn ds-btn--secondary" onclick="copyCommand()">
+        <i class="ph ph-copy" style="font-size:16px"></i>
+        Copy to clipboard
+      </button>
+      <button class="ds-btn ds-btn--primary" onclick="closeCopyModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Conferma eliminazione -->
+<div id="modal-delete" class="ds-modal-backdrop" onclick="if(event.target===this)closeDeleteModal()">
+  <div class="ds-modal" role="dialog" aria-modal="true" aria-labelledby="modal-delete-title">
+    <div class="ds-modal__header">
+      <h3 class="ds-modal__title" id="modal-delete-title">Delete project</h3>
+      <button class="ds-modal__close" onclick="closeDeleteModal()" aria-label="Close dialogo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="ds-modal__body">
+      <p class="ds-body">Are you sure you want to delete this project from the list? Files will not be touched.</p>
+    </div>
+    <div class="ds-modal__footer">
+      <button class="ds-btn ds-btn--ghost" onclick="closeDeleteModal()">Cancel</button>
+      <button class="ds-btn ds-btn--danger" id="btn-confirm-delete" onclick="">Remove</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Log viewer -->
+<div id="modal-log" class="ds-modal-backdrop" onclick="if(event.target===this)closeLogModal()">
+  <div class="ds-modal kb-log-modal" role="dialog" aria-modal="true" aria-labelledby="modal-log-title">
+    <div class="ds-modal__header">
+      <h3 class="ds-modal__title" id="modal-log-title">Log</h3>
+      <button class="ds-modal__close" onclick="closeLogModal()" aria-label="Close dialog">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="ds-modal__body">
+      <pre class="kb-log-modal__pre"><code id="modal-log-code"></code></pre>
+    </div>
+    <div class="ds-modal__footer ds-modal__footer--right">
+      <button class="ds-btn ds-btn--primary" onclick="closeLogModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="kb-toast"></div>
+
+<script>
+/* ============================================================
+   STORAGE & DATA
+   ============================================================ */
+const STORAGE_KEY = 'kb_manager_data';
+const DEFAULT_PARENT = '/Users/simone/obs-vaults';
+
+function getData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const data = JSON.parse(raw);
+      let changed = false;
+      if (data.projects) {
+        data.projects.forEach(p => {
+          if (typeof p.favorite === 'undefined') {
+            p.favorite = false;
+            changed = true;
+          }
+        });
+      }
+      if (changed) setData(data);
+      return data;
+    }
+  } catch(e) {}
+  return { settings: { parentPath: DEFAULT_PARENT, updateRanges: { green: 7, orange: 30 } }, projects: [] };
+}
+
+function setData(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function generateId() {
+  return 'id_' + Math.random().toString(36).slice(2, 9) + Date.now().toString(36);
+}
+
+function initCardToggles() {
+  document.querySelectorAll('.ds-card__toggle').forEach(function(btn) {
+    if (btn.dataset.toggleInit) return;
+    btn.dataset.toggleInit = 'true';
+    btn.addEventListener('click', function() {
+      var targetId = this.getAttribute('aria-controls');
+      var target = document.getElementById(targetId);
+      if (!target) return;
+      var isHidden = target.classList.contains('is-hidden');
+      if (isHidden) {
+        target.classList.remove('is-hidden');
+        this.setAttribute('aria-expanded', 'true');
+        this.textContent = 'Hide log';
+      } else {
+        target.classList.add('is-hidden');
+        this.setAttribute('aria-expanded', 'false');
+        this.textContent = 'Show log';
+      }
+    });
+  });
+}
+
+function openLogModal(projId) {
+  var pre = document.getElementById('code-' + projId);
+  var code = pre ? pre.querySelector('code') : null;
+  var content = code ? code.textContent : 'No log found';
+  var data = getData();
+  var proj = (data.projects || []).find(function(p) { return p.id === projId; });
+  document.getElementById('modal-log-title').textContent = (proj ? proj.name : 'KB') + ' - Log';
+  document.getElementById('modal-log-code').textContent = content;
+  openDsModal('modal-log', document.activeElement);
+}
+
+function closeLogModal() {
+  closeDsModal('modal-log');
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function render() {
+  const data = getData();
+  const container = document.getElementById('projects-container');
+  const empty = document.getElementById('empty-state');
+  const fileAlert = document.getElementById('file-alert');
+
+  if (location.protocol === 'file:') {
+    fileAlert.style.display = '';
+  } else {
+    fileAlert.style.display = 'none';
+  }
+
+  container.innerHTML = '';
+  if (!data.projects || data.projects.length === 0) {
+    empty.style.display = '';
+    return;
+  }
+  empty.style.display = 'none';
+
+  let projects = data.projects || [];
+  projects.forEach(p => { if (typeof p.favorite === 'undefined') p.favorite = false; });
+  if (lastUpdateData) {
+    projects.sort((a, b) => {
+      const ta = (lastUpdateData[a.path] && lastUpdateData[a.path].ts) || 0;
+      const tb = (lastUpdateData[b.path] && lastUpdateData[b.path].ts) || 0;
+      return tb - ta;
+    });
+  } else {
+    projects.sort((a, b) => a.name.localeCompare(b.name));
+  }
+  if (favOnly) projects = projects.filter(p => p.favorite);
+  if (searchQuery) {
+    const q = searchQuery;
+    projects = projects.filter(p =>
+      p.name.toLowerCase().includes(q) ||
+      p.path.toLowerCase().includes(q) ||
+      (p.description || '').toLowerCase().includes(q)
+    );
+  }
+  if (!lastUpdateData && isLocalServer() && projects.length > 0) {
+    loadLastUpdates();
+  }
+
+  projects.forEach(proj => {
+    const actions = proj.actions || ['finder','vscode','obsidian','ghostty'];
+    const desc = (proj.description || '').trim();
+    const card = document.createElement('div');
+    card.className = 'ds-card kb-card';
+    card.id = 'card-' + proj.id;
+    card.innerHTML = `
+      <div class="ds-card__header">
+        <div style="display:flex;align-items:center;gap:var(--space-2);flex:1;min-width:0;">
+          <button class="kb-brain-btn ${proj.favorite ? 'is-fav' : ''}" aria-label="${proj.favorite ? 'Remove from favorites' : 'Add to favorites'}" onclick="toggleFavorite('${proj.id}')">
+            <i class="ph ${proj.favorite ? 'ph-fill' : 'ph-light'} ph-brain" style="font-size:20px"></i>
+          </button>
+          <div style="flex:1;min-width:0;">
+            <div class="ds-card__title">${escapeHtml(proj.name)}</div>
+          </div>
+        </div>
+        <span class="ds-badge ${lastUpdateData && lastUpdateData[proj.path] ? getUpdateBadgeClass(lastUpdateData[proj.path].ts) : 'ds-badge--info'} kb-last-update" data-path="${escapeHtml(proj.path)}">${lastUpdateData && lastUpdateData[proj.path] ? escapeHtml(lastUpdateData[proj.path].text) : '--'}</span>
+      </div>
+            <div class="ds-card__body">
+        <p class="ds-body" style="color:${desc ? 'var(--text-primary)' : 'var(--text-muted)'};">${escapeHtml(desc || 'No description')}</p>
+      </div>
+      <div class="ds-card__meta">
+        <span>${escapeHtml(proj.path)}</span>
+        <button class="ds-card__toggle" aria-expanded="false" aria-controls="code-${proj.id}">Show log</button>
+      </div>
+      <pre class="ds-card__code is-hidden" id="code-${proj.id}" data-path="${escapeHtml(proj.path)}"><button class="kb-code-expand" aria-label="Expand log" onclick="openLogModal('${proj.id}')"><i class="ph ph-arrows-out" style="font-size:16px"></i></button><code>${isLocalServer() ? 'Loading log...' : 'No log found'}</code></pre>
+      <div class="ds-card__footer" style="justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:var(--space-2);">
+          <div class="ds-btn-split">
+            <button class="ds-btn ds-btn--ghost ds-btn--icon" aria-label="Actions" onclick="editProject('${proj.id}')" style="width:36px;height:36px;">
+              <i class="ph ph-gear-six" style="font-size:18px"></i>
+            </button>
+            <button class="ds-btn ds-btn--ghost ds-btn--icon" aria-haspopup="true" aria-expanded="false" aria-label="More actions" style="width:36px;height:36px;padding-left:6px;padding-right:6px;">
+              <i class="ph ph-caret-down" style="font-size:12px"></i>
+            </button>
+            <div class="ds-dropdown" role="menu">
+              <button class="ds-dropdown__item" role="menuitem" onclick="editProject('${proj.id}')"><i class="ph ph-pencil-simple" style="font-size:16px"></i>Edit</button>
+              <button class="ds-dropdown__item ds-dropdown__item--danger" role="menuitem" onclick="confirmDelete('${proj.id}')"><i class="ph ph-trash" style="font-size:16px"></i>Remove</button>
+            </div>
+          </div>
+          <span class="ds-badge ds-badge--info kb-size-badge" data-path="${escapeHtml(proj.path)}">--</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:var(--space-2);">
+          ${actions.includes('finder') ? actionBtn(proj.id, 'finder', 'Open in Finder', 'ph-folder-open') : ''}
+          ${actions.includes('vscode') ? actionBtn(proj.id, 'vscode', 'Open in VSCode', 'ph-code') : ''}
+          ${actions.includes('obsidian') ? actionBtn(proj.id, 'obsidian', 'Open in Obsidian', 'ph-binoculars') : ''}
+          ${actions.includes('ghostty') ? actionBtn(proj.id, 'ghostty', 'Open in Ghostty', 'ph-terminal') : ''}
+        </div>
+      </div>    `;
+    container.appendChild(card);
+  });
+
+  loadSizes();
+  loadLogs();
+  renderSidebar();
+  if (typeof initAllSplitButtons === 'function') initAllSplitButtons();
+  initCardToggles();
+}
+
+function actionBtn(id, action, label, phIcon) {
+  return `<button class="ds-btn ds-btn--ghost ds-btn--icon" aria-label="${label}" onclick="runAction('${id}', '${action}')">
+    <i class="ph ${phIcon}" style="font-size:18px"></i>
+  </button>`;
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function loadSizes() {
+  if (!isLocalServer()) return;
+  const data = getData();
+  const paths = (data.projects || []).map(p => p.path);
+  if (paths.length === 0) return;
+
+  fetch('/api/sizes', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ paths })
+  })
+  .then(r => r.ok ? r.json() : Promise.reject())
+  .then(result => {
+    const sizes = result.sizes || {};
+    document.querySelectorAll('.kb-size-badge').forEach(badge => {
+      const p = badge.getAttribute('data-path');
+      badge.textContent = sizes[p] || '--';
+    });
+  })
+  .catch(() => {
+    document.querySelectorAll('.kb-size-badge').forEach(b => b.textContent = '--');
+  });
+}
+
+function loadLastUpdates() {
+  if (!isLocalServer()) return;
+  const data = getData();
+  const paths = (data.projects || []).map(p => p.path);
+  if (paths.length === 0) return;
+
+  fetch('/api/last-update', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ paths })
+  })
+  .then(r => r.ok ? r.json() : Promise.reject())
+  .then(result => {
+    lastUpdateData = result.lastUpdates || {};
+    render();
+  })
+  .catch(() => {
+    lastUpdateData = null;
+  });
+}
+
+function loadLogs() {
+  if (!isLocalServer()) return;
+  const data = getData();
+  const paths = (data.projects || []).map(p => p.path);
+  if (paths.length === 0) return;
+
+  fetch('/api/log', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ paths })
+  })
+  .then(r => r.ok ? r.json() : Promise.reject())
+  .then(result => {
+    const logs = result.logs || {};
+    document.querySelectorAll('.ds-card__code[data-path]').forEach(function(pre) {
+      const p = pre.getAttribute('data-path');
+      const code = pre.querySelector('code');
+      if (code) code.textContent = logs[p] || 'No log found';
+    });
+  })
+  .catch(() => {
+    document.querySelectorAll('.ds-card__code[data-path]').forEach(function(pre) {
+      const code = pre.querySelector('code');
+      if (code) code.textContent = 'No log found';
+    });
+  });
+}
+
+function getUpdateBadgeClass(ts) {
+  if (!ts) return 'ds-badge--info';
+  const data = getData();
+  const ranges = (data.settings && data.settings.updateRanges) || { green: 7, orange: 30 };
+  const now = Date.now() / 1000;
+  const days = (now - ts) / 86400;
+  if (days <= ranges.green) return 'ds-badge--success';
+  if (days <= ranges.orange) return 'ds-badge--warning';
+  return 'ds-badge--danger';
+}
+
+/* ============================================================
+   SIDEBAR PREFERITE
+   ============================================================ */
+function renderSidebar() {
+  const data = getData();
+  const list = document.getElementById('fav-sidebar-list');
+  const favs = (data.projects || []).filter(p => p.favorite).sort((a, b) => {
+    const ao = (typeof a.favOrder === 'number') ? a.favOrder : Infinity;
+    const bo = (typeof b.favOrder === 'number') ? b.favOrder : Infinity;
+    if (ao !== bo) return ao - bo;
+    return a.name.localeCompare(b.name);
+  });
+  if (favs.length === 0) {
+    list.innerHTML = '<li class="ds-caption" style="color:var(--text-muted);padding:var(--space-2) 0;">No favorites</li>';
+    return;
+  }
+  list.innerHTML = favs.map((proj, idx) => `
+    <li class="kb-fav-item" data-id="${proj.id}" data-idx="${idx}">
+      <div style="display:flex;align-items:center;gap:var(--space-2);">
+        <i class="ph ph-fill ph-brain" style="color:var(--accent-warning);font-size:16px;flex-shrink:0;"></i>
+        <div style="flex:1;min-width:0;" onclick="scrollToCard('${proj.id}')">
+          <div class="kb-fav-name">${escapeHtml(proj.name)}</div>
+        </div>
+        <i class="ph ph-dots-six-vertical" style="color:var(--text-muted);font-size:16px;cursor:grab;flex-shrink:0;" draggable="true"></i>
+      </div>
+    </li>
+  `).join('');
+  list.querySelectorAll('.kb-fav-item').forEach(item => {
+    const handle = item.querySelector('.ph-dots-six-vertical');
+    if (!handle) return;
+    handle.addEventListener('dragstart', onSidebarDragStart);
+    handle.addEventListener('dragend', onSidebarDragEnd);
+    item.addEventListener('dragover', onSidebarDragOver);
+    item.addEventListener('dragleave', onSidebarDragLeave);
+    item.addEventListener('drop', onSidebarDrop);
+  });
+}
+
+function scrollToCard(id) {
+  const searchInput = document.getElementById('kb-search');
+  if (searchInput && searchInput.value.trim()) {
+    searchInput.value = '';
+    searchQuery = '';
+    render();
+  }
+  const card = document.getElementById('card-' + id);
+  if (!card) return;
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  card.classList.add('ds-card--selected');
+  card.setAttribute('aria-selected', 'true');
+  setTimeout(() => {
+    card.classList.remove('ds-card--selected');
+    card.removeAttribute('aria-selected');
+  }, 1500);
+}
+
+let sidebarDragSrc = null;
+
+function onSidebarDragStart(e) {
+  sidebarDragSrc = this.closest('.kb-fav-item');
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', sidebarDragSrc.dataset.id);
+  sidebarDragSrc.classList.add('kb-fav-item--dragging');
+}
+
+function onSidebarDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  const target = e.target.closest('.kb-fav-item');
+  document.querySelectorAll('.kb-fav-item--over').forEach(el => {
+    if (el !== target) el.classList.remove('kb-fav-item--over');
+  });
+  if (target && target !== sidebarDragSrc) {
+    target.classList.add('kb-fav-item--over');
+  }
+}
+
+function onSidebarDragLeave(e) {
+  const target = e.target.closest('.kb-fav-item');
+  if (target) target.classList.remove('kb-fav-item--over');
+}
+
+function onSidebarDrop(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  const target = e.target.closest('.kb-fav-item');
+  document.querySelectorAll('.kb-fav-item--over').forEach(el => el.classList.remove('kb-fav-item--over'));
+  if (!target || target === sidebarDragSrc) return;
+
+  const srcId = sidebarDragSrc.dataset.id;
+  const targetId = target.dataset.id;
+  if (srcId === targetId) return;
+
+  const data = getData();
+  const projects = data.projects || [];
+  const favs = projects.filter(p => p.favorite).sort((a, b) => {
+    const ao = (typeof a.favOrder === 'number') ? a.favOrder : Infinity;
+    const bo = (typeof b.favOrder === 'number') ? b.favOrder : Infinity;
+    if (ao !== bo) return ao - bo;
+    return a.name.localeCompare(b.name);
+  });
+
+  const srcIdx = favs.findIndex(p => p.id === srcId);
+  const targetIdx = favs.findIndex(p => p.id === targetId);
+  if (srcIdx < 0 || targetIdx < 0) return;
+
+  const rect = target.getBoundingClientRect();
+  const after = e.clientY > rect.top + rect.height / 2;
+
+  const [moved] = favs.splice(srcIdx, 1);
+
+  let insertIndex = targetIdx;
+  if (srcIdx < targetIdx) {
+    insertIndex = after ? targetIdx : targetIdx - 1;
+  } else {
+    insertIndex = after ? targetIdx + 1 : targetIdx;
+  }
+  if (insertIndex < 0) insertIndex = 0;
+  if (insertIndex > favs.length) insertIndex = favs.length;
+
+  favs.splice(insertIndex, 0, moved);
+
+  favs.forEach((p, i) => {
+    const proj = projects.find(x => x.id === p.id);
+    if (proj) proj.favOrder = i;
+  });
+
+  setData(data);
+  renderSidebar();
+}
+
+function onSidebarDragEnd(e) {
+  if (sidebarDragSrc) sidebarDragSrc.classList.remove('kb-fav-item--dragging');
+  document.querySelectorAll('.kb-fav-item--over').forEach(el => el.classList.remove('kb-fav-item--over'));
+  sidebarDragSrc = null;
+}
+
+/* ============================================================
+   ACTIONS
+   ============================================================ */
+const isLocalServer = () => location.hostname === 'localhost' && location.port === '8765';
+
+function runAction(projectId, action) {
+  const data = getData();
+  const proj = data.projects.find(p => p.id === projectId);
+  if (!proj) return;
+
+  if (action === 'obsidian') {
+    const vault = proj.obsidianVaultName || proj.name;
+    window.location.href = `obsidian://open?vault=${encodeURIComponent(vault)}`;
+    return;
+  }
+
+  if (isLocalServer()) {
+    fetch('/api/open', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action, path: proj.path, vault: proj.obsidianVaultName || proj.name })
+    }).then(r => {
+      if (!r.ok) throw new Error('Server error');
+      showToast('App launched');
+    }).catch(err => {
+      showToast('Error: ' + err.message, true);
+    });
+  } else {
+    const cmd = buildCommand(action, proj);
+    document.getElementById('copy-command-box').textContent = cmd;
+    openDsModal('modal-copy', document.activeElement);
+  }
+}
+
+function buildCommand(action, proj) {
+  const p = proj.path.replace(/\s/g, '\\ ');
+  switch (action) {
+    case 'finder': return `open "${proj.path}"`;
+    case 'vscode': return `code "${proj.path}"`;
+    case 'obsidian': return `open "obsidian://open?vault=${encodeURIComponent(proj.obsidianVaultName || proj.name)}"`;
+    case 'ghostty': return `open -a Ghostty "${proj.path}"`;
+    default: return '';
+  }
+}
+
+/* ============================================================
+   PROJECT FORM
+   ============================================================ */
+function openProjectModal(id) {
+  const form = document.getElementById('project-form');
+  form.reset();
+  document.getElementById('project-id').value = '';
+  document.getElementById('modal-project-title').textContent = 'New project';
+
+  if (id) {
+    const data = getData();
+    const proj = data.projects.find(p => p.id === id);
+    if (proj) {
+      document.getElementById('project-id').value = proj.id;
+      document.getElementById('project-name').value = proj.name;
+      document.getElementById('project-path').value = proj.path;
+      document.getElementById('project-desc').value = proj.description || '';
+      document.getElementById('project-vault').value = proj.obsidianVaultName || '';
+      const acts = proj.actions || ['finder','vscode','obsidian','ghostty'];
+      document.getElementById('act-finder').checked = acts.includes('finder');
+      document.getElementById('act-vscode').checked = acts.includes('vscode');
+      document.getElementById('act-obsidian').checked = acts.includes('obsidian');
+      document.getElementById('act-ghostty').checked = acts.includes('ghostty');
+      document.getElementById('modal-project-title').textContent = 'Edit project';
+    }
+  }
+  openDsModal('modal-project', document.activeElement);
+}
+
+function closeProjectModal() {
+  closeDsModal('modal-project', 'btn-settings');
+}
+
+async function saveProject() {
+  const name = document.getElementById('project-name').value.trim();
+  let path = document.getElementById('project-path').value.trim();
+  const description = document.getElementById('project-desc').value.trim();
+  const vault = document.getElementById('project-vault').value.trim();
+  const id = document.getElementById('project-id').value;
+
+  if (!name || !path) {
+    showToast('Fill in name and path.', true);
+    return;
+  }
+
+  const data = getData();
+  if (!path.startsWith('/')) {
+    const parent = (data.settings && data.settings.parentPath) ? data.settings.parentPath : DEFAULT_PARENT;
+    path = parent.replace(/\/$/, '') + '/' + path;
+  }
+
+  if (isLocalServer()) {
+    try {
+      const res = await fetch('/api/mkdir', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ path })
+      });
+      if (!res.ok) {
+        const text = await res.text();
+        showToast('Error creating folder: ' + text, true);
+        return;
+      }
+    } catch (e) {
+      showToast('Network error with the server.', true);
+      return;
+    }
+  }
+
+  const actions = [];
+  if (document.getElementById('act-finder').checked) actions.push('finder');
+  if (document.getElementById('act-vscode').checked) actions.push('vscode');
+  if (document.getElementById('act-obsidian').checked) actions.push('obsidian');
+  if (document.getElementById('act-ghostty').checked) actions.push('ghostty');
+
+  const project = {
+    id: id || generateId(),
+    name,
+    path,
+    description,
+    obsidianVaultName: vault || name,
+    actions,
+    favorite: id ? (data.projects.find(p => p.id === id)?.favorite || false) : false
+  };
+
+  if (id) {
+    const idx = data.projects.findIndex(p => p.id === id);
+    if (idx >= 0) data.projects[idx] = project;
+  } else {
+    data.projects.push(project);
+  }
+
+  setData(data);
+  closeProjectModal();
+  render();
+  showToast(id ? 'Project updated' : 'Project created');
+}
+
+function editProject(id) {
+  openProjectModal(id);
+}
+
+function confirmDelete(id) {
+  const btn = document.getElementById('btn-confirm-delete');
+  btn.onclick = function() { doDelete(id); };
+  openDsModal('modal-delete', document.activeElement);
+}
+
+function closeDeleteModal() {
+  closeDsModal('modal-delete');
+}
+
+function doDelete(id) {
+  const data = getData();
+  data.projects = data.projects.filter(p => p.id !== id);
+  setData(data);
+  closeDeleteModal();
+  render();
+  showToast('Project deleted');
+}
+
+/* ============================================================
+   SETTINGS
+   ============================================================ */
+function openSettingsModal() {
+  const data = getData();
+  document.getElementById('setting-parent').value = (data.settings && data.settings.parentPath) ? data.settings.parentPath : DEFAULT_PARENT;
+  const ranges = (data.settings && data.settings.updateRanges) || { green: 7, orange: 30 };
+  document.getElementById('setting-green').value = ranges.green;
+  document.getElementById('setting-orange').value = ranges.orange;
+  openDsModal('modal-settings', document.activeElement);
+}
+
+function closeSettingsModal() {
+  closeDsModal('modal-settings', 'btn-settings');
+}
+
+function saveSettings() {
+  const parent = document.getElementById('setting-parent').value.trim();
+  if (!parent) {
+    showToast('Enter a valid path.', true);
+    return;
+  }
+  const data = getData();
+  data.settings = data.settings || {};
+  data.settings.parentPath = parent;
+  setData(data);
+  closeSettingsModal();
+  showToast('Settings salvate');
+}
+
+/* ============================================================
+   IMPORT MODAL
+   ============================================================ */
+function openFetchModal() {
+  openDsModal('modal-import', document.activeElement);
+  const container = document.getElementById('fetch-list-container');
+  const empty = document.getElementById('fetch-empty');
+  const warning = document.getElementById('fetch-file-warning');
+  const btn = document.getElementById('btn-confirm-import');
+  container.innerHTML = '';
+  empty.style.display = 'none';
+  warning.style.display = 'none';
+  btn.disabled = true;
+
+  if (!isLocalServer()) {
+    warning.style.display = '';
+    return;
+  }
+
+  const data = getData();
+  const parentPath = (data.settings && data.settings.parentPath) ? data.settings.parentPath : DEFAULT_PARENT;
+
+  fetch('/api/list-parent', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ parentPath })
+  })
+  .then(r => {
+    if (!r.ok) throw new Error('Server error');
+    return r.json();
+  })
+  .then(result => {
+    const dirs = result.directories || [];
+    const existingPaths = new Set((data.projects || []).map(p => p.path));
+    renderFetchList(dirs, parentPath, existingPaths);
+  })
+  .catch(err => {
+    showToast('Error: ' + err.message, true);
+  });
+}
+
+function renderFetchList(dirs, parentPath, existingPaths) {
+  const container = document.getElementById('fetch-list-container');
+  const empty = document.getElementById('fetch-empty');
+  const btn = document.getElementById('btn-confirm-import');
+
+  if (dirs.length === 0) {
+    empty.style.display = '';
+    btn.disabled = true;
+    return;
+  }
+
+  let selectableCount = 0;
+  dirs.forEach(name => {
+    const fullPath = parentPath.replace(/\/$/, '') + '/' + name;
+    const isDuplicate = existingPaths.has(fullPath);
+    const item = document.createElement('label');
+    item.className = 'kb-import-item';
+    if (isDuplicate) {
+      item.style.opacity = '0.45';
+      item.style.cursor = 'not-allowed';
+    }
+    item.innerHTML = `
+      <input type="checkbox" value="${escapeHtml(name)}" ${isDuplicate ? 'disabled' : ''} onchange="updateImportBtn()">
+      <div style="min-width:0;">
+        <div style="font-size:var(--text-md);font-weight:var(--weight-regular);color:var(--text-primary);">${escapeHtml(name)}</div>
+        <div style="font-size:var(--text-xs);color:var(--text-muted);font-family:var(--font-mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(fullPath)}</div>
+      </div>
+      ${isDuplicate ? '<span class="ds-badge ds-badge--info" style="margin-left:auto;">Già importato</span>' : ''}
+    `;
+    container.appendChild(item);
+    if (!isDuplicate) selectableCount++;
+  });
+
+  btn.disabled = selectableCount === 0;
+}
+
+function updateImportBtn() {
+  const container = document.getElementById('fetch-list-container');
+  const checked = container.querySelectorAll('input[type="checkbox"]:checked:not(:disabled)');
+  document.getElementById('btn-confirm-import').disabled = checked.length === 0;
+}
+
+function fetchSelected() {
+  const container = document.getElementById('fetch-list-container');
+  const checked = container.querySelectorAll('input[type="checkbox"]:checked:not(:disabled)');
+  if (checked.length === 0) return;
+
+  const data = getData();
+  const parentPath = (data.settings && data.settings.parentPath) ? data.settings.parentPath : DEFAULT_PARENT;
+
+  checked.forEach(cb => {
+    const name = cb.value;
+    const fullPath = parentPath.replace(/\/$/, '') + '/' + name;
+    data.projects.push({
+      id: generateId(),
+      name: name,
+      path: fullPath,
+      description: '',
+      obsidianVaultName: name,
+      actions: ['finder', 'vscode', 'obsidian', 'ghostty'],
+      favorite: false
+    });
+  });
+
+  setData(data);
+  closeFetchModal();
+  render();
+  showToast(checked.length + ' KB importate');
+}
+
+function closeFetchModal() {
+  closeDsModal('modal-import', 'btn-import');
+}
+
+/* ============================================================
+   FAVORITES
+   ============================================================ */
+let favOnly = false;
+let searchQuery = '';
+let lastUpdateData = null;
+
+function toggleFavorite(id) {
+  const data = getData();
+  const proj = data.projects.find(p => p.id === id);
+  if (!proj) return;
+  proj.favorite = !proj.favorite;
+  if (proj.favorite) {
+    const existingOrders = (data.projects || [])
+      .filter(p => p.favorite && typeof p.favOrder === 'number')
+      .map(p => p.favOrder);
+    const maxOrder = existingOrders.length > 0 ? Math.max(...existingOrders) : -1;
+    proj.favOrder = maxOrder + 1;
+  } else {
+    delete proj.favOrder;
+  }
+  setData(data);
+  render();
+  showToast(proj.favorite ? 'Added to favorites' : 'Removed from favorites');
+}
+
+function onSearchInput() {
+  searchQuery = document.getElementById('kb-search').value.trim().toLowerCase();
+  render();
+}
+
+function toggleFavOnly() {
+  favOnly = !favOnly;
+  const chip = document.getElementById('chip-fav-only');
+  if (favOnly) {
+    chip.classList.add('ds-chip--active');
+  } else {
+    chip.classList.remove('ds-chip--active');
+  }
+  render();
+}
+
+/* ============================================================
+   COPY COMMAND MODAL
+   ============================================================ */
+function closeCopyModal() {
+  closeDsModal('modal-copy');
+}
+
+function copyCommand() {
+  const text = document.getElementById('copy-command-box').textContent;
+  navigator.clipboard.writeText(text).then(() => showToast('Comando copiato!')).catch(() => showToast('Errore copia', true));
+}
+
+/* ============================================================
+   DATA EXPORT / IMPORT
+   ============================================================ */
+function exportData() {
+  const data = getData();
+  const now = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  const ts = `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}`;
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `kb-manager-data-${ts}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('Data exported');
+}
+
+function openImportDataModal() {
+  document.getElementById('import-data-file').value = '';
+  openDsModal('modal-import-data', document.activeElement);
+}
+
+function closeImportDataModal() {
+  closeDsModal('modal-import-data', 'btn-data');
+}
+
+function confirmImportData() {
+  const fileInput = document.getElementById('import-data-file');
+  const file = fileInput.files[0];
+  if (!file) {
+    showToast('Select a JSON file.', true);
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.projects || !Array.isArray(data.projects)) {
+        showToast('Invalid JSON file.', true);
+        return;
+      }
+      setData(data);
+      render();
+      closeImportDataModal();
+      showToast('Data imported successfully');
+    } catch (err) {
+      showToast('Error reading file: ' + err.message, true);
+    }
+  };
+  reader.readAsText(file);
+}
+
+/* ============================================================
+   MODAL UTILS (DS)
+   ============================================================ */
+function openDsModal(id, triggerEl) {
+  var bd = document.getElementById(id);
+  bd.classList.add('ds-modal-backdrop--open');
+  var focusable = bd.querySelectorAll('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])');
+  var first = focusable[0], last = focusable[focusable.length - 1];
+  if (first) first.focus();
+  function trap(e) {
+    if (e.key === 'Escape') { closeDsModal(id, triggerEl && triggerEl.id); bd.removeEventListener('keydown', trap); return; }
+    if (e.key === 'Tab') {
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  }
+  bd.addEventListener('keydown', trap);
+  bd._trap = trap;
+}
+
+function closeDsModal(id, triggerId) {
+  var bd = document.getElementById(id);
+  bd.classList.remove('ds-modal-backdrop--open');
+  if (bd._trap) { bd.removeEventListener('keydown', bd._trap); bd._trap = null; }
+  var trigger = triggerId ? document.getElementById(triggerId) : null;
+  if (trigger) trigger.focus();
+}
+
+/* ============================================================
+   MOBILE NAV
+   ============================================================ */
+function closeMobileNav() {
+  document.getElementById('ds-mobile-nav').hidden = true;
+  document.getElementById('ds-hamburger').setAttribute('aria-expanded', 'false');
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function showToast(msg, isError) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.color = isError ? 'var(--accent-negative)' : 'var(--text-primary)';
+  t.classList.add('kb-toast--show');
+  setTimeout(() => t.classList.remove('kb-toast--show'), 2500);
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', function() {
+  render();
+});
+</script>
+<script src="design_system_v2/theme.js"></script>
+<script>
+  // Init split buttons — aligned with DS v2 reference
+  (function() {
+    var docListenersAdded = false;
+
+    function closeAll(skipContainer) {
+      document.querySelectorAll('.ds-btn-split').forEach(function(c) {
+        if (c === skipContainer) return;
+        var menu = c.querySelector('.ds-dropdown');
+        var toggle = c.querySelector('[aria-haspopup="true"]');
+        if (menu && menu.classList.contains('is-open')) {
+          menu.classList.remove('is-open');
+          if (toggle) toggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
+    window.initSplitButton = function(container) {
+      var toggle = container.querySelector('[aria-haspopup="true"]');
+      var menu = container.querySelector('.ds-dropdown');
+      if (!toggle || !menu || container.dataset.splitInit) return;
+      container.dataset.splitInit = 'true';
+
+      function open() {
+        closeAll(container);
+        menu.classList.add('is-open');
+        toggle.setAttribute('aria-expanded', 'true');
+      }
+      function close() {
+        menu.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+
+      toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        if (menu.classList.contains('is-open')) close(); else open();
+      });
+      menu.querySelectorAll('.ds-dropdown__item').forEach(function(item) {
+        item.addEventListener('click', function() { close(); });
+      });
+
+      if (!docListenersAdded) {
+        docListenersAdded = true;
+        document.addEventListener('click', function(e) {
+          var clicked = e.target.closest('.ds-btn-split');
+          closeAll(clicked);
+        });
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') closeAll();
+        });
+      }
+    };
+
+    window.initAllSplitButtons = function() {
+      document.querySelectorAll('.ds-btn-split').forEach(window.initSplitButton);
+    };
+  })();
+  initAllSplitButtons();
+</script>
+</body>
+</html>
