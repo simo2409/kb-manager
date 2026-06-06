@@ -167,6 +167,41 @@
       justify-content: flex-end;
       margin-bottom: var(--space-4);
     }
+    .kb-fav-mobile {
+      margin-bottom: var(--space-4);
+    }
+    .kb-fav-mobile-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .kb-fav-mobile-item {
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--glass-border);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .kb-fav-mobile-item:hover {
+      background: color-mix(in srgb, var(--text-primary) 6%, transparent);
+      border-color: var(--glass-hover-border);
+    }
+    .kb-fav-mobile-name {
+      font-size: var(--text-sm);
+      font-weight: var(--weight-medium);
+      color: var(--text-primary);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 1;
+      min-width: 0;
+    }
 
     .kb-empty { min-height: 50vh; display: flex; align-items: center; justify-content: center; }
     .kb-modal-form { display: flex; flex-direction: column; gap: var(--space-4); }
@@ -339,6 +374,8 @@
   <ul class="ds-navbar__mobile__nav">
     <li><button class="ds-navbar__mobile__link" onclick="openSettingsModal(); closeMobileNav();">Settings</button></li>
     <li><button class="ds-navbar__mobile__link" onclick="openFetchModal(); closeMobileNav();">Fetch</button></li>
+    <li><button class="ds-navbar__mobile__link" onclick="exportData(); closeMobileNav();">Export</button></li>
+    <li><button class="ds-navbar__mobile__link" onclick="openImportDataModal(); closeMobileNav();">Import</button></li>
     <li><button class="ds-navbar__mobile__link" onclick="openProjectModal(); closeMobileNav();">New project</button></li>
   </ul>
 </nav>
@@ -349,6 +386,11 @@
     <p class="ds-lead">Your KBs</p>
     <span class="ds-line"></span>
   </section>
+
+  <div class="kb-fav-mobile ds-hide-desktop" id="fav-mobile-container" style="display:none;">
+    <div class="ds-h5" style="margin-bottom:var(--space-2);">Favorites</div>
+    <ul class="kb-fav-mobile-list" id="fav-mobile-list"></ul>
+  </div>
 
   <div class="kb-search-bar">
     <div class="ds-form-group" style="margin-bottom:0;width:100%;max-width:320px;">
@@ -869,36 +911,55 @@ function getUpdateBadgeClass(ts) {
 function renderSidebar() {
   const data = getData();
   const list = document.getElementById('fav-sidebar-list');
+  const mobileContainer = document.getElementById('fav-mobile-container');
+  const mobileList = document.getElementById('fav-mobile-list');
   const favs = (data.projects || []).filter(p => p.favorite).sort((a, b) => {
     const ao = (typeof a.favOrder === 'number') ? a.favOrder : Infinity;
     const bo = (typeof b.favOrder === 'number') ? b.favOrder : Infinity;
     if (ao !== bo) return ao - bo;
     return a.name.localeCompare(b.name);
   });
+
+  // Desktop sidebar
   if (favs.length === 0) {
     list.innerHTML = '<li class="ds-caption" style="color:var(--text-muted);padding:var(--space-2) 0;">No favorites</li>';
-    return;
-  }
-  list.innerHTML = favs.map((proj, idx) => `
-    <li class="kb-fav-item" data-id="${proj.id}" data-idx="${idx}">
-      <div style="display:flex;align-items:center;gap:var(--space-2);">
-        <i class="ph ph-fill ph-brain" style="color:var(--accent-warning);font-size:16px;flex-shrink:0;"></i>
-        <div style="flex:1;min-width:0;" onclick="scrollToCard('${proj.id}')">
-          <div class="kb-fav-name">${escapeHtml(proj.name)}</div>
+  } else {
+    list.innerHTML = favs.map((proj, idx) => `
+      <li class="kb-fav-item" data-id="${proj.id}" data-idx="${idx}">
+        <div style="display:flex;align-items:center;gap:var(--space-2);">
+          <i class="ph ph-fill ph-brain" style="color:var(--accent-warning);font-size:16px;flex-shrink:0;"></i>
+          <div style="flex:1;min-width:0;" onclick="scrollToCard('${proj.id}')">
+            <div class="kb-fav-name">${escapeHtml(proj.name)}</div>
+          </div>
+          <i class="ph ph-dots-six-vertical" style="color:var(--text-muted);font-size:16px;cursor:grab;flex-shrink:0;" draggable="true"></i>
         </div>
-        <i class="ph ph-dots-six-vertical" style="color:var(--text-muted);font-size:16px;cursor:grab;flex-shrink:0;" draggable="true"></i>
-      </div>
-    </li>
-  `).join('');
-  list.querySelectorAll('.kb-fav-item').forEach(item => {
-    const handle = item.querySelector('.ph-dots-six-vertical');
-    if (!handle) return;
-    handle.addEventListener('dragstart', onSidebarDragStart);
-    handle.addEventListener('dragend', onSidebarDragEnd);
-    item.addEventListener('dragover', onSidebarDragOver);
-    item.addEventListener('dragleave', onSidebarDragLeave);
-    item.addEventListener('drop', onSidebarDrop);
-  });
+      </li>
+    `).join('');
+    list.querySelectorAll('.kb-fav-item').forEach(item => {
+      const handle = item.querySelector('.ph-dots-six-vertical');
+      if (!handle) return;
+      handle.addEventListener('dragstart', onSidebarDragStart);
+      handle.addEventListener('dragend', onSidebarDragEnd);
+      item.addEventListener('dragover', onSidebarDragOver);
+      item.addEventListener('dragleave', onSidebarDragLeave);
+      item.addEventListener('drop', onSidebarDrop);
+    });
+  }
+
+  // Mobile favorites
+  if (mobileContainer) {
+    if (favs.length === 0) {
+      mobileContainer.style.display = 'none';
+    } else {
+      mobileContainer.style.display = '';
+      mobileList.innerHTML = favs.map((proj) => `
+        <li class="kb-fav-mobile-item" onclick="scrollToCard('${proj.id}')">
+          <i class="ph ph-fill ph-brain" style="color:var(--accent-warning);font-size:14px;flex-shrink:0;"></i>
+          <span class="kb-fav-mobile-name">${escapeHtml(proj.name)}</span>
+        </li>
+      `).join('');
+    }
+  }
 }
 
 function scrollToCard(id) {
