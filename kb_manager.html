@@ -1560,6 +1560,19 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
 
+    function positionDropdown(menu, toggle) {
+      var toggleRect = toggle.getBoundingClientRect();
+      var viewportWidth = window.innerWidth;
+      var spaceRight = viewportWidth - toggleRect.right;
+      var spaceLeft = toggleRect.left;
+      menu.classList.remove('ds-dropdown--align-left', 'ds-dropdown--align-right');
+      if (spaceRight >= spaceLeft) {
+        menu.classList.add('ds-dropdown--align-left');
+      } else {
+        menu.classList.add('ds-dropdown--align-right');
+      }
+    }
+
     window.initSplitButton = function(container) {
       var toggle = container.querySelector('[aria-haspopup="true"]');
       var menu = container.querySelector('.ds-dropdown');
@@ -1568,6 +1581,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       function open() {
         closeAll(container);
+        positionDropdown(menu, toggle);
         menu.classList.add('is-open');
         toggle.setAttribute('aria-expanded', 'true');
       }
