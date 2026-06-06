@@ -38,6 +38,32 @@ The local server adds:
 - Extraction of the latest dated section from `wiki/log.md`.
 - Bulk import of existing folders as new projects.
 
+### Run automatically at startup (macOS)
+
+A LaunchAgent plist is included so the server starts automatically when you log in.
+
+1. Copy the plist to your LaunchAgents folder:
+
+   ```bash
+   cp com.simone.kb-manager.plist ~/Library/LaunchAgents/
+   ```
+
+2. Load and start it:
+
+   ```bash
+   launchctl load ~/Library/LaunchAgents/com.simone.kb-manager.plist
+   ```
+
+3. Open http://localhost:8765 in your browser.
+
+The agent is set to **KeepAlive**, so if the process stops it will restart automatically. Logs are written to `server.log` in this directory.
+
+To stop the background service:
+
+```bash
+launchctl unload ~/Library/LaunchAgents/com.simone.kb-manager.plist
+```
+
 ## Creating a project
 
 1. Click **New project**.
@@ -71,7 +97,10 @@ If the folder does not exist yet, it will be created inside the *parent path* de
 
 ```
 .
-├── kb_manager.html        # Main application (single-page)
-├── launcher_server.py     # Python local server for macOS integration
-└── design_system_v2/      # UI components, CSS, fonts and theme
+├── kb_manager.html                    # Main application (single-page)
+├── launcher_server.py                 # Python local server for macOS integration
+├── com.simone.kb-manager.plist        # macOS LaunchAgent (auto-start at login)
+├── .gitignore                         # Ignores __pycache__, .DS_Store, backups, etc.
+├── README.md                          # This file
+└── design_system_v2/                  # UI components, CSS, fonts and theme
 ```
