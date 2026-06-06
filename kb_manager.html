@@ -415,6 +415,12 @@
 
       <div id="projects-container" class="kb-list"></div>
 
+
+      <div id="search-empty-state" class="ds-empty kb-empty" style="display:none;">
+        <i class="ph ph-magnifying-glass" style="font-size:48px;color:var(--text-muted)"></i>
+        <div class="ds-empty__title">No results</div>
+        <p class="ds-empty__desc">No projects match your search.</p>
+      </div>
       <div id="empty-state" class="ds-empty kb-empty" style="display:none;">
         <i class="ph ph-folder-notch-open" style="font-size:48px;color:var(--text-muted)"></i>
         <div class="ds-empty__title">No projects</div>
@@ -711,6 +717,7 @@ function render() {
   const data = getData();
   const container = document.getElementById('projects-container');
   const empty = document.getElementById('empty-state');
+  const searchEmpty = document.getElementById('search-empty-state');
   const fileAlert = document.getElementById('file-alert');
 
   if (location.protocol === 'file:') {
@@ -720,6 +727,7 @@ function render() {
   }
 
   container.innerHTML = '';
+  searchEmpty.style.display = 'none';
   if (!data.projects || data.projects.length === 0) {
     empty.style.display = '';
     return;
@@ -748,6 +756,11 @@ function render() {
   }
   if (!lastUpdateData && isLocalServer() && projects.length > 0) {
     loadLastUpdates();
+  }
+
+  if (projects.length === 0) {
+    searchEmpty.style.display = '';
+    return;
   }
 
   projects.forEach(proj => {
