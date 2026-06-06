@@ -73,6 +73,5 @@ If the folder does not exist yet, it will be created inside the *parent path* de
 .
 ├── kb_manager.html        # Main application (single-page)
 ├── launcher_server.py     # Python local server for macOS integration
-├── design_system_v2/      # UI components, CSS, fonts and theme
-└── design_system_v1/      # Previous design-system iteration
+└── design_system_v2/      # UI components, CSS, fonts and theme
 ```
